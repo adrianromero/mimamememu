@@ -40,15 +40,8 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
         
         if (isSelected) {          
             setBackground(list.getSelectionBackground());            
-            jtitle.setForeground(list.getSelectionForeground());
-            jmanufacturer.setForeground(list.getSelectionForeground());
-            jyear.setForeground(list.getSelectionForeground());
-            jgenre.setForeground(list.getSelectionForeground());
         } else {          
             setBackground(list.getBackground());
-            jtitle.setForeground(Color.BLUE);
-            jmanufacturer.setForeground(list.getForeground());
-            jgenre.setForeground(list.getForeground());
         }
 
         if (value == null) {
@@ -56,13 +49,39 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
             jmanufacturer.setText("");
             jyear.setText("");
             jgenre.setText("");
+            
+            jtitle.setForeground(Color.GRAY);  
+            jmanufacturer.setForeground(Color.GRAY);  
+            jyear.setForeground(Color.GRAY);  
+            jgenre.setForeground(Color.GRAY);     
+            jplatform.setForeground(Color.GRAY);
         } else {
             GamesItem item = (GamesItem) value;
             jtitle.setText(item.getTitle());
             jmanufacturer.setText(item.getManufacturer());
             jyear.setText(item.getYear());
             jgenre.setText(item.getGenre());
-            jplatform.setText(item.getPlatform() == null ? "Not supported" : item.getPlatform().getPlatformTitle());
+            jplatform.setText(item.getPlatform().getPlatformTitle());
+            
+            if (item.getCommand() == null) {
+                jtitle.setForeground(Color.GRAY);  
+                jmanufacturer.setForeground(Color.GRAY);  
+                jyear.setForeground(Color.GRAY);  
+                jgenre.setForeground(Color.GRAY);  
+                jplatform.setForeground(Color.GRAY);
+            } else if (isSelected) {
+                jtitle.setForeground(list.getSelectionForeground());
+                jmanufacturer.setForeground(list.getSelectionForeground());
+                jyear.setForeground(list.getSelectionForeground());
+                jgenre.setForeground(list.getSelectionForeground());                
+                jplatform.setForeground(list.getSelectionForeground());
+            } else {
+                jtitle.setForeground(Color.BLUE);
+                jmanufacturer.setForeground(list.getForeground());
+                jyear.setForeground(list.getForeground());
+                jgenre.setForeground(list.getForeground());                
+                jplatform.setForeground(list.getForeground());
+            }
         }
 
         setEnabled(list.isEnabled());
@@ -107,7 +126,7 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
         add(jtitle, java.awt.BorderLayout.PAGE_START);
 
         jdetails.setOpaque(false);
-        jdetails.setLayout(new java.awt.GridLayout());
+        jdetails.setLayout(new java.awt.GridLayout(1, 0));
 
         jmanufacturer.setText("jmanufacturer");
         jdetails.add(jmanufacturer);

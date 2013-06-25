@@ -10,6 +10,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -32,7 +35,13 @@ public class FrmMain extends javax.swing.JFrame {
 //        setAlwaysOnTop(true);
 //        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 //        setBounds(0, 0, d.width, d.height);         
-
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put( KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE , 0), "close");
+        getRootPane().getActionMap().put("close", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        }); 
 
         PlatformList pl = new PlatformList();
         
@@ -71,8 +80,6 @@ public class FrmMain extends javax.swing.JFrame {
                         al.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, item.getName()));
                     }
                     ke.consume();
-                } else if ((int)ke.getKeyChar() == 27){
-                    FrmMain.this.dispose();
                 }
             }
         });
@@ -110,7 +117,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        setBounds(0, 0, 402, 333);
+        setBounds(0, 0, 908, 407);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

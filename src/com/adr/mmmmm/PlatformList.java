@@ -31,6 +31,6 @@ public class PlatformList {
                 return gc;
             }
         }
-        return null;
+        return new PlatformUnsupported(platformname);
     }      
 }

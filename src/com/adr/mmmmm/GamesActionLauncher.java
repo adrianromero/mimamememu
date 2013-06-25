@@ -33,23 +33,36 @@ public class GamesActionLauncher implements ActionListener {
 
     
     public void executeGamesItem(final GamesItem item) {
+           
+        final String command = item.getCommand();
+        if (command == null) {       
+            DlgMessages dlg = new DlgMessages(parent);
+            dlg.setMsgTitle("Cannot run game");
+            dlg.setMsgBody("The game platform (" + item.getPlatform().getPlatformName() + ") is not supported.");
+            dlg.display();
+            return;
+        }
         
         (new Thread() {
             @Override
             public void run() {
                 try {
-                    
-                    
-                    Process p = Runtime.getRuntime().exec("mame -window " + item.getName());
+                    Process p = Runtime.getRuntime().exec(command);
 
                     java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {                   
                         parent.setVisible(false);
                     }});
 
                     try {
-                        p.waitFor();
+                        int result = p.waitFor();
+                        
+                        System.out.println("Result -- "  + result);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+                        DlgMessages dlg = new DlgMessages(parent);
+                        dlg.setMsgTitle("Cannot run game");
+                        dlg.setMsgBody("The command for the game platform (" + item.getPlatform().getPlatformTitle() + ") has been interrupted.");
+                        dlg.display();                         
                     } finally {                
                         java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {                   
                             parent.setVisible(true);
@@ -58,6 +71,10 @@ public class GamesActionLauncher implements ActionListener {
 
                 } catch (IOException ex) {
                     Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+                    DlgMessages dlg = new DlgMessages(parent);
+                    dlg.setMsgTitle("Cannot run game");
+                    dlg.setMsgBody("The command for the game platform (" + item.getPlatform().getPlatformTitle() + ") cannot be executed.");
+                    dlg.display();                    
                 }
             }
         }).start();

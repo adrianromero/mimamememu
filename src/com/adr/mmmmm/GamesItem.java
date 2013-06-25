@@ -65,6 +65,10 @@ public class GamesItem {
     public Platform getPlatform() {
         return platform;
     }
+    
+    public String getCommand() {
+        return platform.getCommand(this);
+    }
 
     /**
      * @param manufacturer the manufacturer to set
