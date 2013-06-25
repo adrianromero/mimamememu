@@ -52,8 +52,8 @@ public class GamesActionLauncher implements ActionListener {
         final String command = item.getCommand();
         if (command == null) {       
             DlgMessages dlg = new DlgMessages(parent);
-            dlg.setMsgTitle("Cannot run game");
-            dlg.setMsgBody("The game platform (" + item.getPlatform().getPlatformName() + ") is not supported.");
+            dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
+            dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformnotsupported"), new Object[] {item.getPlatform().getPlatformName()}));
             dlg.display();
             return;
         }
@@ -68,28 +68,44 @@ public class GamesActionLauncher implements ActionListener {
                         parent.setVisible(false);
                     }});
 
+                    DlgMessages dlg = null;
                     try {
                         int result = p.waitFor();
                         
-                        System.out.println("Result -- "  + result);
+                        if (result != 0) {
+                            Logger.getLogger(GamesActionLauncher.class.getName()).log(Level.SEVERE, "Return error: {0}", result);
+                            
+                            dlg = new DlgMessages(parent);
+                            dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
+                            dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformerror"), new Object[] {item.getTitle()}));                          
+                        }
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
-                        DlgMessages dlg = new DlgMessages(parent);
-                        dlg.setMsgTitle("Cannot run game");
-                        dlg.setMsgBody("The command for the game platform (" + item.getPlatform().getPlatformTitle() + ") has been interrupted.");
-                        dlg.display();                         
-                    } finally {                
+                        
+                        dlg = new DlgMessages(parent);
+                        dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
+                        dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platforminterrupted"), new Object[] {item.getTitle()}));                                                       
+                    } finally {                       
+                        final DlgMessages finaldlg = dlg;
                         java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {                   
                             parent.setVisible(true);
+                            if (finaldlg != null) {
+                                finaldlg.display();           
+                            }
                         }});  
                     }
 
                 } catch (IOException ex) {
                     Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
                     DlgMessages dlg = new DlgMessages(parent);
-                    dlg.setMsgTitle("Cannot run game");
-                    dlg.setMsgBody("The command for the game platform (" + item.getPlatform().getPlatformTitle() + ") cannot be executed.");
-                    dlg.display();                    
+                    dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
+                    dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformcannotexecute"), new Object[] {item.getTitle()}));
+                    final DlgMessages finaldlg = dlg;
+                    java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {                   
+                        if (finaldlg != null) {
+                            finaldlg.display();           
+                        }
+                    }});                     
                 }
             }
         }).start();

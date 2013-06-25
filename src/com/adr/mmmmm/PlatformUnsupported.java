@@ -38,7 +38,7 @@ public class PlatformUnsupported implements Platform {
 
     @Override
     public String getPlatformTitle() {
-        return "Platform not supported (" + name + ")";
+        return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformdisabled"), new Object[] {name});
     }
 
     @Override

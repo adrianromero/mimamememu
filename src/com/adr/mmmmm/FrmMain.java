@@ -75,7 +75,6 @@ public class FrmMain extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent me) {
                 GamesItem item = (GamesItem) jList1.getSelectedValue();
                 if (item != null && me.getClickCount() == 2) {
-                    System.out.println("Sending ACTION_PERFORMED to ActionListener " + item.getName());
                     if (al != null) {
                         al.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, item.getName()));
                     }
@@ -90,7 +89,6 @@ public class FrmMain extends javax.swing.JFrame {
                 GamesItem item = (GamesItem) jList1.getSelectedValue();
 
                 if (item != null && ke.getKeyChar() == '\n') {
-                    System.out.println("Sending ACTION_PERFORMED to ActionListener " + item.getName());
                     if (al != null) {
                         al.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, item.getName()));
                     }
@@ -120,7 +118,7 @@ public class FrmMain extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("MAME");
+        setTitle("MIMAMEMEMU");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -132,7 +130,8 @@ public class FrmMain extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        setBounds(0, 0, 908, 407);
+        setSize(new java.awt.Dimension(908, 407));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
