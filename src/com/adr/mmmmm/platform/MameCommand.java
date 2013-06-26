@@ -105,7 +105,7 @@ public class MameCommand implements Platform {
                     item.setManufacturer(getElementText(e, "manufacturer"));
                     item.setYear(getElementText(e, "year"));
                     try {
-                        item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
+                        item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
                     } catch (Exception ex) {
                         item.setSnap(null);
                     }
