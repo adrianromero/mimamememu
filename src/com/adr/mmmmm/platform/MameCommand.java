@@ -21,6 +21,7 @@ package com.adr.mmmmm.platform;
 
 import com.adr.mmmmm.Platform;
 import com.adr.mmmmm.GamesItem;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -85,6 +86,7 @@ public class MameCommand implements Platform {
             
             
             // Get detailed information for each game available
+            BufferedImage defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/res/mame.png"));
             for (String n: names) {
                 p = Runtime.getRuntime().exec("mame -listxml " + n);
 
@@ -107,7 +109,7 @@ public class MameCommand implements Platform {
                     try {
                         item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
                     } catch (Exception ex) {
-                        item.setSnap(null);
+                        item.setSnap(defimage);
                     }
 
                     games.add(item);
