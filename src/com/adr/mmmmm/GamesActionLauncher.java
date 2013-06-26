@@ -16,13 +16,14 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
-
 package com.adr.mmmmm;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,83 +32,76 @@ import java.util.logging.Logger;
  * @author adrian
  */
 public class GamesActionLauncher implements ActionListener {
-    
+
     private Component parent;
 
-    
     public GamesActionLauncher(Component parent) {
         this.parent = parent;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getID() == ActionEvent.ACTION_PERFORMED) {
             executeGamesItem((GamesItem) e.getSource());
         }
-    }    
+    }
 
-    
     public void executeGamesItem(final GamesItem item) {
-           
+
         final String command = item.getCommand();
-        if (command == null) {       
+        if (command == null) {
             DlgMessages dlg = new DlgMessages(parent);
             dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-            dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformnotsupported"), new Object[] {item.getPlatform().getPlatformName()}));
+            dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
             dlg.display();
             return;
         }
-        
-        (new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Process p = Runtime.getRuntime().exec(command);
 
-                    java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {                   
-                        parent.setVisible(false);
-                    }});
+        (new Thread() { @Override public void run() {
+            DlgMessages dlg = null;
 
-                    DlgMessages dlg = null;
-                    try {
-                        int result = p.waitFor();
-                        
-                        if (result != 0) {
-                            Logger.getLogger(GamesActionLauncher.class.getName()).log(Level.SEVERE, "Return error: {0}", result);
-                            
-                            dlg = new DlgMessages(parent);
-                            dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-                            dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformerror"), new Object[] {item.getTitle()}));                          
-                        }
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
-                        
-                        dlg = new DlgMessages(parent);
-                        dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-                        dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platforminterrupted"), new Object[] {item.getTitle()}));                                                       
-                    } finally {                       
-                        final DlgMessages finaldlg = dlg;
-                        java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {                   
-                            parent.setVisible(true);
-                            if (finaldlg != null) {
-                                finaldlg.display();           
-                            }
-                        }});  
-                    }
+            try {
+                Process p = Runtime.getRuntime().exec(command);
 
-                } catch (IOException ex) {
-                    Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
-                    DlgMessages dlg = new DlgMessages(parent);
-                    dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-                    dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformcannotexecute"), new Object[] {item.getTitle()}));
-                    final DlgMessages finaldlg = dlg;
-                    java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {                   
-                        if (finaldlg != null) {
-                            finaldlg.display();           
-                        }
-                    }});                     
+                java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {
+                    parent.setVisible(false);
+                }});
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    System.out.println(line);
                 }
-            }
-        }).start();
-    }    
+
+                int result = p.waitFor();
+                if (result != 0) {
+                    Logger.getLogger(GamesActionLauncher.class.getName()).log(Level.SEVERE, "Return error: {0}", result);
+
+                    dlg = new DlgMessages(parent);
+                    dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
+                    dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}));
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+
+                dlg = new DlgMessages(parent);
+                dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
+                dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}));
+            } catch (IOException ex) {
+                Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+
+                dlg = new DlgMessages(parent);
+                dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
+                dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}));
+            } finally {
+                final DlgMessages finaldlg = dlg;
+                java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {
+                    parent.setVisible(true);
+                    if (finaldlg != null) {
+                        finaldlg.display();
+                    }
+                }});
+            }        
+        }}).start();
+    }
 }

@@ -19,11 +19,13 @@
 
 package com.adr.mmmmm;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author adrian
  */
-public class GamesItem {
+public class GamesItem implements Comparable<GamesItem> {
     
     private String name;
     
@@ -31,15 +33,15 @@ public class GamesItem {
     private String title;
     private String manufacturer;
     private String year;
-    private String genre;
+    private BufferedImage snap;
     
     public GamesItem(String name, String title, Platform platform) {
         this.name = name;
         this.title = title;
         this.platform = platform;
         this.manufacturer = null;
-        this.year = null;
-        this.genre = null;               
+        this.year = null;   
+        this.snap = null;
     }
     
     public String getName() {
@@ -68,13 +70,6 @@ public class GamesItem {
     }
 
     /**
-     * @return the genre
-     */
-    public String getGenre() {
-        return genre;
-    }
-
-    /**
      * @return the platform
      */
     public Platform getPlatform() {
@@ -99,11 +94,28 @@ public class GamesItem {
         this.year = year;
     }
 
+    @Override
+    public int compareTo(GamesItem o) {
+        return title.compareTo(o.title);
+    }
+    
+    @Override
+    public String toString() {
+        return title;
+    }
+
     /**
-     * @param genre the genre to set
+     * @return the snap
      */
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public BufferedImage getSnap() {
+        return snap;
+    }
+
+    /**
+     * @param snap the snap to set
+     */
+    public void setSnap(BufferedImage snap) {
+        this.snap = snap;
     }
     
 }

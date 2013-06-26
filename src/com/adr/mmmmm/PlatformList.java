@@ -19,24 +19,43 @@
 
 package com.adr.mmmmm;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  *
  * @author adrian
  */
 public class PlatformList {
-     
+    
+    
+    public final static PlatformList INSTANCE = new PlatformList();
+      
     private Platform[] platforms = {
         new com.adr.mmmmm.platform.MameCommand()
     };
     
-    
-    public GamesItem createGame(String name, String title, String platform, String manufacturer, String year, String genre) {
+    private PlatformList() {
+    }
+
+    public GamesItem createGame(String name, String title, String platform, String manufacturer, String year) {
         GamesItem item = new GamesItem(name, title, findPlatform(platform));
         item.setManufacturer(manufacturer);
         item.setYear(year);
-        item.setGenre(genre);
         
         return item;
+    }
+    
+    public List<GamesItem> getAllGames() {
+        
+        ArrayList<GamesItem> l = new ArrayList<GamesItem>();
+        for (Platform p: platforms) {
+            l.addAll(p.getGames());
+        }
+        
+        Collections.sort(l);
+        return l;
     }
      
     private Platform findPlatform(String platformname) {

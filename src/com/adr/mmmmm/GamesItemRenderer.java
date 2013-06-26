@@ -21,6 +21,7 @@ package com.adr.mmmmm;
 
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
@@ -32,6 +33,10 @@ import javax.swing.border.EmptyBorder;
  * @author adrian
  */
 public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRenderer {
+    
+    private static final Color COLOR_BG1 = new Color(0xffffff);   
+    private static final Color COLOR_BG2 = new Color(0xf3f3f3);
+    
     protected static Border noFocusBorder;
     /**
      * Creates new form GamesItemRenderer2
@@ -55,47 +60,46 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
         
         if (isSelected) {          
             setBackground(list.getSelectionBackground());            
-        } else {          
-            setBackground(list.getBackground());
+        } else {       
+            setBackground((index & 1) == 0 ? COLOR_BG1 : COLOR_BG2);
         }
 
         if (value == null) {
             jtitle.setText("");
             jmanufacturer.setText("");
             jyear.setText("");
-            jgenre.setText("");
             
             jtitle.setForeground(Color.GRAY);  
             jmanufacturer.setForeground(Color.GRAY);  
-            jyear.setForeground(Color.GRAY);  
-            jgenre.setForeground(Color.GRAY);     
+            jyear.setForeground(Color.GRAY);    
             jplatform.setForeground(Color.GRAY);
         } else {
             GamesItem item = (GamesItem) value;
             jtitle.setText(item.getTitle());
             jmanufacturer.setText(item.getManufacturer());
             jyear.setText(item.getYear());
-            jgenre.setText(item.getGenre());
             jplatform.setText(item.getPlatform().getPlatformTitle());
+
+            jicon.setText(null);
+            jicon.setIcon(item.getSnap() == null ? null : new ImageIcon(item.getSnap()));
             
             if (item.getCommand() == null) {
+                // Not working game
                 jtitle.setForeground(Color.GRAY);  
                 jmanufacturer.setForeground(Color.GRAY);  
                 jyear.setForeground(Color.GRAY);  
-                jgenre.setForeground(Color.GRAY);  
                 jplatform.setForeground(Color.GRAY);
             } else if (isSelected) {
+                // Selected, ready to run
                 jtitle.setForeground(list.getSelectionForeground());
-                jmanufacturer.setForeground(list.getSelectionForeground());
-                jyear.setForeground(list.getSelectionForeground());
-                jgenre.setForeground(list.getSelectionForeground());                
-                jplatform.setForeground(list.getSelectionForeground());
+                jmanufacturer.setForeground(Color.GRAY);
+                jyear.setForeground(Color.GRAY);                
+                jplatform.setForeground(Color.GRAY);
             } else {
-                jtitle.setForeground(Color.BLUE);
-                jmanufacturer.setForeground(list.getForeground());
-                jyear.setForeground(list.getForeground());
-                jgenre.setForeground(list.getForeground());                
-                jplatform.setForeground(list.getForeground());
+                jtitle.setForeground(list.getSelectionForeground());
+                jmanufacturer.setForeground(Color.GRAY);
+                jyear.setForeground(Color.GRAY);               
+                jplatform.setForeground(Color.GRAY);
             }
         }
 
@@ -128,39 +132,54 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
     private void initComponents() {
 
         jtitle = new javax.swing.JLabel();
-        jdetails = new javax.swing.JPanel();
         jmanufacturer = new javax.swing.JLabel();
-        jyear = new javax.swing.JLabel();
-        jgenre = new javax.swing.JLabel();
         jplatform = new javax.swing.JLabel();
-
-        setLayout(new java.awt.BorderLayout());
+        jyear = new javax.swing.JLabel();
+        jicon = new javax.swing.JLabel();
 
         jtitle.setFont(jtitle.getFont().deriveFont(jtitle.getFont().getStyle() | java.awt.Font.BOLD, jtitle.getFont().getSize()+6));
         jtitle.setText("jtitle");
-        add(jtitle, java.awt.BorderLayout.PAGE_START);
-
-        jdetails.setOpaque(false);
-        jdetails.setLayout(new java.awt.GridLayout(1, 0));
 
         jmanufacturer.setText("jmanufacturer");
-        jdetails.add(jmanufacturer);
-
-        jyear.setText("jyear");
-        jdetails.add(jyear);
-
-        jgenre.setText("jgenre");
-        jdetails.add(jgenre);
 
         jplatform.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jplatform.setText("jplatform");
-        jdetails.add(jplatform);
 
-        add(jdetails, java.awt.BorderLayout.CENTER);
+        jyear.setText("jyear");
+
+        jicon.setText("jicon");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jicon, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jmanufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jyear, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jplatform, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jtitle, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jtitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jmanufacturer)
+                    .addComponent(jyear)
+                    .addComponent(jplatform)))
+            .addComponent(jicon, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+        );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jdetails;
-    private javax.swing.JLabel jgenre;
+    private javax.swing.JLabel jicon;
     private javax.swing.JLabel jmanufacturer;
     private javax.swing.JLabel jplatform;
     private javax.swing.JLabel jtitle;

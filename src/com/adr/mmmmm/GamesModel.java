@@ -20,6 +20,7 @@
 package com.adr.mmmmm;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.AbstractListModel;
 
 /**
@@ -33,6 +34,10 @@ public class GamesModel extends AbstractListModel {
     
     public void add(GamesItem item) {
         items.add(item);
+    }
+    
+    public void addAll(Collection<? extends GamesItem> c) {
+        items.addAll(c);
     }
     
     @Override

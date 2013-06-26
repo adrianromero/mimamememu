@@ -19,6 +19,9 @@
 
 package com.adr.mmmmm;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  *
  * @author adrian
@@ -44,6 +47,11 @@ public class PlatformUnsupported implements Platform {
     @Override
     public String getCommand(GamesItem item) {
         return null;
+    }
+
+    @Override
+    public List<GamesItem> getGames() {
+        return Collections.EMPTY_LIST;
     }
     
 }

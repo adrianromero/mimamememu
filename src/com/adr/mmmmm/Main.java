@@ -19,7 +19,6 @@
 
 package com.adr.mmmmm;
 
-import java.awt.Window;
 
 /**
  *
@@ -34,9 +33,10 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Window myWindow = new FrmMain();
+                FrmMain myWindow = new FrmMain();
+                
                 myWindow.setVisible(true);
-                           
+                myWindow.refreshGames();                          
             }
         });
     }
