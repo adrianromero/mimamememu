@@ -96,7 +96,7 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
             jsound.setText(item.getDriversound());
 
             jicon.setText(null);
-            jicon.setIcon(item.getSnap() == null ? null : new ScaledIcon(new ImageIcon(item.getSnap()), jicon.getWidth(), jicon.getHeight()));
+            jicon.setIcon(item.getSnap() == null ? null : new ScaledIcon(item.getSnap(), jicon.getWidth(), jicon.getHeight()));
             
             if (item.getCommand() == null) {
                 // Not working game

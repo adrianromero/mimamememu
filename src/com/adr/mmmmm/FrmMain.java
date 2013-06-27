@@ -266,7 +266,7 @@ public class FrmMain extends javax.swing.JFrame {
         if (evt.getValueIsAdjusting() == false) {
             GamesItem item = (GamesItem) jList1.getSelectedValue();
             if (item != null) {
-                jLabel2.setIcon(new ScaledIcon(new ImageIcon(item.getSnap()), 480,640));
+                jLabel2.setIcon(new ScaledIcon(item.getSnap(), 480, 640));
             }
         }
     }//GEN-LAST:event_jList1ValueChanged

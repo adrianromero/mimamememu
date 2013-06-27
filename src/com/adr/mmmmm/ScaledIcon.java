@@ -23,7 +23,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 
 /**
@@ -32,17 +32,16 @@ import javax.swing.Icon;
  */
 public class ScaledIcon implements Icon {
     
-    private Icon icon;
+    private BufferedImage img;
     private int width;
     private int height;
     
-    private double scale;
+//    private double scale;
     
-    public ScaledIcon(Icon icon, int width, int height) {
-        this.icon = icon;
+    public ScaledIcon(BufferedImage img, int width, int height) {
+        this.img = img;
         this.width = width;
         this.height = height;       
-        this.scale = Math.min(((double) height) / icon.getIconHeight(), ((double) width) / icon.getIconWidth());
     }
 
     @Override
@@ -58,16 +57,38 @@ public class ScaledIcon implements Icon {
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
 
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            Color oldcolor = g2d.getColor();
-            AffineTransform oldt = g2d.getTransform();
-            
-            g2d.setColor(Color.BLACK);
-            g2d.fillRect(x, y, width, height);
-            g2d.transform(AffineTransform.getScaleInstance(scale, scale));
-            icon.paintIcon(c, g2d, (int)((x + (width - icon.getIconWidth() * scale) / 2) / scale), (int)((y + (height -icon.getIconHeight() * scale) / 2) / scale));
-            g2d.setTransform(oldt);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
+        Color oldcolor = g2d.getColor();
+
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(x, y, width, height);
+        
+        int myheight = height;
+        int mywidth = width;
+
+        if (myheight > height) {
+            mywidth = (int) (mywidth * height / myheight);
+            myheight = height;
+        }
+        if (mywidth > width) {
+            myheight = (int) (myheight * width / mywidth);
+            mywidth = width;
+        }
+
+        double scalex = (double) mywidth / (double) img.getWidth();
+        double scaley = (double) myheight / (double) img.getHeight();
+
+        g2d.fillRect(x, y, mywidth, myheight);
+        if (scalex < scaley) {
+            g2d.drawImage(img, x, y + (int) ((myheight - img.getHeight() * scalex) / 2.0)
+                    , mywidth, (int) (img.getHeight() * scalex), null);
+        } else {
+            g2d.drawImage(img, x + (int) ((mywidth - img.getWidth() * scaley) / 2.0), y
+                    , (int) (img.getWidth() * scaley), myheight, null);
+        }        
+        g2d.setColor(oldcolor);
     }
 }
