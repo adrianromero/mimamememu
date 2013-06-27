@@ -19,18 +19,28 @@
 
 package com.adr.mmmmm;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  *
  * @author adrian
  */
-public interface Platform {
+public class DataOutputStreamExt extends DataOutputStream {
     
-    public String getPlatformName();
-    public String getPlatformTitle();
-    public String getCommand(GamesItem item); 
-    public BufferedImage getDefaultImage();
-    public List<GamesItem> getGames();
+    public DataOutputStreamExt(OutputStream out) {
+        super(out);
+    }
+    
+    public void writeString(String s) throws IOException {
+        if (s == null) {
+            writeInt(0);
+        } else {
+            writeInt(1);
+            writeUTF(s);
+        }
+    }
+    
+    
 }

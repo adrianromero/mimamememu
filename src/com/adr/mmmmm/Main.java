@@ -16,9 +16,15 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
-
 package com.adr.mmmmm;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  *
@@ -29,14 +35,15 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                FrmMain myWindow = new FrmMain();
-                
+                FrmMain myWindow = new FrmMain(args);
+
                 myWindow.setVisible(true);
-                myWindow.refreshGames();                          
+                myWindow.refreshGames();
             }
         });
     }

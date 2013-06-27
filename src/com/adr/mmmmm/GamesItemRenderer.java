@@ -34,9 +34,6 @@ import javax.swing.border.EmptyBorder;
  */
 public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRenderer {
     
-    private static final Color COLOR_BG1 = new Color(0xffffff);   
-    private static final Color COLOR_BG2 = new Color(0xf3f3f3);
-    
     protected static Border noFocusBorder;
     /**
      * Creates new form GamesItemRenderer2
@@ -61,7 +58,7 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
         if (isSelected) {          
             setBackground(list.getSelectionBackground());            
         } else {       
-            setBackground((index & 1) == 0 ? COLOR_BG1 : COLOR_BG2);
+            setBackground(list.getBackground());
         }
 
         if (value == null) {
@@ -69,16 +66,34 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
             jmanufacturer.setText("");
             jyear.setText("");
             
+            jemulation.setText("");
+            jcolor.setText("");
+            jsound.setText("");
+            
+            jicon.setText(null);
+            jicon.setIcon(null);   
+            
             jtitle.setForeground(Color.GRAY);  
             jmanufacturer.setForeground(Color.GRAY);  
             jyear.setForeground(Color.GRAY);    
             jplatform.setForeground(Color.GRAY);
+            
+            jemulation.setForeground(Color.GRAY);
+            jcolor.setForeground(Color.GRAY);
+            jsound.setForeground(Color.GRAY);
+            jLabel1.setForeground(Color.GRAY);
+            jLabel3.setForeground(Color.GRAY);
+            jLabel5.setForeground(Color.GRAY);
         } else {
             GamesItem item = (GamesItem) value;
             jtitle.setText(item.getTitle());
             jmanufacturer.setText(item.getManufacturer());
             jyear.setText(item.getYear());
             jplatform.setText(item.getPlatform().getPlatformTitle());
+            
+            jemulation.setText(item.getDriveremulation());
+            jcolor.setText(item.getDrivercolor());
+            jsound.setText(item.getDriversound());
 
             jicon.setText(null);
             jicon.setIcon(item.getSnap() == null ? null : new ScaledIcon(new ImageIcon(item.getSnap()), jicon.getWidth(), jicon.getHeight()));
@@ -89,17 +104,35 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
                 jmanufacturer.setForeground(Color.GRAY);  
                 jyear.setForeground(Color.GRAY);  
                 jplatform.setForeground(Color.GRAY);
+                jemulation.setForeground(Color.GRAY);
+                jcolor.setForeground(Color.GRAY);
+                jsound.setForeground(Color.GRAY);
+                jLabel1.setForeground(Color.GRAY);
+                jLabel3.setForeground(Color.GRAY);
+                jLabel5.setForeground(Color.GRAY);
             } else if (isSelected) {
                 // Selected, ready to run
                 jtitle.setForeground(list.getSelectionForeground());
                 jmanufacturer.setForeground(Color.GRAY);
                 jyear.setForeground(Color.GRAY);                
                 jplatform.setForeground(Color.GRAY);
+                jemulation.setForeground(Color.GRAY);
+                jcolor.setForeground(Color.GRAY);
+                jsound.setForeground(Color.GRAY);
+                jLabel1.setForeground(Color.GRAY);
+                jLabel3.setForeground(Color.GRAY);
+                jLabel5.setForeground(Color.GRAY);
             } else {
                 jtitle.setForeground(list.getSelectionForeground());
                 jmanufacturer.setForeground(Color.GRAY);
                 jyear.setForeground(Color.GRAY);               
                 jplatform.setForeground(Color.GRAY);
+                jemulation.setForeground(Color.GRAY);
+                jcolor.setForeground(Color.GRAY);
+                jsound.setForeground(Color.GRAY);
+                jLabel1.setForeground(Color.GRAY);
+                jLabel3.setForeground(Color.GRAY);
+                jLabel5.setForeground(Color.GRAY);
             }
         }
 
@@ -130,24 +163,118 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        jicon = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jtitle = new javax.swing.JLabel();
         jmanufacturer = new javax.swing.JLabel();
-        jplatform = new javax.swing.JLabel();
         jyear = new javax.swing.JLabel();
-        jicon = new javax.swing.JLabel();
+        jplatform = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jemulation = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jcolor = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jsound = new javax.swing.JLabel();
+
+        jicon.setText("jicon");
+
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jtitle.setFont(jtitle.getFont().deriveFont(jtitle.getFont().getStyle() | java.awt.Font.BOLD, jtitle.getFont().getSize()+6));
         jtitle.setText("jtitle");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jtitle, gridBagConstraints);
 
+        jmanufacturer.setFont(jmanufacturer.getFont().deriveFont(jmanufacturer.getFont().getStyle() | java.awt.Font.BOLD));
         jmanufacturer.setText("jmanufacturer");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jmanufacturer, gridBagConstraints);
 
-        jplatform.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jplatform.setText("jplatform");
-
+        jyear.setFont(jyear.getFont().deriveFont(jyear.getFont().getStyle() | java.awt.Font.BOLD));
         jyear.setText("jyear");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jyear, gridBagConstraints);
 
-        jicon.setText("jicon");
+        jplatform.setFont(jplatform.getFont().deriveFont(jplatform.getFont().getStyle() | java.awt.Font.BOLD));
+        jplatform.setText("jplatform");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jplatform, gridBagConstraints);
+
+        jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getStyle() & ~java.awt.Font.BOLD));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages"); // NOI18N
+        jLabel1.setText(bundle.getString("lbl.emulation")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jLabel1, gridBagConstraints);
+
+        jemulation.setFont(jemulation.getFont().deriveFont(jemulation.getFont().getStyle() & ~java.awt.Font.BOLD));
+        jemulation.setText("jemulation");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jemulation, gridBagConstraints);
+
+        jLabel3.setFont(jLabel3.getFont().deriveFont(jLabel3.getFont().getStyle() & ~java.awt.Font.BOLD));
+        jLabel3.setText(bundle.getString("lbl.color")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jLabel3, gridBagConstraints);
+
+        jcolor.setFont(jcolor.getFont().deriveFont(jcolor.getFont().getStyle() & ~java.awt.Font.BOLD));
+        jcolor.setText("jcolor");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jcolor, gridBagConstraints);
+
+        jLabel5.setFont(jLabel5.getFont().deriveFont(jLabel5.getFont().getStyle() & ~java.awt.Font.BOLD));
+        jLabel5.setText(bundle.getString("lbl.sound")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jLabel5, gridBagConstraints);
+
+        jsound.setFont(jsound.getFont().deriveFont(jsound.getFont().getStyle() & ~java.awt.Font.BOLD));
+        jsound.setText("jsound");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jsound, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -156,32 +283,28 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jicon, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jmanufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jyear, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jplatform, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jtitle, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jicon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jtitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jmanufacturer)
-                    .addComponent(jyear)
-                    .addComponent(jplatform)))
-            .addComponent(jicon, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jcolor;
+    private javax.swing.JLabel jemulation;
     private javax.swing.JLabel jicon;
     private javax.swing.JLabel jmanufacturer;
     private javax.swing.JLabel jplatform;
+    private javax.swing.JLabel jsound;
     private javax.swing.JLabel jtitle;
     private javax.swing.JLabel jyear;
     // End of variables declaration//GEN-END:variables

@@ -20,6 +20,11 @@
 package com.adr.mmmmm;
 
 import java.awt.image.BufferedImage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -35,6 +40,12 @@ public class GamesItem implements Comparable<GamesItem> {
     private String year;
     private BufferedImage snap;
     
+    private String driveremulation;
+    private String drivercolor;
+    private String driversound;
+    private String drivergraphic;
+    private String driverstate;
+    
     public GamesItem(String name, String title, Platform platform) {
         this.name = name;
         this.title = title;
@@ -42,6 +53,44 @@ public class GamesItem implements Comparable<GamesItem> {
         this.manufacturer = null;
         this.year = null;   
         this.snap = null;
+        this.driveremulation = null;
+        this.drivercolor = null;
+        this.driversound = null;
+        this.drivergraphic = null;
+        this.driverstate = null;
+    }
+    
+    public GamesItem(DataInputStreamExt in, File folder) throws IOException {
+        name = in.readString();
+        title = in.readString();
+        platform = PlatformList.INSTANCE.findPlatform(in.readString());
+        manufacturer = in.readString(); 
+        year = in.readString();   
+        driveremulation = in.readString();
+        drivercolor = in.readString();
+        driversound = in.readString();
+        drivergraphic = in.readString();
+        driverstate = in.readString();
+        File f = new File(folder, name + ".png");
+        if (f.exists()) {
+            snap = ImageIO.read(new File(folder, name + ".png"));
+        }
+    }
+    
+    public void save(DataOutputStreamExt out, File folder) throws IOException {
+        out.writeString(name);
+        out.writeString(title);
+        out.writeString(platform.getPlatformName());
+        out.writeString(manufacturer);
+        out.writeString(year);
+        out.writeString(driveremulation);
+        out.writeString(drivercolor);
+        out.writeString(driversound);
+        out.writeString(drivergraphic);
+        out.writeString(driverstate);
+        if (snap != null) {
+            ImageIO.write(snap, "png", new File(folder, name + ".png"));
+        }
     }
     
     public String getName() {
@@ -108,7 +157,7 @@ public class GamesItem implements Comparable<GamesItem> {
      * @return the snap
      */
     public BufferedImage getSnap() {
-        return snap;
+        return snap == null ? platform.getDefaultImage() : snap;
     }
 
     /**
@@ -116,6 +165,76 @@ public class GamesItem implements Comparable<GamesItem> {
      */
     public void setSnap(BufferedImage snap) {
         this.snap = snap;
+    }
+
+    /**
+     * @return the driveremulation
+     */
+    public String getDriveremulation() {
+        return driveremulation;
+    }
+
+    /**
+     * @param driveremulation the driveremulation to set
+     */
+    public void setDriveremulation(String driveremulation) {
+        this.driveremulation = driveremulation;
+    }
+
+    /**
+     * @return the drivercolor
+     */
+    public String getDrivercolor() {
+        return drivercolor;
+    }
+
+    /**
+     * @param drivercolor the drivercolor to set
+     */
+    public void setDrivercolor(String drivercolor) {
+        this.drivercolor = drivercolor;
+    }
+
+    /**
+     * @return the driversound
+     */
+    public String getDriversound() {
+        return driversound;
+    }
+
+    /**
+     * @param driversound the driversound to set
+     */
+    public void setDriversound(String driversound) {
+        this.driversound = driversound;
+    }
+
+    /**
+     * @return the drivergraphic
+     */
+    public String getDrivergraphic() {
+        return drivergraphic;
+    }
+
+    /**
+     * @param drivergraphic the drivergraphic to set
+     */
+    public void setDrivergraphic(String drivergraphic) {
+        this.drivergraphic = drivergraphic;
+    }
+
+    /**
+     * @return the driverstate
+     */
+    public String getDriverstate() {
+        return driverstate;
+    }
+
+    /**
+     * @param driverstate the driverstate to set
+     */
+    public void setDriverstate(String driverstate) {
+        this.driverstate = driverstate;
     }
     
 }

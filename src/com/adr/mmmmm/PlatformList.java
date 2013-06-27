@@ -19,9 +19,20 @@
 
 package com.adr.mmmmm;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -29,6 +40,7 @@ import java.util.List;
  */
 public class PlatformList {
     
+    private final static Logger logger = Logger.getLogger(PlatformList.class.getName()); 
     
     public final static PlatformList INSTANCE = new PlatformList();
       
@@ -51,14 +63,104 @@ public class PlatformList {
         
         ArrayList<GamesItem> l = new ArrayList<GamesItem>();
         for (Platform p: platforms) {
-            l.addAll(p.getGames());
+            
+            // try to load games from local folder
+            List<GamesItem> platformgames = loadLocalGames(p.getPlatformName());
+            if (platformgames == null) {
+                // Load from platform and save for future use.
+                platformgames = p.getGames();
+                saveLocalGames(platformgames, p.getPlatformName());
+            }
+            // And finally add for display
+            l.addAll(platformgames);           
         }
         
         Collections.sort(l);
         return l;
     }
+    
+    private void saveLocalGames(List<GamesItem> games, String platformname) {
+        
+        System.out.println("saving");
+        
+        DataOutputStreamExt out = null;
+        File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
+        try {    
+            // Create cache folder
+            f.mkdirs();
+            
+            out = new DataOutputStreamExt(new FileOutputStream(new File(f, "games.ser")));
+            out.writeInt(games.size());
+            for (GamesItem g : games) {
+                g.save(out, f);
+            }
+            
+            return;
+            
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        // Delete directory if not possible to save
+        try {
+            FileUtils.deleteDirectory(f);
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    private List<GamesItem> loadLocalGames(String platformname) {
+        
+        System.out.println("loading");
+        
+        File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
+        DataInputStreamExt in = null;
+        if (f.exists()){
+            try {
+                
+                in = new DataInputStreamExt(new FileInputStream(new File(f, "games.ser")));
+                int size = in.readInt();
+                ArrayList<GamesItem> games = new ArrayList<GamesItem>();
+                for (int i = 0; i < size; i++) {
+                    games.add(new GamesItem(in, f));
+                }
+                System.out.println("loading success");
+                return games;
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            // Delete directory if not possible to save
+            try {
+                FileUtils.deleteDirectory(f);
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }   
+        }
+        System.out.println("loading fail");
+        return null;
+    }
      
-    private Platform findPlatform(String platformname) {
+    public Platform findPlatform(String platformname) {
         
         for (Platform gc: platforms) {
             if (gc.getPlatformName().equals(platformname)) {

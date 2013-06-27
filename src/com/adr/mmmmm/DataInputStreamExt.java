@@ -17,20 +17,29 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
+
 package com.adr.mmmmm;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  *
  * @author adrian
  */
-public interface Platform {
+public class DataInputStreamExt extends DataInputStream {
     
-    public String getPlatformName();
-    public String getPlatformTitle();
-    public String getCommand(GamesItem item); 
-    public BufferedImage getDefaultImage();
-    public List<GamesItem> getGames();
+    DataInputStreamExt(InputStream in) {
+        super(in);
+    }
+    
+    public String readString() throws IOException {
+        int isnull = this.readInt();
+        if (isnull == 0) {
+            return null;
+        } else {
+            return this.readUTF();
+        }
+    }    
 }

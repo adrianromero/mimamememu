@@ -28,6 +28,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -44,6 +47,16 @@ import org.xml.sax.SAXException;
  * @author adrian
  */
 public class MameCommand implements Platform {
+                
+    private BufferedImage defimage = null;
+    
+    public MameCommand() {
+        try {
+            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/mame.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     @Override
     public String getPlatformName() {
@@ -59,6 +72,11 @@ public class MameCommand implements Platform {
     public String getCommand(GamesItem item) {
         return "mame " + item.getName();
     } 
+    
+    @Override
+    public BufferedImage getDefaultImage() {
+        return defimage;
+    }
     
     @Override
     public List<GamesItem> getGames() {
@@ -84,9 +102,9 @@ public class MameCommand implements Platform {
             }
             p.waitFor();            
             
-            
             // Get detailed information for each game available
-            BufferedImage defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/res/mame.png"));
+            ExecutorService exec = Executors.newFixedThreadPool(15);
+            
             for (String n: names) {
                 p = Runtime.getRuntime().exec("mame -listxml " + n);
 
@@ -98,25 +116,46 @@ public class MameCommand implements Platform {
                 for (int i = 0; i < nodegames.getLength(); i++) {
                     Element e = (Element) nodegames.item(i);
                     
-                    System.out.println(e.getAttribute("name"));
+                    // System.out.println(e.getAttribute("name"));
                     
-                    GamesItem item = new GamesItem(
+                    final GamesItem item = new GamesItem(
                             e.getAttribute("name"),
                             getElementText(e, "description"),
                             this);
                     item.setManufacturer(getElementText(e, "manufacturer"));
                     item.setYear(getElementText(e, "year"));
-                    try {
-                        item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
-                    } catch (Exception ex) {
-                        item.setSnap(defimage);
+                    
+                    // driver attributes
+                    NodeList nc = e.getElementsByTagName("driver");
+                    if (nc != null && nc.getLength() > 0) {
+                        Element ec =(Element) nc.item(0);
+                        item.setDriveremulation(ec.getAttribute("emulation"));
+                        item.setDrivercolor(ec.getAttribute("color"));
+                        item.setDriversound(ec.getAttribute("sound"));
+                        item.setDrivergraphic(ec.getAttribute("graphic"));
+                        item.setDriverstate(ec.getAttribute("savestate"));
                     }
+                                 
+                    // Load image
+                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                        try {
+                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
+                        } catch (Exception ex) {
+                            item.setSnap(null);
+                        }                        
+                    }}));
+
 
                     games.add(item);
                 }
                 p.waitFor();
             }
             
+            // Wait for pending images
+            exec.shutdown();
+            exec.awaitTermination(2, TimeUnit.MINUTES);
+            exec.shutdownNow();
+                     
         } catch (IOException ex) {
             Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {

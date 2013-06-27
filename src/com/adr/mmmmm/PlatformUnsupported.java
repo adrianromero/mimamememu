@@ -19,6 +19,7 @@
 
 package com.adr.mmmmm;
 
+import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +49,12 @@ public class PlatformUnsupported implements Platform {
     public String getCommand(GamesItem item) {
         return null;
     }
-
+    
+    @Override
+    public BufferedImage getDefaultImage() {
+        return null;
+    }
+    
     @Override
     public List<GamesItem> getGames() {
         return Collections.EMPTY_LIST;
