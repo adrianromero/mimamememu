@@ -91,8 +91,9 @@ public class FrmMain extends javax.swing.JFrame {
             jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         } else {
-            jtitle.setVisible(false);
+//            jtitle.setVisible(false);
         }
+        jtitle.setFont(Main.FONT_TITLE);
 
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         getRootPane().getActionMap().put("close", new AbstractAction() {
@@ -105,7 +106,7 @@ public class FrmMain extends javax.swing.JFrame {
         // this should be parametric...
         jicon = new JPanelIcon(480, 640);
         jiconcontainer.add(jicon, BorderLayout.CENTER);            
-        jList1.setCellRenderer(new GamesItemRenderer());
+        jList1.setCellRenderer(new GamesItemRenderer2());
 
         jList1.addMouseListener(new MouseAdapter() {
             @Override
@@ -212,19 +213,16 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
-        jtitle.setFont(jtitle.getFont().deriveFont(jtitle.getFont().getStyle() | java.awt.Font.BOLD, jtitle.getFont().getSize()+10));
         jtitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jtitle.setText("MIMAMEMEMU");
         getContentPane().add(jtitle, java.awt.BorderLayout.PAGE_START);
 
-        jiconcontainer.setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
+        jiconcontainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 0));
         jiconcontainer.setLayout(new java.awt.BorderLayout());
         getContentPane().add(jiconcontainer, java.awt.BorderLayout.LINE_START);
 
+        jcards.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
         jcards.setLayout(new java.awt.CardLayout());
-
-        jScrollPane1.setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -236,7 +234,6 @@ public class FrmMain extends javax.swing.JFrame {
 
         jcards.add(jScrollPane1, "list");
 
-        jWait.setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
         jWait.setLayout(new java.awt.GridBagLayout());
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages"); // NOI18N
@@ -269,7 +266,7 @@ public class FrmMain extends javax.swing.JFrame {
         if (evt.getValueIsAdjusting() == false) {
             GamesItem item = (GamesItem) jList1.getSelectedValue();
             if (item != null) {
-                jicon.setImage(item.getMarquees());
+                jicon.setImage(item.getCabinets());
             }
         }
         

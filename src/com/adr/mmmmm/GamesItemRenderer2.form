@@ -39,11 +39,6 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jtitle">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-              <FontInfo relative="true">
-                <Font bold="true" component="jtitle" property="font" relativeSize="true" size="6"/>
-              </FontInfo>
-            </Property>
             <Property name="text" type="java.lang.String" value="jtitle"/>
           </Properties>
           <Constraints>

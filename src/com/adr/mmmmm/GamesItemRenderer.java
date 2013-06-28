@@ -44,6 +44,8 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
     public GamesItemRenderer() {
         initComponents();
         
+        jtitle.setFont(Main.FONT_ARCADE);
+        
         jicon = new JPanelIcon(60, 80);
         jiconcontainer.add(jicon, BorderLayout.CENTER);    
         
@@ -124,7 +126,7 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
                 jcolor.setForeground(Color.GRAY);
                 jsound.setForeground(Color.GRAY);
             } else {
-                jtitle.setForeground(list.getSelectionForeground());
+                jtitle.setForeground(list.getForeground());
                 jmanufacturer.setForeground(Color.GRAY);
                 jyear.setForeground(Color.GRAY);               
                 jplatform.setForeground(Color.GRAY);
@@ -176,9 +178,13 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jtitle.setFont(jtitle.getFont().deriveFont(jtitle.getFont().getStyle() | java.awt.Font.BOLD, jtitle.getFont().getSize()+6));
         jtitle.setText("jtitle");
-        jPanel1.add(jtitle, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(jtitle, gridBagConstraints);
 
         jmanufacturer.setFont(jmanufacturer.getFont().deriveFont(jmanufacturer.getFont().getStyle() | java.awt.Font.BOLD));
         jmanufacturer.setText("jmanufacturer");

@@ -18,16 +18,36 @@
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 package com.adr.mmmmm;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author adrian
  */
 public class Main {
+    
+    
+    public static Font FONT_ARCADE = Font.getFont("Dialog");
+    public static Font FONT_TITLE = Font.getFont("Dialog");
 
     /**
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
+        try {
+            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/PressStart2P.ttf"))
+                    .deriveFont(16.0f);
+            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/sofachro.ttf"))
+                    .deriveFont(28.0f);           
+        } catch (FontFormatException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

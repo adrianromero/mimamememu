@@ -49,10 +49,16 @@ import org.xml.sax.SAXException;
 public class MameCommand implements Platform {
                 
     private BufferedImage defimage = null;
+    private BufferedImage defcabinet = null;
     
     public MameCommand() {
         try {
             defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/mame.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/cabinet.png"));
         } catch (IOException ex) {
             Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,6 +82,11 @@ public class MameCommand implements Platform {
     @Override
     public BufferedImage getDefaultImage() {
         return defimage;
+    }
+    
+    @Override
+    public BufferedImage getDefaultCabinet() {
+        return defcabinet;
     }
     
     @Override

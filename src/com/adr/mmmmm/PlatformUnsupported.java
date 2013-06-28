@@ -59,5 +59,10 @@ public class PlatformUnsupported implements Platform {
     public List<GamesItem> getGames() {
         return Collections.EMPTY_LIST;
     }
+
+    @Override
+    public BufferedImage getDefaultCabinet() {
+        return null;
+    }
     
 }

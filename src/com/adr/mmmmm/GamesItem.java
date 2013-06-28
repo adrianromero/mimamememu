@@ -284,7 +284,7 @@ public class GamesItem implements Comparable<GamesItem> {
      * @return the cabinet
      */
     public BufferedImage getCabinets() {
-        return cabinets;
+        return cabinets == null ? platform.getDefaultCabinet() : cabinets;
     }
 
     /**

@@ -22,7 +22,6 @@ package com.adr.mmmmm;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
@@ -44,8 +43,10 @@ public class GamesItemRenderer3 extends javax.swing.JPanel implements ListCellRe
     public GamesItemRenderer3() {
         initComponents();
         
+        jtitle.setFont(Main.FONT_ARCADE.deriveFont(12.0f));        
+        
         jicon = new JPanelIcon(96, 128);
-        jPanel1.add(jicon, BorderLayout.CENTER);
+        jcell.add(jicon, BorderLayout.CENTER);
         
         if (noFocusBorder == null) {
             noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -62,9 +63,9 @@ public class GamesItemRenderer3 extends javax.swing.JPanel implements ListCellRe
         applyComponentOrientation(list.getComponentOrientation());
         
         if (isSelected) {          
-            setBackground(list.getSelectionBackground());            
+            jcell.setBackground(list.getSelectionBackground());            
         } else {       
-            setBackground(list.getBackground());
+            jcell.setBackground(list.getBackground());
         }
 
         if (value == null) {
@@ -84,9 +85,9 @@ public class GamesItemRenderer3 extends javax.swing.JPanel implements ListCellRe
                 jtitle.setForeground(Color.GRAY);  
             } else if (isSelected) {
                 // Selected, ready to run
-                jtitle.setForeground(list.getSelectionForeground());
+                jtitle.setForeground(Color.WHITE);
             } else {
-                jtitle.setForeground(list.getSelectionForeground());
+                jtitle.setForeground(Color.LIGHT_GRAY);
             }
         }
 
@@ -118,19 +119,27 @@ public class GamesItemRenderer3 extends javax.swing.JPanel implements ListCellRe
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jcell = new javax.swing.JPanel();
         jtitle = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
 
+        setPreferredSize(new java.awt.Dimension(250, 250));
         setLayout(new java.awt.BorderLayout());
 
-        jtitle.setText("jtitle");
-        add(jtitle, java.awt.BorderLayout.PAGE_END);
+        jcell.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jcell.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        jtitle.setBackground(java.awt.Color.black);
+        jtitle.setForeground(java.awt.Color.white);
+        jtitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jtitle.setText("jtitle");
+        jtitle.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jtitle.setOpaque(true);
+        jcell.add(jtitle, java.awt.BorderLayout.PAGE_END);
+
+        add(jcell, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jcell;
     private javax.swing.JLabel jtitle;
     // End of variables declaration//GEN-END:variables
 }
