@@ -81,8 +81,6 @@ public class PlatformList {
     
     private void saveLocalGames(List<GamesItem> games, String platformname) {
         
-        System.out.println("saving");
-        
         DataOutputStreamExt out = null;
         File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
         try {    
@@ -120,8 +118,6 @@ public class PlatformList {
     
     private List<GamesItem> loadLocalGames(String platformname) {
         
-        System.out.println("loading");
-        
         File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
         DataInputStreamExt in = null;
         if (f.exists()){
@@ -133,7 +129,6 @@ public class PlatformList {
                 for (int i = 0; i < size; i++) {
                     games.add(new GamesItem(in, f));
                 }
-                System.out.println("loading success");
                 return games;
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,7 +151,6 @@ public class PlatformList {
                 logger.log(Level.SEVERE, null, ex);
             }   
         }
-        System.out.println("loading fail");
         return null;
     }
      

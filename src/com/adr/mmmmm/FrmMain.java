@@ -269,7 +269,7 @@ public class FrmMain extends javax.swing.JFrame {
         if (evt.getValueIsAdjusting() == false) {
             GamesItem item = (GamesItem) jList1.getSelectedValue();
             if (item != null) {
-                jicon.setImage(item.getSnap());
+                jicon.setImage(item.getMarquees());
             }
         }
         

@@ -77,7 +77,7 @@ public class GamesItemRenderer3 extends javax.swing.JPanel implements ListCellRe
             GamesItem item = (GamesItem) value;
             jtitle.setText(item.getTitle());
 
-            jicon.setImage(item.getSnap());
+            jicon.setImage(item.getTitles());
             
             if (item.getCommand() == null) {
                 // Not working game

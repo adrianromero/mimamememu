@@ -20,8 +20,6 @@
 package com.adr.mmmmm;
 
 import java.awt.image.BufferedImage;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -38,7 +36,10 @@ public class GamesItem implements Comparable<GamesItem> {
     private String title;
     private String manufacturer;
     private String year;
+    private BufferedImage titles;
     private BufferedImage snap;
+    private BufferedImage cabinets;
+    private BufferedImage marquees;
     
     private String driveremulation;
     private String drivercolor;
@@ -52,7 +53,10 @@ public class GamesItem implements Comparable<GamesItem> {
         this.platform = platform;
         this.manufacturer = null;
         this.year = null;   
+        this.titles = null;
         this.snap = null;
+        this.cabinets = null;
+        this.marquees = null;
         this.driveremulation = null;
         this.drivercolor = null;
         this.driversound = null;
@@ -71,9 +75,21 @@ public class GamesItem implements Comparable<GamesItem> {
         driversound = in.readString();
         drivergraphic = in.readString();
         driverstate = in.readString();
-        File f = new File(folder, name + ".png");
+        File f = new File(folder, "titles/" + name + ".png");
         if (f.exists()) {
-            snap = ImageIO.read(new File(folder, name + ".png"));
+            titles = ImageIO.read(new File(folder, "titles/" + name + ".png"));
+        }
+        f = new File(folder, "snap/" + name + ".png");
+        if (f.exists()) {
+            snap = ImageIO.read(new File(folder, "snap/" + name + ".png"));
+        }
+        f = new File(folder, "cabinets/" + name + ".png");
+        if (f.exists()) {
+            cabinets = ImageIO.read(new File(folder, "cabinets/" + name + ".png"));
+        }
+        f = new File(folder, "marquees/" + name + ".png");
+        if (f.exists()) {
+            marquees = ImageIO.read(new File(folder, "marquees/" + name + ".png"));
         }
     }
     
@@ -88,8 +104,21 @@ public class GamesItem implements Comparable<GamesItem> {
         out.writeString(driversound);
         out.writeString(drivergraphic);
         out.writeString(driverstate);
+        if (titles != null) {
+            new File(folder, "titles").mkdir();
+            ImageIO.write(titles, "png", new File(folder, "titles/" + name + ".png"));
+        }
         if (snap != null) {
-            ImageIO.write(snap, "png", new File(folder, name + ".png"));
+            new File(folder, "snap").mkdir();
+            ImageIO.write(snap, "png", new File(folder, "snap/" + name + ".png"));
+        }
+        if (cabinets != null) {
+            new File(folder, "cabinets").mkdir();
+            ImageIO.write(cabinets, "png", new File(folder, "cabinets/" + name + ".png"));
+        }
+        if (marquees != null) {
+            new File(folder, "marquees").mkdir();
+            ImageIO.write(marquees, "png", new File(folder, "marquees/" + name + ".png"));
         }
     }
     
@@ -156,15 +185,15 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @return the snap
      */
-    public BufferedImage getSnap() {
-        return snap == null ? platform.getDefaultImage() : snap;
+    public BufferedImage getTitles() {
+        return titles == null ? platform.getDefaultImage() : titles;
     }
 
     /**
      * @param snap the snap to set
      */
-    public void setSnap(BufferedImage snap) {
-        this.snap = snap;
+    public void setTitles(BufferedImage snap) {
+        this.titles = snap;
     }
 
     /**
@@ -236,5 +265,46 @@ public class GamesItem implements Comparable<GamesItem> {
     public void setDriverstate(String driverstate) {
         this.driverstate = driverstate;
     }
-    
+
+    /**
+     * @return the snap
+     */
+    public BufferedImage getSnap() {
+        return snap;
+    }
+
+    /**
+     * @param snap the snap to set
+     */
+    public void setSnap(BufferedImage snap) {
+        this.snap = snap;
+    }
+
+    /**
+     * @return the cabinet
+     */
+    public BufferedImage getCabinets() {
+        return cabinets;
+    }
+
+    /**
+     * @param cabinet the cabinet to set
+     */
+    public void setCabinets(BufferedImage cabinet) {
+        this.cabinets = cabinet;
+    }
+
+    /**
+     * @return the marquee
+     */
+    public BufferedImage getMarquees() {
+        return marquees;
+    }
+
+    /**
+     * @param marquee the marquee to set
+     */
+    public void setMarquees(BufferedImage marquee) {
+        this.marquees = marquee;
+    }
 }

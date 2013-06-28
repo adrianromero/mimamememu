@@ -116,8 +116,6 @@ public class MameCommand implements Platform {
                 for (int i = 0; i < nodegames.getLength(); i++) {
                     Element e = (Element) nodegames.item(i);
                     
-                    // System.out.println(e.getAttribute("name"));
-                    
                     final GamesItem item = new GamesItem(
                             e.getAttribute("name"),
                             getElementText(e, "description"),
@@ -139,13 +137,34 @@ public class MameCommand implements Platform {
                     // Load image
                     exec.submit(Executors.callable(new Runnable() { public void run() {
                         try {
-                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
+                            item.setTitles(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
+                        } catch (Exception ex) {
+                            item.setTitles(null);
+                        }                        
+                    }}));
+                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                        try {
+                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
                         } catch (Exception ex) {
                             item.setSnap(null);
                         }                        
                     }}));
-
-
+                    // Load image
+                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                        try {
+                            item.setCabinets(ImageIO.read(new URL("http://www.mamedb.com/cabinets/" + item.getName() + ".png")));
+                        } catch (Exception ex) {
+                            item.setCabinets(null);
+                        }                        
+                    }}));
+                    // Load image
+                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                        try {
+                            item.setMarquees(ImageIO.read(new URL("http://www.mamedb.com/marquees/" + item.getName() + ".png")));
+                        } catch (Exception ex) {
+                            item.setMarquees(null);
+                        }                        
+                    }}));                    
                     games.add(item);
                 }
                 p.waitFor();

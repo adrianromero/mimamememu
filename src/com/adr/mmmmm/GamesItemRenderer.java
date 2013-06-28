@@ -103,7 +103,7 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
                     java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("lbl.sound") + ": " +
                     item.getDriversound());
 
-            jicon.setImage(item.getSnap());
+            jicon.setImage(item.getTitles());
             
             if (item.getCommand() == null) {
                 // Not working game
