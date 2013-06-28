@@ -18,14 +18,6 @@
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 package com.adr.mmmmm;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
 /**
  *
  * @author adrian

@@ -19,7 +19,6 @@
 
 package com.adr.mmmmm;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JList;
@@ -32,20 +31,14 @@ import javax.swing.border.EmptyBorder;
  *
  * @author adrian
  */
-public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRenderer {
+public class GamesItemRenderer2 extends javax.swing.JPanel implements ListCellRenderer {
     
     protected static Border noFocusBorder;
-    
-    private JPanelIcon jicon ;
-    
     /**
      * Creates new form GamesItemRenderer2
      */
-    public GamesItemRenderer() {
+    public GamesItemRenderer2() {
         initComponents();
-        
-        jicon = new JPanelIcon(60, 80);
-        jiconcontainer.add(jicon, BorderLayout.CENTER);    
         
         if (noFocusBorder == null) {
             noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -76,8 +69,6 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
             jcolor.setText("");
             jsound.setText("");
             
-            jicon.setImage(null);
-            
             jtitle.setForeground(Color.GRAY);  
             jmanufacturer.setForeground(Color.GRAY);  
             jyear.setForeground(Color.GRAY);    
@@ -102,8 +93,6 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
             jsound.setText(
                     java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("lbl.sound") + ": " +
                     item.getDriversound());
-
-            jicon.setImage(item.getSnap());
             
             if (item.getCommand() == null) {
                 // Not working game
@@ -171,14 +160,19 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
         jemulation = new javax.swing.JLabel();
         jcolor = new javax.swing.JLabel();
         jsound = new javax.swing.JLabel();
-        jiconcontainer = new javax.swing.JPanel();
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jtitle.setFont(jtitle.getFont().deriveFont(jtitle.getFont().getStyle() | java.awt.Font.BOLD, jtitle.getFont().getSize()+6));
         jtitle.setText("jtitle");
-        jPanel1.add(jtitle, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(jtitle, gridBagConstraints);
 
         jmanufacturer.setFont(jmanufacturer.getFont().deriveFont(jmanufacturer.getFont().getStyle() | java.awt.Font.BOLD));
         jmanufacturer.setText("jmanufacturer");
@@ -239,29 +233,24 @@ public class GamesItemRenderer extends javax.swing.JPanel implements ListCellRen
         gridBagConstraints.weightx = 0.5;
         jPanel1.add(jsound, gridBagConstraints);
 
-        jiconcontainer.setLayout(new java.awt.BorderLayout());
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jiconcontainer, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-            .addComponent(jiconcontainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel jcolor;
     private javax.swing.JLabel jemulation;
-    private javax.swing.JPanel jiconcontainer;
     private javax.swing.JLabel jmanufacturer;
     private javax.swing.JLabel jplatform;
     private javax.swing.JLabel jsound;

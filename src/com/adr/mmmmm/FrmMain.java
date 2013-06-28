@@ -18,6 +18,7 @@
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 package com.adr.mmmmm;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -32,7 +33,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import org.apache.commons.cli.BasicParser;
@@ -45,7 +45,9 @@ import org.apache.commons.cli.ParseException;
  * @author adrian
  */
 public class FrmMain extends javax.swing.JFrame {
-
+    
+    private JPanelIcon jicon ;
+    
     private GamesModel games;
     private ActionListener al;
     
@@ -66,10 +68,10 @@ public class FrmMain extends javax.swing.JFrame {
         // Read args
         Options options = new Options();
         options.addOption("f", "fullscreen", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.fullscreen"));
-        options.addOption("c", "columns", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.columns"));
+        options.addOption("c", "columns", true, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.columns"));
 
         boolean fullscreen = false;
-        int columns = 1;
+        columns = 1;
         try {
             CommandLine cmd = new BasicParser().parse(options, args);
             fullscreen = cmd.hasOption("f");
@@ -92,7 +94,6 @@ public class FrmMain extends javax.swing.JFrame {
             jtitle.setVisible(false);
         }
 
-
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         getRootPane().getActionMap().put("close", new AbstractAction() {
             @Override
@@ -101,6 +102,9 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
+        // this should be parametric...
+        jicon = new JPanelIcon(480, 640);
+        jiconcontainer.add(jicon, BorderLayout.CENTER);            
         jList1.setCellRenderer(new GamesItemRenderer());
 
         jList1.addMouseListener(new MouseAdapter() {
@@ -192,13 +196,13 @@ public class FrmMain extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jtitle = new javax.swing.JLabel();
+        jiconcontainer = new javax.swing.JPanel();
         jcards = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
-        jPanel2 = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        jWait = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MIMAMEMEMU");
@@ -212,6 +216,10 @@ public class FrmMain extends javax.swing.JFrame {
         jtitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jtitle.setText("MIMAMEMEMU");
         getContentPane().add(jtitle, java.awt.BorderLayout.PAGE_START);
+
+        jiconcontainer.setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
+        jiconcontainer.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jiconcontainer, java.awt.BorderLayout.LINE_START);
 
         jcards.setLayout(new java.awt.CardLayout());
 
@@ -228,28 +236,23 @@ public class FrmMain extends javax.swing.JFrame {
 
         jcards.add(jScrollPane1, "list");
 
-        jPanel2.setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        jProgressBar1.setIndeterminate(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        jPanel2.add(jProgressBar1, gridBagConstraints);
+        jWait.setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
+        jWait.setLayout(new java.awt.GridBagLayout());
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages"); // NOI18N
         jLabel1.setText(bundle.getString("lbl.Loading")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
-        jPanel2.add(jLabel1, gridBagConstraints);
+        jWait.add(jLabel1, gridBagConstraints);
 
-        jcards.add(jPanel2, "wait");
+        jProgressBar1.setIndeterminate(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        jWait.add(jProgressBar1, gridBagConstraints);
+
+        jcards.add(jWait, "wait");
 
         getContentPane().add(jcards, java.awt.BorderLayout.CENTER);
-
-        jLabel2.setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
-        jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        jLabel2.setOpaque(true);
-        getContentPane().add(jLabel2, java.awt.BorderLayout.LINE_START);
 
         setSize(new java.awt.Dimension(673, 697));
         setLocationRelativeTo(null);
@@ -266,18 +269,19 @@ public class FrmMain extends javax.swing.JFrame {
         if (evt.getValueIsAdjusting() == false) {
             GamesItem item = (GamesItem) jList1.getSelectedValue();
             if (item != null) {
-                jLabel2.setIcon(new ScaledIcon(item.getSnap(), 480, 640));
+                jicon.setImage(item.getSnap());
             }
         }
+        
     }//GEN-LAST:event_jList1ValueChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JList jList1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jWait;
     private javax.swing.JPanel jcards;
+    private javax.swing.JPanel jiconcontainer;
     private javax.swing.JLabel jtitle;
     // End of variables declaration//GEN-END:variables
 }
