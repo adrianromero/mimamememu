@@ -1,24 +1,28 @@
-//    Mimamememu is launcher for M.A.M.E and other emulators.
+//    MIMAMEMEMU is a launcher for M.A.M.E and other emulators.
 //    Copyright (C) 2013 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
 //    This file is part of Mimamememu
 //
-//    Mimamememu is free software: you can redistribute it and/or modify
+//    MIMAMEMEMU is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation, either version 3 of the License, or
 //    (at your option) any later version.
 //
-//    Mimamememu is distributed in the hope that it will be useful,
+//    MIMAMEMEMU is distributed in the hope that it will be useful,
 //    but WITHOUT ANY WARRANTY; without even the implied warranty of
 //    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //    GNU General Public License for more details.
 //
 //    You should have received a copy of the GNU General Public License
-//    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
+//    along with MIMAMEMEMU.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm;
 
+package com.adr.mmmmm.display;
+
+import com.adr.mmmmm.GamesItem;
+import com.adr.mmmmm.JPanelIcon;
+import com.adr.mmmmm.Main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -32,7 +36,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author adrian
  */
-public class GamesItemRenderer3 extends javax.swing.JPanel implements ListCellRenderer {
+public class RendererTitleAndName extends javax.swing.JPanel implements ListCellRenderer {
     
     protected static Border noFocusBorder;
     
@@ -40,7 +44,7 @@ public class GamesItemRenderer3 extends javax.swing.JPanel implements ListCellRe
     /**
      * Creates new form GamesItemRenderer2
      */
-    public GamesItemRenderer3() {
+    public RendererTitleAndName() {
         initComponents();
         
         jtitle.setFont(Main.FONT_ARCADE.deriveFont(12.0f));        

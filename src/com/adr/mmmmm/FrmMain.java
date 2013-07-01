@@ -18,6 +18,8 @@
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 package com.adr.mmmmm;
 
+import com.adr.mmmmm.display.DisplayMode;
+import com.adr.mmmmm.display.DisplayMode3;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -46,12 +48,11 @@ import org.apache.commons.cli.ParseException;
  */
 public class FrmMain extends javax.swing.JFrame {
     
-    private JPanelIcon jicon ;
-    
     private GamesModel games;
     private ActionListener al;
-    
-    private int columns;
+
+    private DisplayMode dm;
+    private GamesItemInfo jbeforecontent;
 
     /**
      * Creates new form FrmMain
@@ -68,14 +69,10 @@ public class FrmMain extends javax.swing.JFrame {
         // Read args
         Options options = new Options();
         options.addOption("f", "fullscreen", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.fullscreen"));
-        options.addOption("c", "columns", true, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.columns"));
-
         boolean fullscreen = false;
-        columns = 1;
         try {
             CommandLine cmd = new BasicParser().parse(options, args);
             fullscreen = cmd.hasOption("f");
-            columns = Integer.parseInt(cmd.getOptionValue("c", "1"));
         } catch (ParseException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,12 +99,25 @@ public class FrmMain extends javax.swing.JFrame {
                 dispose();
             }
         });
+        
+        // Display Mode
+        /////////////////////////////////////////////////////////
+        dm = new DisplayMode3(); // This shoud be parametric
+        /////////////////////////////////////////////////////////
+       
 
-        // this should be parametric...
-        jicon = new JPanelIcon(480, 640);
-        jiconcontainer.add(jicon, BorderLayout.CENTER);            
-        jList1.setCellRenderer(new GamesItemRenderer2());
-
+        jbeforecontent = dm.getGamesItemInfo();
+        if (jbeforecontent == null) {
+            jbeforecontainer.setVisible(false);
+        } else {
+            jbeforecontainer.setVisible(true);
+            jbeforecontainer.add(jbeforecontent.getComponent(), BorderLayout.CENTER);
+        }
+        
+        jList1.setCellRenderer(dm.getListRenderer());
+        jList1.setLayoutOrientation(dm.getListLayoutOrientation());
+        jList1.setVisibleRowCount(-1);
+        
         jList1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me) {
@@ -165,14 +175,7 @@ public class FrmMain extends javax.swing.JFrame {
                         if (jList1.getModel().getSize() > 0) {
                             jList1.setSelectedIndex(0);
                         }
-                        showCard("list");
-                        
-                        if (columns > 1) {
-                            jList1.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
-                            jList1.setVisibleRowCount((jList1.getModel().getSize() + 1) / columns);
-                        } else {
-                            jList1.setLayoutOrientation(javax.swing.JList.VERTICAL);
-                        }
+                        showCard("list");                       
                         jList1.requestFocus();
                     }
                 });
@@ -197,7 +200,7 @@ public class FrmMain extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jtitle = new javax.swing.JLabel();
-        jiconcontainer = new javax.swing.JPanel();
+        jbeforecontainer = new javax.swing.JPanel();
         jcards = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
@@ -217,9 +220,9 @@ public class FrmMain extends javax.swing.JFrame {
         jtitle.setText("MIMAMEMEMU");
         getContentPane().add(jtitle, java.awt.BorderLayout.PAGE_START);
 
-        jiconcontainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 0));
-        jiconcontainer.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(jiconcontainer, java.awt.BorderLayout.LINE_START);
+        jbeforecontainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 0));
+        jbeforecontainer.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jbeforecontainer, java.awt.BorderLayout.LINE_START);
 
         jcards.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
         jcards.setLayout(new java.awt.CardLayout());
@@ -251,7 +254,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         getContentPane().add(jcards, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(673, 697));
+        setSize(new java.awt.Dimension(1130, 533));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -265,8 +268,8 @@ public class FrmMain extends javax.swing.JFrame {
         
         if (evt.getValueIsAdjusting() == false) {
             GamesItem item = (GamesItem) jList1.getSelectedValue();
-            if (item != null) {
-                jicon.setImage(item.getCabinets());
+            if (jbeforecontent != null) {
+                jbeforecontent.renderGamesItem(item);
             }
         }
         
@@ -277,8 +280,8 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jWait;
+    private javax.swing.JPanel jbeforecontainer;
     private javax.swing.JPanel jcards;
-    private javax.swing.JPanel jiconcontainer;
     private javax.swing.JLabel jtitle;
     // End of variables declaration//GEN-END:variables
 }
