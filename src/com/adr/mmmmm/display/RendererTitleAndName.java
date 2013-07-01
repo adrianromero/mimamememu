@@ -95,8 +95,6 @@ public class RendererTitleAndName extends javax.swing.JPanel implements ListCell
             }
         }
 
-        setEnabled(list.isEnabled());
-        setFont(list.getFont());
         setBorder((cellHasFocus) ? UIManager.getBorder("List.focusCellHighlightBorder") : noFocusBorder);
 
         return this;
@@ -126,6 +124,7 @@ public class RendererTitleAndName extends javax.swing.JPanel implements ListCell
         jcell = new javax.swing.JPanel();
         jtitle = new javax.swing.JLabel();
 
+        setBackground(javax.swing.UIManager.getDefaults().getColor("List.background"));
         setPreferredSize(new java.awt.Dimension(250, 250));
         setLayout(new java.awt.BorderLayout());
 

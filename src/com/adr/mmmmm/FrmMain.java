@@ -19,7 +19,7 @@
 package com.adr.mmmmm;
 
 import com.adr.mmmmm.display.DisplayMode;
-import com.adr.mmmmm.display.DisplayMode3;
+import com.adr.mmmmm.display.DisplayMode1;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -102,7 +102,7 @@ public class FrmMain extends javax.swing.JFrame {
         
         // Display Mode
         /////////////////////////////////////////////////////////
-        dm = new DisplayMode3(); // This shoud be parametric
+        dm = new DisplayMode1(); // This shoud be parametric
         /////////////////////////////////////////////////////////
        
 
@@ -254,7 +254,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         getContentPane().add(jcards, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(1130, 533));
+        setSize(new java.awt.Dimension(1130, 727));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
