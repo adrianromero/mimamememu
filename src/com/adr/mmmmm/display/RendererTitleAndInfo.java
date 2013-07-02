@@ -48,7 +48,7 @@ public class RendererTitleAndInfo extends javax.swing.JPanel implements ListCell
     public RendererTitleAndInfo() {
         initComponents();
         
-        jtitle.setFont(Main.FONT_ARCADE);
+        jtitle.setFont(Main.FONT_ARCADE.deriveFont(24.0f));
         
         jicon = new JPanelIcon(60, 80);
         jiconcontainer.add(jicon, BorderLayout.CENTER);    

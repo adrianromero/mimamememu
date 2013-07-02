@@ -38,11 +38,16 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
+        
+        System.setProperty("awt.useSystemAAFontSettings","on");
+        System.setProperty("swing.aatext", "true"); 
+              
         try {
-            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/PressStart2P.ttf"))
-                    .deriveFont(16.0f);
-            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/sofachro.ttf"))
-                    .deriveFont(28.0f);           
+            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/RussoOne-Regular.ttf"))
+                    .deriveFont(16.0f);    
+            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/Audiowide-Regular.ttf"))
+                    .deriveFont(32.0f);
+       
         } catch (FontFormatException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

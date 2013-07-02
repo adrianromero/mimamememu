@@ -90,7 +90,7 @@ public class FrmMain extends javax.swing.JFrame {
         } else {
 //            jtitle.setVisible(false);
         }
-        jtitle.setFont(Main.FONT_TITLE);
+        jtitle.setFont(Main.FONT_TITLE.deriveFont(32.0f));
 
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         getRootPane().getActionMap().put("close", new AbstractAction() {

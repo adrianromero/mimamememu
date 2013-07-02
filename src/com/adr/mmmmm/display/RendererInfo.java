@@ -43,7 +43,7 @@ public class RendererInfo extends javax.swing.JPanel implements ListCellRenderer
     public RendererInfo() {
         initComponents();
         
-        jtitle.setFont(Main.FONT_ARCADE);
+        jtitle.setFont(Main.FONT_ARCADE.deriveFont(24.0f));
         
         if (noFocusBorder == null) {
             noFocusBorder = new EmptyBorder(1, 1, 1, 1);
