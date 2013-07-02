@@ -11,6 +11,15 @@ Mode 2
 ![Mode 3](https://raw.github.com/adrianromero/mimamememu/master/screenshot-3.png)
 Mode 3
 
+## Acknowledgments ##
+
+Audiowide font:
+Copyright (c) 2012, Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved Font Names "Audiowide"
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+
+Russo font:
+Copyright (c) 2011-2012, Jovanny Lemonad (jovanny.ru), with Reserved Font Name "Russo"
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
 
 ## License ##
 
