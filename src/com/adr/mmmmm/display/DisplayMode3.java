@@ -40,7 +40,7 @@ public class DisplayMode3 implements DisplayMode {
 
     @Override
     public GamesItemInfo getGamesItemInfo() {
-        return new InfoTitle();
+        return new InfoTitleImage();
     }
     
 }

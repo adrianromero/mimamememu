@@ -46,6 +46,7 @@ import org.xml.sax.SAXException;
  *
  * @author adrian
  */
+
 public class MameCommand implements Platform {
                 
     private BufferedImage defimage = null;
@@ -146,14 +147,14 @@ public class MameCommand implements Platform {
                     }
                                  
                     // Load image
-                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
                         try {
                             item.setTitles(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
                         } catch (Exception ex) {
                             item.setTitles(null);
                         }                        
                     }}));
-                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
                         try {
                             item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
                         } catch (Exception ex) {
@@ -161,7 +162,7 @@ public class MameCommand implements Platform {
                         }                        
                     }}));
                     // Load image
-                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
                         try {
                             item.setCabinets(ImageIO.read(new URL("http://www.mamedb.com/cabinets/" + item.getName() + ".png")));
                         } catch (Exception ex) {
@@ -169,7 +170,7 @@ public class MameCommand implements Platform {
                         }                        
                     }}));
                     // Load image
-                    exec.submit(Executors.callable(new Runnable() { public void run() {
+                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
                         try {
                             item.setMarquees(ImageIO.read(new URL("http://www.mamedb.com/marquees/" + item.getName() + ".png")));
                         } catch (Exception ex) {

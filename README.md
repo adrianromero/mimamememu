@@ -21,6 +21,10 @@ Russo font:
 Copyright (c) 2011-2012, Jovanny Lemonad (jovanny.ru), with Reserved Font Name "Russo"
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 
+Press Start 2P font:
+Copyright (c) 2012, Cody "CodeMan38" Boisclair (cody@zone38.net), with Reserved Font Name "Press Start 2P"
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+
 ## License ##
 
 Licensed under the GNU General Public License, Version 3.

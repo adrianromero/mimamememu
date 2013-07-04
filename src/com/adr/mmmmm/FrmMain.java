@@ -19,7 +19,7 @@
 package com.adr.mmmmm;
 
 import com.adr.mmmmm.display.DisplayMode;
-import com.adr.mmmmm.display.DisplayMode1;
+import com.adr.mmmmm.display.DisplayMode3;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -39,6 +39,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -57,7 +58,7 @@ public class FrmMain extends javax.swing.JFrame {
     /**
      * Creates new form FrmMain
      */
-    public FrmMain(String[] args) {
+    public FrmMain() {
 
         initComponents();
         try {
@@ -66,30 +67,6 @@ public class FrmMain extends javax.swing.JFrame {
             Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Read args
-        Options options = new Options();
-        options.addOption("f", "fullscreen", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.fullscreen"));
-        boolean fullscreen = false;
-        try {
-            CommandLine cmd = new BasicParser().parse(options, args);
-            fullscreen = cmd.hasOption("f");
-        } catch (ParseException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Set fullscreen
-        if (fullscreen) {
-            setUndecorated(true);
-            setResizable(false);
-            setAlwaysOnTop(true);
-            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-            setBounds(0, 0, d.width, d.height);
-            //setBounds(0, 0, 1024, 768);
-            jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-            jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        } else {
-//            jtitle.setVisible(false);
-        }
         jtitle.setFont(Main.FONT_TITLE.deriveFont(32.0f));
 
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
@@ -102,7 +79,7 @@ public class FrmMain extends javax.swing.JFrame {
         
         // Display Mode
         /////////////////////////////////////////////////////////
-        dm = new DisplayMode1(); // This shoud be parametric
+        dm = new DisplayMode3(); // This shoud be parametric
         /////////////////////////////////////////////////////////
        
 
@@ -147,19 +124,62 @@ public class FrmMain extends javax.swing.JFrame {
 
         al = new GamesActionLauncher(this);
 
-        showCard("list");
+        showCard("nogames");
+    }
+    
+    public void start(String[] args) {
+        
+        // Read args
+        Options options = new Options();
+        options.addOption("h", "help", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.help"));
+        options.addOption("f", "fullscreen", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.fullscreen"));
+        options.addOption("r", "refresh", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.refresh"));
+        CommandLine cmd = null;
+        try {
+            cmd = new BasicParser().parse(options, args);
+        } catch (ParseException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getLocalizedMessage());
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp( "mimamememu", options );
+            return;
+        }
+        
+        if (cmd.hasOption("h")) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp( "mimamememu", options );
+            return;
+        }
+            
+        // Set fullscreen
+        if (cmd.hasOption("f")) {
+            setUndecorated(true);
+            setResizable(false);
+            setAlwaysOnTop(true);
+            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+            setBounds(0, 0, d.width, d.height);
+            //setBounds(0, 0, 1024, 768);
+            jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        } else {
+//            jtitle.setVisible(false);
+        }
+        
+        setVisible(true);  
+        loadGames(cmd.hasOption("h"));
     }
 
-    public void refreshGames() {
+    private void loadGames(final boolean refresh) {
 
-        showCard("wait");
+        showCard("wait");       
+        jList1.setModel(new GamesModel());
 
         (new Thread() {
             @Override
             public void run() {
 
                 games = new GamesModel();
-                games.addAll(PlatformList.INSTANCE.getAllGames());
+                games.addAll(PlatformList.INSTANCE.getAllGames(refresh));
 
                 //        games.add(PlatformList.INSTANCE.createGame("005", "005", "MAME", "Sega", "1981", "Maze"));
                 //        games.add(PlatformList.INSTANCE.createGame("10yard", "10-Yard Fight (World)", "MAME", "Irem", "1983", "Sports"));
@@ -174,8 +194,11 @@ public class FrmMain extends javax.swing.JFrame {
                         // select first
                         if (jList1.getModel().getSize() > 0) {
                             jList1.setSelectedIndex(0);
-                        }
-                        showCard("list");                       
+                            showCard("list");   
+                        } else {
+                            showCard("nogames");
+                        }                            
+                    
                         jList1.requestFocus();
                     }
                 });
@@ -207,6 +230,8 @@ public class FrmMain extends javax.swing.JFrame {
         jWait = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
+        jNoGames = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MIMAMEMEMU");
@@ -252,6 +277,13 @@ public class FrmMain extends javax.swing.JFrame {
 
         jcards.add(jWait, "wait");
 
+        jNoGames.setLayout(new java.awt.GridBagLayout());
+
+        jLabel2.setText(bundle.getString("lbl.nogames")); // NOI18N
+        jNoGames.add(jLabel2, new java.awt.GridBagConstraints());
+
+        jcards.add(jNoGames, "nogames");
+
         getContentPane().add(jcards, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(1130, 727));
@@ -276,7 +308,9 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jList1ValueChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JList jList1;
+    private javax.swing.JPanel jNoGames;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jWait;

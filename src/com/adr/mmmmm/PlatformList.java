@@ -19,14 +19,11 @@
 
 package com.adr.mmmmm;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,10 +56,14 @@ public class PlatformList {
         return item;
     }
     
-    public List<GamesItem> getAllGames() {
+    public List<GamesItem> getAllGames(boolean refresh) {
         
         ArrayList<GamesItem> l = new ArrayList<GamesItem>();
         for (Platform p: platforms) {
+            
+            if (refresh) {
+                clearLocalGames(p.getPlatformName());
+            }
             
             // try to load games from local folder
             List<GamesItem> platformgames = loadLocalGames(p.getPlatformName());
@@ -77,6 +78,17 @@ public class PlatformList {
         
         Collections.sort(l);
         return l;
+    }
+    
+    
+    private void clearLocalGames(String platformname) {
+        File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
+        // Delete directory if not possible to save
+        try {
+            FileUtils.deleteDirectory(f);
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }        
     }
     
     private void saveLocalGames(List<GamesItem> games, String platformname) {

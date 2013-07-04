@@ -132,7 +132,26 @@ public class GamesItem implements Comparable<GamesItem> {
     public String getTitle() {
         return title;
     }
-
+    
+    public String getTitle1() {
+        int i = title.indexOf('(');
+        if (i >= 0) {
+            return title.substring(0, i).trim();
+        } else {
+            return title;
+        }
+    }
+    
+    public String getTitle2() {
+        int i = title.indexOf('(');
+        int j = title.lastIndexOf(')');
+        if (i >= 0 && i < j) {
+            return title.substring(i + 1, j).trim();
+        } else {
+            return null;
+        }        
+    }
+    
     /**
      * @return the manufacturer
      */
@@ -187,6 +206,10 @@ public class GamesItem implements Comparable<GamesItem> {
      */
     public BufferedImage getTitles() {
         return titles == null ? platform.getDefaultImage() : titles;
+    }
+    
+    public boolean isTitlesDefault() {
+        return titles == null;
     }
 
     /**

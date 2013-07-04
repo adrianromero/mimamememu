@@ -31,8 +31,9 @@ import java.util.logging.Logger;
 public class Main {
     
     
-    public static Font FONT_ARCADE = Font.getFont("Dialog");
+    public static Font FONT_NAME = Font.getFont("Dialog");
     public static Font FONT_TITLE = Font.getFont("Dialog");
+    public static Font FONT_ARCADE = Font.getFont("Dialog");
 
     /**
      * @param args the command line arguments
@@ -45,9 +46,10 @@ public class Main {
         try {
             FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/RussoOne-Regular.ttf"))
                     .deriveFont(16.0f);    
-            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/Audiowide-Regular.ttf"))
+            FONT_NAME = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/Audiowide-Regular.ttf"))
                     .deriveFont(32.0f);
-       
+            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/PressStart2P-Regular.ttf"))
+                    .deriveFont(16.0f);      
         } catch (FontFormatException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -57,10 +59,7 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                FrmMain myWindow = new FrmMain(args);
-
-                myWindow.setVisible(true);
-                myWindow.refreshGames();
+                new FrmMain().start(args);
             }
         });
     }

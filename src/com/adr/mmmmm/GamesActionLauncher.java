@@ -25,6 +25,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,8 +54,8 @@ public class GamesActionLauncher implements ActionListener {
         final String command = item.getCommand();
         if (command == null) {
             DlgMessages dlg = new DlgMessages(parent);
-            dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-            dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
+            dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformnotsupported"), new Object[]{item.getTitle()}));
+            dlg.setMsgBody(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("body.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
             dlg.display();
             return;
         }
@@ -71,7 +73,7 @@ public class GamesActionLauncher implements ActionListener {
                 BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 String line;
                 while ((line = br.readLine()) != null) {
-                    System.out.println(line);
+                    Logger.getLogger(GamesActionLauncher.class.getName()).fine(line);
                 }
 
                 int result = p.waitFor();
@@ -79,21 +81,21 @@ public class GamesActionLauncher implements ActionListener {
                     Logger.getLogger(GamesActionLauncher.class.getName()).log(Level.SEVERE, "Return error: {0}", result);
 
                     dlg = new DlgMessages(parent);
-                    dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-                    dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}));
+                    dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}));
+                    dlg.setMsgBody(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("body.platformerror"), new Object[]{result}));
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
 
                 dlg = new DlgMessages(parent);
-                dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-                dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}));
+                dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}));
+                dlg.setMsgBody(ex.getLocalizedMessage());
             } catch (IOException ex) {
                 Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
 
                 dlg = new DlgMessages(parent);
-                dlg.setMsgTitle(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.cannotrungame"));
-                dlg.setMsgBody(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}));
+                dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}));
+                dlg.setMsgBody(ex.getLocalizedMessage());
             } finally {
                 final DlgMessages finaldlg = dlg;
                 java.awt.EventQueue.invokeLater(new Runnable() { @Override public void run() {
