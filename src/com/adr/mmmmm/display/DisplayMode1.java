@@ -30,17 +30,17 @@ public class DisplayMode1 implements DisplayMode {
 
     @Override
     public ListCellRenderer getListRenderer() {
-        return new RendererTitleAndName();
+        return new RendererTitleAndInfo();
     }
 
     @Override
     public int getListLayoutOrientation() {
-        return javax.swing.JList.HORIZONTAL_WRAP;
+        return javax.swing.JList.VERTICAL;
     }
 
     @Override
     public GamesItemInfo getGamesItemInfo() {
-        return new InfoCabinet();
+        return null;
     }
     
 }

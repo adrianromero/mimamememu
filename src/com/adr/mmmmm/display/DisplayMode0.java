@@ -26,21 +26,21 @@ import javax.swing.ListCellRenderer;
  *
  * @author adrian
  */
-public class DisplayMode2 implements DisplayMode {
+public class DisplayMode0 implements DisplayMode {
 
     @Override
     public ListCellRenderer getListRenderer() {
-        return new RendererInfo();
+        return new RendererTitleAndName();
     }
 
     @Override
     public int getListLayoutOrientation() {
-        return javax.swing.JList.VERTICAL;
+        return javax.swing.JList.HORIZONTAL_WRAP;
     }
 
     @Override
     public GamesItemInfo getGamesItemInfo() {
-        return new InfoTitleImage();
+        return new InfoCabinet();
     }
     
 }

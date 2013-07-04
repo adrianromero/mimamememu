@@ -19,28 +19,32 @@
 
 package com.adr.mmmmm.display;
 
-import com.adr.mmmmm.GamesItemInfo;
-import javax.swing.ListCellRenderer;
+import java.util.logging.Logger;
 
 /**
  *
  * @author adrian
  */
-public class DisplayMode3 implements DisplayMode {
-
-    @Override
-    public ListCellRenderer getListRenderer() {
-        return new RendererInfo();
-    }
-
-    @Override
-    public int getListLayoutOrientation() {
-        return javax.swing.JList.VERTICAL;
-    }
-
-    @Override
-    public GamesItemInfo getGamesItemInfo() {
-        return new InfoTitleImage();
+public class DisplayModeList {
+    
+    private final static Logger logger = Logger.getLogger(DisplayModeList.class.getName()); 
+    
+    public final static DisplayModeList INSTANCE = new DisplayModeList();
+      
+    private DisplayMode[] displaymodes = {
+        new com.adr.mmmmm.display.DisplayMode0(),
+        new com.adr.mmmmm.display.DisplayMode1(),
+        new com.adr.mmmmm.display.DisplayMode2(),
+    };    
+    
+    private DisplayModeList () {
     }
     
+    public DisplayMode getDisplayMode(int i) {
+        if (i < 0 || i >= displaymodes.length) {
+            return displaymodes[0]; // fallback display mode.
+        } else {
+            return displaymodes[i];
+        }
+    }
 }

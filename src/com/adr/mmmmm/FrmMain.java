@@ -19,7 +19,8 @@
 package com.adr.mmmmm;
 
 import com.adr.mmmmm.display.DisplayMode;
-import com.adr.mmmmm.display.DisplayMode3;
+import com.adr.mmmmm.display.DisplayMode2;
+import com.adr.mmmmm.display.DisplayModeList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -76,25 +77,7 @@ public class FrmMain extends javax.swing.JFrame {
                 dispose();
             }
         });
-        
-        // Display Mode
-        /////////////////////////////////////////////////////////
-        dm = new DisplayMode3(); // This shoud be parametric
-        /////////////////////////////////////////////////////////
        
-
-        jbeforecontent = dm.getGamesItemInfo();
-        if (jbeforecontent == null) {
-            jbeforecontainer.setVisible(false);
-        } else {
-            jbeforecontainer.setVisible(true);
-            jbeforecontainer.add(jbeforecontent.getComponent(), BorderLayout.CENTER);
-        }
-        
-        jList1.setCellRenderer(dm.getListRenderer());
-        jList1.setLayoutOrientation(dm.getListLayoutOrientation());
-        jList1.setVisibleRowCount(-1);
-        
         jList1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me) {
@@ -134,7 +117,8 @@ public class FrmMain extends javax.swing.JFrame {
         options.addOption("h", "help", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.help"));
         options.addOption("f", "fullscreen", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.fullscreen"));
         options.addOption("r", "refresh", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.refresh"));
-        CommandLine cmd = null;
+        options.addOption("d", "displaymode", true, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.displaymode"));
+        CommandLine cmd;
         try {
             cmd = new BasicParser().parse(options, args);
         } catch (ParseException ex) {
@@ -164,6 +148,23 @@ public class FrmMain extends javax.swing.JFrame {
         } else {
 //            jtitle.setVisible(false);
         }
+        
+        // Set display mode
+        
+        // Display Mode
+        dm = DisplayModeList.INSTANCE.getDisplayMode(parseInt(cmd.getOptionValue("d", "0")));     
+
+        jbeforecontent = dm.getGamesItemInfo();
+        if (jbeforecontent == null) {
+            jbeforecontainer.setVisible(false);
+        } else {
+            jbeforecontainer.setVisible(true);
+            jbeforecontainer.add(jbeforecontent.getComponent(), BorderLayout.CENTER);
+        }
+        
+        jList1.setCellRenderer(dm.getListRenderer());
+        jList1.setLayoutOrientation(dm.getListLayoutOrientation());
+        jList1.setVisibleRowCount(-1);        
         
         setVisible(true);  
         loadGames(cmd.hasOption("h"));
@@ -210,6 +211,14 @@ public class FrmMain extends javax.swing.JFrame {
     private void showCard(String card) {
         final CardLayout cl = (CardLayout) (jcards.getLayout());
         cl.show(jcards, card);
+    }
+    
+    private int parseInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ex) {
+            return 0;
+        }
     }
 
     /**
