@@ -52,6 +52,7 @@ public class FrmMain extends javax.swing.JFrame {
     private GamesModel games;
     private ActionListener al;
 
+    private int dmindex;
     private DisplayMode dm;
     private GamesItemInfo jbeforecontent;
 
@@ -76,7 +77,18 @@ public class FrmMain extends javax.swing.JFrame {
                 dispose();
             }
         });
-       
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "nextdisplaymode");
+        getRootPane().getActionMap().put("nextdisplaymode", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = dmindex + 1;
+                if (index >= DisplayModeList.INSTANCE.sizeDisplayMode()) {
+                    index = 0;
+                }
+                setDisplayMode(index);
+            }
+        });
+        
         jList1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me) {
@@ -149,24 +161,33 @@ public class FrmMain extends javax.swing.JFrame {
         }
         
         // Set display mode
+        setDisplayMode(parseInt(cmd.getOptionValue("d", "0")));
         
-        // Display Mode
-        dm = DisplayModeList.INSTANCE.getDisplayMode(parseInt(cmd.getOptionValue("d", "0")));     
+        setVisible(true);  
+        loadGames(cmd.hasOption("h"));
+    }
+    
+    private void setDisplayMode(int index) {
+        
+        dmindex = index;
+        dm = DisplayModeList.INSTANCE.getDisplayMode(dmindex);     
 
         jbeforecontent = dm.getGamesItemInfo();
+        jbeforecontainer.removeAll();
         if (jbeforecontent == null) {
             jbeforecontainer.setVisible(false);
         } else {
             jbeforecontainer.setVisible(true);
             jbeforecontainer.add(jbeforecontent.getComponent(), BorderLayout.CENTER);
         }
+        jbeforecontainer.revalidate();
+        
         
         jList1.setCellRenderer(dm.getListRenderer());
         jList1.setLayoutOrientation(dm.getListLayoutOrientation());
-        jList1.setVisibleRowCount(-1);        
+        jList1.setVisibleRowCount(-1);     
         
-        setVisible(true);  
-        loadGames(cmd.hasOption("h"));
+        refreshSelectedItem();
     }
 
     private void loadGames(final boolean refresh) {
@@ -210,6 +231,13 @@ public class FrmMain extends javax.swing.JFrame {
     private void showCard(String card) {
         final CardLayout cl = (CardLayout) (jcards.getLayout());
         cl.show(jcards, card);
+    }
+    
+    private void refreshSelectedItem() {
+        GamesItem item = (GamesItem) jList1.getSelectedValue();
+        if (jbeforecontent != null) {
+            jbeforecontent.renderGamesItem(item);
+        }
     }
     
     private int parseInt(String value) {
@@ -308,10 +336,7 @@ public class FrmMain extends javax.swing.JFrame {
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         
         if (evt.getValueIsAdjusting() == false) {
-            GamesItem item = (GamesItem) jList1.getSelectedValue();
-            if (jbeforecontent != null) {
-                jbeforecontent.renderGamesItem(item);
-            }
+            refreshSelectedItem();
         }
         
     }//GEN-LAST:event_jList1ValueChanged

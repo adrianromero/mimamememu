@@ -40,6 +40,10 @@ public class DisplayModeList {
     private DisplayModeList () {
     }
     
+    public int sizeDisplayMode() {
+        return displaymodes.length;
+    }
+    
     public DisplayMode getDisplayMode(int i) {
         if (i < 0 || i >= displaymodes.length) {
             return displaymodes[0]; // fallback display mode.
