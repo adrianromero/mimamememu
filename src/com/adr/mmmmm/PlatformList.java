@@ -70,6 +70,28 @@ public class PlatformList {
     public List<GamesItem> getAllGames(boolean refresh) {
         
         ArrayList<GamesItem> l = new ArrayList<GamesItem>();
+        
+        // Get games from list
+        
+        File generalfolder = new File(mimamememuhome, "_GENERAL");
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(new FileInputStream(new File(generalfolder, "games.xml")));
+            
+            NodeList nodegames = doc.getElementsByTagName("game");
+            for (int i = 0; i < nodegames.getLength(); i++) {
+                GamesItem item = new GamesItem((Element) nodegames.item(i), generalfolder);    
+                l.add(item);
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // Get games from platforms      
         for (Platform p: platforms) {
@@ -178,6 +200,10 @@ public class PlatformList {
             }   
         }
         return null;
+    }
+    
+    public File getHome() {
+        return mimamememuhome;
     }
      
     public Platform findPlatform(String platformname) {
