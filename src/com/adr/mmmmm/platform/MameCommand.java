@@ -156,27 +156,26 @@ public class MameCommand implements Platform {
                     }}));
                     exec.submit(Executors.callable(new Runnable() { @Override public void run() {
                         try {
-                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
-                        } catch (Exception ex) {
-                            item.setSnap(null);
-                        }                        
-                    }}));
-                    // Load image
-                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
-                        try {
                             item.setCabinets(ImageIO.read(new URL("http://www.mamedb.com/cabinets/" + item.getName() + ".png")));
                         } catch (Exception ex) {
                             item.setCabinets(null);
                         }                        
                     }}));
-                    // Load image
-                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
-                        try {
-                            item.setMarquees(ImageIO.read(new URL("http://www.mamedb.com/marquees/" + item.getName() + ".png")));
-                        } catch (Exception ex) {
-                            item.setMarquees(null);
-                        }                        
-                    }}));                    
+// For the moment these images are not used in any display mode, so no need to waste traffic to mamedb                    
+//                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
+//                        try {
+//                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
+//                        } catch (Exception ex) {
+//                            item.setSnap(null);
+//                        }                        
+//                    }}));
+//                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
+//                        try {
+//                            item.setMarquees(ImageIO.read(new URL("http://www.mamedb.com/marquees/" + item.getName() + ".png")));
+//                        } catch (Exception ex) {
+//                            item.setMarquees(null);
+//                        }                        
+//                    }}));                    
                     games.add(item);
                 }
                 p.waitFor();
