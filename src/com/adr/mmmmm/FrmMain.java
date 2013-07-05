@@ -77,7 +77,7 @@ public class FrmMain extends javax.swing.JFrame {
                 dispose();
             }
         });
-        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "nextdisplaymode");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "nextdisplaymode");
         getRootPane().getActionMap().put("nextdisplaymode", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,9 +185,12 @@ public class FrmMain extends javax.swing.JFrame {
         
         jList1.setCellRenderer(dm.getListRenderer());
         jList1.setLayoutOrientation(dm.getListLayoutOrientation());
-        jList1.setVisibleRowCount(-1);     
-        
+        jList1.setVisibleRowCount(-1);    
+               
         refreshSelectedItem();
+        if (jList1.getSelectedIndex() >= 0) {
+            jList1.ensureIndexIsVisible(jList1.getSelectedIndex());
+        }
     }
 
     private void loadGames(final boolean refresh) {
