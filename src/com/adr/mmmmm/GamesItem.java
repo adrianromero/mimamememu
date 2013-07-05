@@ -23,6 +23,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -91,6 +93,40 @@ public class GamesItem implements Comparable<GamesItem> {
         if (f.exists()) {
             marquees = ImageIO.read(new File(folder, "marquees/" + name + ".png"));
         }
+    }
+    
+    public GamesItem(Element e, File folder) throws IOException {
+
+        name = e.getAttribute("name");
+        title = getElementText(e, "description");
+        platform = PlatformList.INSTANCE.findPlatform(getElementText(e, "platform"));
+        manufacturer = getElementText(e, "manufacturer"); 
+        year = getElementText(e, "year");   
+        driveremulation = e.getAttribute("emulation");
+        drivercolor = e.getAttribute("color");
+        driversound = e.getAttribute("sound");
+        drivergraphic = e.getAttribute("graphic");
+        driverstate = e.getAttribute("savestate");
+        initImages(folder);
+    }
+    
+    private void initImages(File folder) throws IOException {
+        File f = new File(folder, "titles/" + name + ".png");
+        if (f.exists()) {
+            titles = ImageIO.read(new File(folder, "titles/" + name + ".png"));
+        }
+        f = new File(folder, "snap/" + name + ".png");
+        if (f.exists()) {
+            snap = ImageIO.read(new File(folder, "snap/" + name + ".png"));
+        }
+        f = new File(folder, "cabinets/" + name + ".png");
+        if (f.exists()) {
+            cabinets = ImageIO.read(new File(folder, "cabinets/" + name + ".png"));
+        }
+        f = new File(folder, "marquees/" + name + ".png");
+        if (f.exists()) {
+            marquees = ImageIO.read(new File(folder, "marquees/" + name + ".png"));
+        }        
     }
     
     public void save(DataOutputStreamExt out, File folder) throws IOException {
@@ -330,4 +366,13 @@ public class GamesItem implements Comparable<GamesItem> {
     public void setMarquees(BufferedImage marquee) {
         this.marquees = marquee;
     }
+     
+    private String getElementText(Element e, String tag) {
+        NodeList n = e.getElementsByTagName(tag);
+        if (n != null && n.getLength() > 0) {
+            return n.item(0).getTextContent();
+        } else {
+            return null;
+        }                    
+    }     
 }

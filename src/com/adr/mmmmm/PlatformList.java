@@ -29,7 +29,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -40,12 +47,16 @@ public class PlatformList {
     private final static Logger logger = Logger.getLogger(PlatformList.class.getName()); 
     
     public final static PlatformList INSTANCE = new PlatformList();
-      
+     
+    private File mimamememuhome;
+    
     private Platform[] platforms = {
-        new com.adr.mmmmm.platform.MameCommand()
+        new com.adr.mmmmm.platform.MameCommand(),
+        new com.adr.mmmmm.platform.SNESCommand()
     };
     
     private PlatformList() {
+        mimamememuhome = new File(System.getProperty("user.home"), ".mimamememu");
     }
 
     public GamesItem createGame(String name, String title, String platform, String manufacturer, String year) {
@@ -59,6 +70,8 @@ public class PlatformList {
     public List<GamesItem> getAllGames(boolean refresh) {
         
         ArrayList<GamesItem> l = new ArrayList<GamesItem>();
+
+        // Get games from platforms      
         for (Platform p: platforms) {
             
             if (refresh) {
@@ -76,13 +89,14 @@ public class PlatformList {
             l.addAll(platformgames);           
         }
         
+        // Sort games and return
         Collections.sort(l);
         return l;
     }
     
     
     private void clearLocalGames(String platformname) {
-        File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
+        File f = new File(mimamememuhome, platformname);
         // Delete directory if not possible to save
         try {
             FileUtils.deleteDirectory(f);
@@ -94,7 +108,7 @@ public class PlatformList {
     private void saveLocalGames(List<GamesItem> games, String platformname) {
         
         DataOutputStreamExt out = null;
-        File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
+        File f = new File(mimamememuhome, platformname);
         try {    
             // Create cache folder
             f.mkdirs();
@@ -130,7 +144,7 @@ public class PlatformList {
     
     private List<GamesItem> loadLocalGames(String platformname) {
         
-        File f = new File(new File(System.getProperty("user.home"), ".mimamememu"), platformname);
+        File f = new File(mimamememuhome, platformname);
         DataInputStreamExt in = null;
         if (f.exists()){
             try {
