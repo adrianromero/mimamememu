@@ -21,7 +21,9 @@ package com.adr.mmmmm.platform;
 
 import com.adr.mmmmm.GamesItem;
 import com.adr.mmmmm.Platform;
+import com.adr.mmmmm.PlatformList;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class SNESCommand implements Platform {
 
     @Override
     public String[] getCommand(GamesItem item) {
-        return new String[]{"zsnes", "-m", "-v", "18", "/home/adrian/.mimamememu/_GENERAL/" + item.getName() + ".smc"};
+        return new String[]{"zsnes", "-m", "-v", "18", new File(new File(PlatformList.INSTANCE.getHome(), "_GENERAL"), item.getName() + ".smc").getPath()};
     }
 
     @Override
