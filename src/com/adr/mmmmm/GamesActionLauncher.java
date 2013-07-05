@@ -51,7 +51,7 @@ public class GamesActionLauncher implements ActionListener {
 
     public void executeGamesItem(final GamesItem item) {
 
-        final String command = item.getCommand();
+        final String[] command = item.getCommand();
         if (command == null) {
             DlgMessages dlg = new DlgMessages(parent);
             dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformnotsupported"), new Object[]{item.getTitle()}));

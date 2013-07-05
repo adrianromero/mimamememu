@@ -46,7 +46,7 @@ public class PlatformUnsupported implements Platform {
     }
 
     @Override
-    public String getCommand(GamesItem item) {
+    public String[] getCommand(GamesItem item) {
         return null;
     }
     

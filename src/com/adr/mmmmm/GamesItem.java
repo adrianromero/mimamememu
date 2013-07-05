@@ -173,7 +173,7 @@ public class GamesItem implements Comparable<GamesItem> {
         return platform;
     }
     
-    public String getCommand() {
+    public String[] getCommand() {
         return platform.getCommand(this);
     }
 

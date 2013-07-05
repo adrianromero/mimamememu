@@ -76,8 +76,8 @@ public class MameCommand implements Platform {
     }
 
     @Override
-    public String getCommand(GamesItem item) {
-        return "mame " + item.getName();
+    public String[] getCommand(GamesItem item) {
+        return new String[]{"mame", item.getName()};
     } 
     
     @Override

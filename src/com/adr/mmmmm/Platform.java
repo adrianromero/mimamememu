@@ -30,7 +30,7 @@ public interface Platform {
     
     public String getPlatformName();
     public String getPlatformTitle();
-    public String getCommand(GamesItem item); 
+    public String[] getCommand(GamesItem item); 
     public BufferedImage getDefaultImage();
     public BufferedImage getDefaultCabinet();
     public List<GamesItem> getGames();
