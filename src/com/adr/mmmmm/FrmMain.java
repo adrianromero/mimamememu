@@ -19,7 +19,6 @@
 package com.adr.mmmmm;
 
 import com.adr.mmmmm.display.DisplayMode;
-import com.adr.mmmmm.display.DisplayMode2;
 import com.adr.mmmmm.display.DisplayModeList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -249,6 +248,7 @@ public class FrmMain extends javax.swing.JFrame {
                 formWindowClosed(evt);
             }
         });
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jtitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jtitle.setText("MIMAMEMEMU");
