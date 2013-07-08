@@ -66,35 +66,6 @@ public class GamesItem implements Comparable<GamesItem> {
         this.driverstate = null;
     }
     
-    public GamesItem(DataInputStreamExt in, File folder) throws IOException {
-        name = in.readString();
-        title = in.readString();
-        platform = PlatformList.INSTANCE.findPlatform(in.readString());
-        manufacturer = in.readString(); 
-        year = in.readString();   
-        driveremulation = in.readString();
-        drivercolor = in.readString();
-        driversound = in.readString();
-        drivergraphic = in.readString();
-        driverstate = in.readString();
-        File f = new File(folder, "titles/" + name + ".png");
-        if (f.exists()) {
-            titles = ImageIO.read(new File(folder, "titles/" + name + ".png"));
-        }
-        f = new File(folder, "snap/" + name + ".png");
-        if (f.exists()) {
-            snap = ImageIO.read(new File(folder, "snap/" + name + ".png"));
-        }
-        f = new File(folder, "cabinets/" + name + ".png");
-        if (f.exists()) {
-            cabinets = ImageIO.read(new File(folder, "cabinets/" + name + ".png"));
-        }
-        f = new File(folder, "marquees/" + name + ".png");
-        if (f.exists()) {
-            marquees = ImageIO.read(new File(folder, "marquees/" + name + ".png"));
-        }
-    }
-    
     public GamesItem(Element e, File folder) throws IOException {
 
         name = e.getAttribute("name");
@@ -102,15 +73,11 @@ public class GamesItem implements Comparable<GamesItem> {
         platform = PlatformList.INSTANCE.findPlatform(getElementText(e, "platform"));
         manufacturer = getElementText(e, "manufacturer"); 
         year = getElementText(e, "year");   
-        driveremulation = e.getAttribute("emulation");
-        drivercolor = e.getAttribute("color");
-        driversound = e.getAttribute("sound");
-        drivergraphic = e.getAttribute("graphic");
-        driverstate = e.getAttribute("savestate");
-        initImages(folder);
-    }
-    
-    private void initImages(File folder) throws IOException {
+        driveremulation = getElementText(e, "emulation");
+        drivercolor = getElementText(e, "color");
+        driversound = getElementText(e, "sound");
+        drivergraphic = getElementText(e, "graphic");
+        driverstate = getElementText(e, "savestate");
         File f = new File(folder, "titles/" + name + ".png");
         if (f.exists()) {
             titles = ImageIO.read(new File(folder, "titles/" + name + ".png"));
@@ -126,20 +93,20 @@ public class GamesItem implements Comparable<GamesItem> {
         f = new File(folder, "marquees/" + name + ".png");
         if (f.exists()) {
             marquees = ImageIO.read(new File(folder, "marquees/" + name + ".png"));
-        }        
+        } 
     }
-    
-    public void save(DataOutputStreamExt out, File folder) throws IOException {
-        out.writeString(name);
-        out.writeString(title);
-        out.writeString(platform.getPlatformName());
-        out.writeString(manufacturer);
-        out.writeString(year);
-        out.writeString(driveremulation);
-        out.writeString(drivercolor);
-        out.writeString(driversound);
-        out.writeString(drivergraphic);
-        out.writeString(driverstate);
+
+    public void toElement(Element e, File folder) throws IOException {
+        e.setAttribute("name", name);
+        setElementText(e, "description", title);
+        setElementText(e, "platform", platform.getPlatformName());
+        setElementText(e, "manufacturer", manufacturer);
+        setElementText(e, "year", year);
+        setElementText(e, "emulation", driveremulation);
+        setElementText(e, "color", drivercolor);
+        setElementText(e, "sound", driversound);
+        setElementText(e, "graphic", drivergraphic);
+        setElementText(e, "savestate", driverstate);
         if (titles != null) {
             new File(folder, "titles").mkdir();
             ImageIO.write(titles, "png", new File(folder, "titles/" + name + ".png"));
@@ -155,9 +122,9 @@ public class GamesItem implements Comparable<GamesItem> {
         if (marquees != null) {
             new File(folder, "marquees").mkdir();
             ImageIO.write(marquees, "png", new File(folder, "marquees/" + name + ".png"));
-        }
+        }        
     }
-    
+
     public String getName() {
         return name;
     }
@@ -375,4 +342,11 @@ public class GamesItem implements Comparable<GamesItem> {
             return null;
         }                    
     }     
+     
+    private void setElementText(Element e, String tag, String value) {
+        
+        Element child = e.getOwnerDocument().createElement(tag);
+        child.appendChild(e.getOwnerDocument().createTextNode(value));
+        e.appendChild(child);                   
+    }      
 }

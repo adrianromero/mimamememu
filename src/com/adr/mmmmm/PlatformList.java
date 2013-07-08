@@ -20,9 +20,7 @@
 package com.adr.mmmmm;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +30,12 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -71,41 +75,28 @@ public class PlatformList {
         
         ArrayList<GamesItem> l = new ArrayList<GamesItem>();
         
-        // Get games from list
-        
-        File generalfolder = new File(mimamememuhome, "_GENERAL");
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new FileInputStream(new File(generalfolder, "games.xml")));
-            
-            NodeList nodegames = doc.getElementsByTagName("game");
-            for (int i = 0; i < nodegames.getLength(); i++) {
-                GamesItem item = new GamesItem((Element) nodegames.item(i), generalfolder);    
-                l.add(item);
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+        // Get games from list        
+        List<GamesItem> lgeneral = loadList(new File(mimamememuhome, "GENERAL"));
+        if (lgeneral != null) {
+            l.addAll(lgeneral);
         }
 
         // Get games from platforms      
         for (Platform p: platforms) {
             
             if (refresh) {
-                clearLocalGames(p.getPlatformName());
+                clearConfigFolder("_" + p.getPlatformName());
             }
             
             // try to load games from local folder
-            List<GamesItem> platformgames = loadLocalGames(p.getPlatformName());
+            List<GamesItem> platformgames = loadList(new File(mimamememuhome, "_" + p.getPlatformName()));
             if (platformgames == null) {
                 // Load from platform and save for future use.
                 platformgames = p.getGames();
-                saveLocalGames(platformgames, p.getPlatformName());
+                clearConfigFolder("_" + p.getPlatformName());
+                if (!saveList(platformgames, new File(mimamememuhome, "_" + p.getPlatformName()))) {
+                    clearConfigFolder("_" + p.getPlatformName());
+                }
             }
             // And finally add for display
             l.addAll(platformgames);           
@@ -117,8 +108,8 @@ public class PlatformList {
     }
     
     
-    private void clearLocalGames(String platformname) {
-        File f = new File(mimamememuhome, platformname);
+    private void clearConfigFolder(String configfolder) {
+        File f = new File(mimamememuhome, configfolder);
         // Delete directory if not possible to save
         try {
             FileUtils.deleteDirectory(f);
@@ -127,81 +118,69 @@ public class PlatformList {
         }        
     }
     
-    private void saveLocalGames(List<GamesItem> games, String platformname) {
+    private boolean saveList(List<GamesItem> games, File f) {
         
-        DataOutputStreamExt out = null;
-        File f = new File(mimamememuhome, platformname);
-        try {    
-            // Create cache folder
-            f.mkdirs();
+        try {           
+            FileUtils.forceMkdir(f);
             
-            out = new DataOutputStreamExt(new FileOutputStream(new File(f, "games.ser")));
-            out.writeInt(games.size());
-            for (GamesItem g : games) {
-                g.save(out, f);
-            }
-            
-            return;
-            
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        // Delete directory if not possible to save
-        try {
-            FileUtils.deleteDirectory(f);
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        }
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.newDocument();
+            Element root = doc.createElement("gameslist");
+            doc.appendChild(root);        
 
+            for (GamesItem g : games) {
+                Element e = doc.createElement("game");
+                root.appendChild(e);
+                g.toElement(e, f);
+            }
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(f, "games.xml"));
+            transformer.transform(source, result);  
+            return true;
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);            
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;       
     }
-    
-    private List<GamesItem> loadLocalGames(String platformname) {
-        
-        File f = new File(mimamememuhome, platformname);
-        DataInputStreamExt in = null;
-        if (f.exists()){
-            try {
-                
-                in = new DataInputStreamExt(new FileInputStream(new File(f, "games.ser")));
-                int size = in.readInt();
-                ArrayList<GamesItem> games = new ArrayList<GamesItem>();
-                for (int i = 0; i < size; i++) {
-                    games.add(new GamesItem(in, f));
-                }
-                return games;
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(PlatformList.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    if (in != null) {
-                        in.close();
-                    }
-                } catch (IOException ex) {
-                    logger.log(Level.SEVERE, null, ex);
-                }
+
+    private List<GamesItem> loadList(File f) {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(new File(f, "games.xml"));
+            
+            ArrayList<GamesItem> games = new ArrayList<GamesItem>();
+            
+            NodeList nodegames = doc.getElementsByTagName("game");
+            for (int i = 0; i < nodegames.getLength(); i++) {
+                GamesItem item = new GamesItem((Element) nodegames.item(i), f);    
+                games.add(item);
             }
             
-            // Delete directory if not possible to save
-            try {
-                FileUtils.deleteDirectory(f);
-            } catch (IOException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }   
-        }
+            return games;
+        } catch (FileNotFoundException ex) {
+            logger.log(Level.INFO, ex.getLocalizedMessage());
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }         
         return null;
     }
-    
+
     public File getHome() {
         return mimamememuhome;
     }

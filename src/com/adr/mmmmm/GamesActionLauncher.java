@@ -35,6 +35,8 @@ import java.util.logging.Logger;
  * @author adrian
  */
 public class GamesActionLauncher implements ActionListener {
+    
+    private final static Logger logger = Logger.getLogger(GamesActionLauncher.class.getName()); 
 
     private Component parent;
 
@@ -73,12 +75,12 @@ public class GamesActionLauncher implements ActionListener {
                 BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 String line;
                 while ((line = br.readLine()) != null) {
-                    Logger.getLogger(GamesActionLauncher.class.getName()).fine(line);
+                    logger.info(line);
                 }
 
                 int result = p.waitFor();
                 if (result != 0) {
-                    Logger.getLogger(GamesActionLauncher.class.getName()).log(Level.SEVERE, "Return error: {0}", result);
+                    logger.log(Level.SEVERE, "Return error: {0}", result);
 
                     dlg = new DlgMessages(parent);
                     dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}));
