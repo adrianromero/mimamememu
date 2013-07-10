@@ -22,6 +22,8 @@ package com.adr.mmmmm;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map.Entry;
+import java.util.Properties;
 import javax.imageio.ImageIO;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -43,6 +45,8 @@ public class GamesItem implements Comparable<GamesItem> {
     private BufferedImage cabinets;
     private BufferedImage marquees;
     
+    private Properties props;
+    
     private String driveremulation;
     private String drivercolor;
     private String driversound;
@@ -59,6 +63,9 @@ public class GamesItem implements Comparable<GamesItem> {
         this.snap = null;
         this.cabinets = null;
         this.marquees = null;
+        
+        this.props = new Properties();
+        
         this.driveremulation = null;
         this.drivercolor = null;
         this.driversound = null;
@@ -78,6 +85,19 @@ public class GamesItem implements Comparable<GamesItem> {
         driversound = getElementText(e, "sound");
         drivergraphic = getElementText(e, "graphic");
         driverstate = getElementText(e, "savestate");
+        
+        props = new Properties();
+        NodeList n = e.getElementsByTagName("properties");
+        if (n.getLength() == 1) {
+            NodeList eprops = ((Element) n.item(0)).getChildNodes();
+            for (int i = 0; i < eprops.getLength(); i++) {
+                if (eprops.item(i) instanceof Element) {
+                    Element echild = (Element) eprops.item(i);
+                    props.setProperty(echild.getTagName(), echild.getTextContent());
+                }
+            }
+        }
+        
         File f = new File(folder, "titles/" + name + ".png");
         if (f.exists()) {
             titles = ImageIO.read(new File(folder, "titles/" + name + ".png"));
@@ -107,6 +127,15 @@ public class GamesItem implements Comparable<GamesItem> {
         setElementText(e, "sound", driversound);
         setElementText(e, "graphic", drivergraphic);
         setElementText(e, "savestate", driverstate);
+        
+        if (!props.isEmpty()) {
+            Element eprops = e.getOwnerDocument().createElement("properties");
+            e.appendChild(eprops);  
+            for (Entry en : props.entrySet()) {
+                setElementText(eprops, (String) en.getKey(), (String) en.getValue());
+            }
+        }
+        
         if (titles != null) {
             new File(folder, "titles").mkdir();
             ImageIO.write(titles, "png", new File(folder, "titles/" + name + ".png"));
@@ -332,6 +361,18 @@ public class GamesItem implements Comparable<GamesItem> {
      */
     public void setMarquees(BufferedImage marquee) {
         this.marquees = marquee;
+    }
+    
+    public String getProperty(String key) {
+        return props.getProperty(key);
+    }
+    
+    public String getProperty(String key, String defaultValue) {
+        return props.getProperty(key, defaultValue);
+    }
+    
+    public void setProperty(String key, String value) {
+        props.setProperty(key, value);
     }
      
     private String getElementText(Element e, String tag) {
