@@ -16,6 +16,7 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
+
 package com.adr.mmmmm;
 
 import com.adr.mmmmm.display.DisplayMode;
@@ -163,8 +164,11 @@ public class FrmMain extends javax.swing.JFrame {
         // Set display mode
         setDisplayMode(parseInt(cmd.getOptionValue("d", "0")));
         
+        // Initialize PlatformList
+        PlatformList.INSTANCE.init();
+        
         setVisible(true);  
-        loadGames(cmd.hasOption("h"));
+        loadGames(cmd.hasOption("r"));
     }
     
     private void setDisplayMode(int index) {

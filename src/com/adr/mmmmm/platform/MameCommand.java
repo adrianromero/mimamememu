@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -52,7 +53,7 @@ public class MameCommand implements Platform {
     private BufferedImage defimage = null;
     private BufferedImage defcabinet = null;
     
-    public MameCommand() {
+    public MameCommand(Properties options) {
         try {
             defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/mame.png"));
         } catch (IOException ex) {

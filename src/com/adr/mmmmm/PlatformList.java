@@ -20,11 +20,14 @@
 package com.adr.mmmmm;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -55,13 +58,47 @@ public class PlatformList {
      
     private File mimamememuhome;
     
-    private Platform[] platforms = {
-        new com.adr.mmmmm.platform.MameCommand(),
-        new com.adr.mmmmm.platform.SNESCommand()
-    };
+    private Platform[] platforms;
     
-    private PlatformList() {
+    private PlatformList() {    
+    }
+    
+    public void init() {
         mimamememuhome = new File(System.getProperty("user.home"), ".mimamememu");
+        
+        // Loading default properties
+        Properties options = loadDefaults();
+      
+        InputStream in = null;
+        try {
+            in = new FileInputStream(new File(mimamememuhome, ".mimamememu/mimamememu.properties"));
+            options.load(in);
+        } catch (IOException ex) {
+            logger.log(Level.INFO, ex.getLocalizedMessage());
+            
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        platforms = new Platform [] {
+            new com.adr.mmmmm.platform.MameCommand(options),
+            new com.adr.mmmmm.platform.SNESCommand(options)
+        };        
+    }
+    
+    private Properties loadDefaults() {
+        Properties options = new Properties();
+        
+        options.setProperty("snes.roms", new File(getHome(), "ROMS").getPath());
+        options.setProperty("snes.emu", "SNES9X");
+        
+        return options;
     }
 
     public GamesItem createGame(String name, String title, String platform, String manufacturer, String year) {

@@ -21,18 +21,55 @@ package com.adr.mmmmm.platform;
 
 import com.adr.mmmmm.GamesItem;
 import com.adr.mmmmm.Platform;
-import com.adr.mmmmm.PlatformList;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author adrian
  */
 public class SNESCommand implements Platform {
+    
+    private String[] command;
+    private File roms; 
+    
+    private BufferedImage defimage = null;
+    private BufferedImage defcabinet = null;
+    
+    public SNESCommand(Properties options) {
+        
+        String emu = options.getProperty("snes.emu", "SNES9X");
+        if ("SNES9X".equals(emu)) {
+            command = new String[] {"snes9x"};
+        } else if ("SNES9X-GTK".equals(emu)) {
+            command = new String[] {"snes9x-gtk"};
+        } else if ("ZSNES".equals(emu)) {
+            command = new String[]{"zsnes", "-m", "-v", "18"};
+        } else {
+            command = new String[] {emu};
+        }
+        
+        roms = new File(options.getProperty("snes.roms"));
 
+        try {
+            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/snes.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/snes-cabinet.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public String getPlatformName() {
         return "SNES";
@@ -45,17 +82,22 @@ public class SNESCommand implements Platform {
 
     @Override
     public String[] getCommand(GamesItem item) {
-        return new String[]{"zsnes", "-m", "-v", "18", new File(new File(PlatformList.INSTANCE.getHome(), "_GENERAL"), item.getName() + ".smc").getPath()};
+        
+        String[] mycommand = new String[command.length + 1];
+        System.arraycopy(command, 0, mycommand, 0, command.length);
+        mycommand[command.length] = new File(roms, item.getName() + ".smc").getPath();
+        
+        return mycommand;
     }
 
     @Override
     public BufferedImage getDefaultImage() {
-        return null;
+        return defimage;
     }
 
     @Override
     public BufferedImage getDefaultCabinet() {
-        return null;
+        return defcabinet;
     }
 
     @Override
