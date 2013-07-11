@@ -85,7 +85,8 @@ public class SNESCommand implements Platform {
         
         String[] mycommand = new String[command.length + 1];
         System.arraycopy(command, 0, mycommand, 0, command.length);
-        mycommand[command.length] = new File(roms, item.getName() + ".smc").getPath();
+        String extension = item.getProperty("extension", ".smc");
+        mycommand[command.length] = new File(roms, item.getName() + extension).getPath();
         
         return mycommand;
     }
