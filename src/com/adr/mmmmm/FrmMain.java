@@ -38,11 +38,6 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 /**
  *
@@ -89,6 +84,13 @@ public class FrmMain extends javax.swing.JFrame {
                 setDisplayMode(index);
             }
         });
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0), "refreshlist");
+        getRootPane().getActionMap().put("refreshlist", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadGames(true);
+            }
+        });        
         
         jList1.addMouseListener(new MouseAdapter() {
             @Override
@@ -123,32 +125,12 @@ public class FrmMain extends javax.swing.JFrame {
     }
     
     public void start(String[] args) {
-        
-        // Read args
-        Options options = new Options();
-        options.addOption("h", "help", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.help"));
-        options.addOption("f", "fullscreen", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.fullscreen"));
-        options.addOption("r", "refresh", false, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.refresh"));
-        options.addOption("d", "displaymode", true, java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.displaymode"));
-        CommandLine cmd;
-        try {
-            cmd = new BasicParser().parse(options, args);
-        } catch (ParseException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.getLocalizedMessage());
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp( "mimamememu", options );
-            return;
-        }
-        
-        if (cmd.hasOption("h")) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp( "mimamememu", options );
-            return;
-        }
-            
+
+        // Initialize PlatformList
+        PlatformList.INSTANCE.init();
+
         // Set fullscreen
-        if (cmd.hasOption("f")) {
+        if ("fullscreen".equals(PlatformList.INSTANCE.getOption("display.screenmode"))) {
             setUndecorated(true);
             setResizable(false);
             setAlwaysOnTop(true);
@@ -162,13 +144,10 @@ public class FrmMain extends javax.swing.JFrame {
         }
         
         // Set display mode
-        setDisplayMode(parseInt(cmd.getOptionValue("d", "0")));
-        
-        // Initialize PlatformList
-        PlatformList.INSTANCE.init();
+        setDisplayMode(parseInt(PlatformList.INSTANCE.getOption("display.listmode")));
         
         setVisible(true);  
-        loadGames(cmd.hasOption("r"));
+        loadGames(false);
     }
     
     private void setDisplayMode(int index) {
@@ -208,13 +187,6 @@ public class FrmMain extends javax.swing.JFrame {
 
                 games = new GamesModel();
                 games.addAll(PlatformList.INSTANCE.getAllGames(refresh));
-
-                //        games.add(PlatformList.INSTANCE.createGame("005", "005", "MAME", "Sega", "1981", "Maze"));
-                //        games.add(PlatformList.INSTANCE.createGame("10yard", "10-Yard Fight (World)", "MAME", "Irem", "1983", "Sports"));
-                //        games.add(PlatformList.INSTANCE.createGame("11beat", "Eleven Beat", "MAME", "Hudson", "1998", "Not Classified"));
-                //        games.add(PlatformList.INSTANCE.createGame("galaxian", "Galaxian", "MAME", "Namco", "xxxx", "xxxx"));
-                //        games.add(PlatformList.INSTANCE.createGame("zelda", "Zelda", "SNES", "Nintendo", "xxxx", "xxxx"));
-
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {

@@ -56,6 +56,7 @@ public class PlatformList {
     
     public final static PlatformList INSTANCE = new PlatformList();
      
+    private Properties options;
     private File mimamememuhome;
     
     private Platform[] platforms;
@@ -67,11 +68,11 @@ public class PlatformList {
         mimamememuhome = new File(System.getProperty("user.home"), ".mimamememu");
         
         // Loading default properties
-        Properties options = loadDefaults();
+        options = loadDefaults();
       
         InputStream in = null;
         try {
-            in = new FileInputStream(new File(mimamememuhome, ".mimamememu/mimamememu.properties"));
+            in = new FileInputStream(new File(mimamememuhome, "mimamememu.properties"));
             options.load(in);
         } catch (IOException ex) {
             logger.log(Level.INFO, ex.getLocalizedMessage());
@@ -93,12 +94,14 @@ public class PlatformList {
     }
     
     private Properties loadDefaults() {
-        Properties options = new Properties();
+        Properties opts = new Properties();   
         
-        options.setProperty("snes.roms", new File(getHome(), "ROMS").getPath());
-        options.setProperty("snes.emu", "SNES9X");
+        opts.setProperty("display.screenmode", "window"); // can be "window" or "fullscreen"
+        opts.setProperty("display.listmode", "0"); // can be "0", "1" or "2".
         
-        return options;
+        opts.setProperty("snes.roms", new File(getHome(), "ROMS").getPath());
+        opts.setProperty("snes.emu", "SNES9X");      
+        return opts;
     }
 
     public GamesItem createGame(String name, String title, String platform, String manufacturer, String year) {
@@ -224,6 +227,14 @@ public class PlatformList {
         return mimamememuhome;
     }
      
+    public String getOption(String key) {
+        return options.getProperty(key);
+    }
+    
+    public String getOption(String key, String defaultValue) {
+        return options.getProperty(key, defaultValue);
+    }
+    
     public Platform findPlatform(String platformname) {
         
         for (Platform gc: platforms) {
