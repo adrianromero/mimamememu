@@ -128,7 +128,7 @@ public class RendererTitleAndName extends javax.swing.JPanel implements ListCell
         setPreferredSize(new java.awt.Dimension(250, 250));
         setLayout(new java.awt.BorderLayout());
 
-        jcell.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jcell.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jcell.setLayout(new java.awt.BorderLayout());
 
         jtitle.setBackground(java.awt.Color.black);
