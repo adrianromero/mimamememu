@@ -51,7 +51,7 @@ public class SNESCommand implements Platform {
         } else if ("SNES9X-GTK".equals(emu)) {
             command = new String[] {"snes9x-gtk"};
         } else if ("ZSNES".equals(emu)) {
-            command = new String[]{"zsnes", "-m", "-v", "18"};
+            command = new String[]{"zsnes", "-m"};
         } else {
             command = new String[] {emu};
         }
