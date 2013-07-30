@@ -41,6 +41,10 @@ SNES console image (snes-cabinet.png). This file is licensed under the Creative 
 https://commons.wikimedia.org/wiki/User:JCD1981NL  
 derivative https://commons.wikimedia.org/wiki/User:Evan-Amos  
 
+http://en.wikipedia.org/wiki/File:ZXSpectrum48k.jpg  
+ZX Spectrum computer image (zxspectrum-cabinet.png). This file is licensed under the Creative Commons Attribution-Share Alike 2.5 Generic license.  
+http://commons.wikimedia.org/wiki/User:Pixel8  
+
 ## License ##
 
 Licensed under the GNU General Public License, Version 3.

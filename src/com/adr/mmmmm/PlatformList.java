@@ -89,7 +89,8 @@ public class PlatformList {
         
         platforms = new Platform [] {
             new com.adr.mmmmm.platform.MameCommand(options),
-            new com.adr.mmmmm.platform.SNESCommand(options)
+            new com.adr.mmmmm.platform.SNESCommand(options),
+            new com.adr.mmmmm.platform.ZXSpectrumCommand(options)
         };        
     }
     
@@ -101,6 +102,9 @@ public class PlatformList {
         
         opts.setProperty("snes.roms", new File(getHome(), "ROMS").getPath());
         opts.setProperty("snes.emu", "SNES9X");      
+        
+        opts.setProperty("zxspectrum.roms", new File(getHome(), "ROMS").getPath());
+        opts.setProperty("zxspectrum.emu", "FUSE");      
         return opts;
     }
 
