@@ -6,6 +6,7 @@ MIMAMEMEMU is another launcher for M.A.M.E. and other emulators, oriented to arc
 
 * M.A.M.E (http://mamedev.org/)  
 * Super Nintendo emulators Snes9x (http://www.snes9x.com/) and ZSNES (http://www.zsnes.com/).
+* ZX Spectrum emulator Fuse (http://sourceforge.net/projects/fuse-emulator/).
 
 ## Screenshots ##
 
