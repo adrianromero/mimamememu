@@ -31,6 +31,15 @@ Press Start 2P font:
 Copyright (c) 2012, Cody "CodeMan38" Boisclair (cody@zone38.net), with Reserved Font Name "Press Start 2P"
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 
+https://commons.wikimedia.org/wiki/File:Logo_SNES.png
+SNES Logo (snes.png). This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license.
+https://commons.wikimedia.org/w/index.php?title=User:Juanito23n64&action=edit&redlink=1
+
+https://commons.wikimedia.org/wiki/File:SNES-PAL-Console-Set.png
+SNES console image (snes-cabinet.png). This file is licensed under the Creative Commons Attribution 3.0 Unported license
+https://commons.wikimedia.org/wiki/User:JCD1981NL
+derivative https://commons.wikimedia.org/wiki/User:Evan-Amos
+
 ## License ##
 
 Licensed under the GNU General Public License, Version 3.
