@@ -17,10 +17,10 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm.platform;
+package com.adr.mimame.platform;
 
-import com.adr.mmmmm.GamesItem;
-import com.adr.mmmmm.Platform;
+import com.adr.mimame.GamesItem;
+import com.adr.mimame.Platform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -57,12 +57,12 @@ public class ZXSpectrumCommand implements Platform {
         roms = new File(options.getProperty("zxspectrum.roms"));
 
         try {
-            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/zxspectrum.png"));
+            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum.png"));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
         try {
-            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/zxspectrum-cabinet.png"));
+            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum-cabinet.png"));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }

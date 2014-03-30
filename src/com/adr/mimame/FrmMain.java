@@ -17,10 +17,10 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm;
+package com.adr.mimame;
 
-import com.adr.mmmmm.display.DisplayMode;
-import com.adr.mmmmm.display.DisplayModeList;
+import com.adr.mimame.display.DisplayMode;
+import com.adr.mimame.display.DisplayModeList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -59,7 +59,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         initComponents();
         try {
-            this.setIconImage(ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/res/mimamememu.png")));
+            this.setIconImage(ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/res/mimamememu.png")));
         } catch (IOException ex) {
             Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,7 +255,6 @@ public class FrmMain extends javax.swing.JFrame {
                 formWindowClosed(evt);
             }
         });
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jtitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jtitle.setText("MIMAMEMEMU");
@@ -280,7 +279,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         jWait.setLayout(new java.awt.GridBagLayout());
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/adr/mimame/res/messages"); // NOI18N
         jLabel1.setText(bundle.getString("lbl.Loading")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;

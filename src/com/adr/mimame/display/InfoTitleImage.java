@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.adr.mmmmm.display;
+package com.adr.mimame.display;
 
-import com.adr.mmmmm.GamesItem;
-import com.adr.mmmmm.GamesItemInfo;
-import com.adr.mmmmm.JPanelIcon;
-import com.adr.mmmmm.Main;
+import com.adr.mimame.GamesItem;
+import com.adr.mimame.GamesItemInfo;
+import com.adr.mimame.JPanelIcon;
+import com.adr.mimame.Main;
 import java.awt.BorderLayout;
 import java.awt.Component;
 

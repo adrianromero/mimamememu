@@ -17,32 +17,30 @@
 //    You should have received a copy of the GNU General Public License
 //    along with MIMAMEMEMU.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm.display;
+package com.adr.mimame.display;
 
-import com.adr.mmmmm.GamesItem;
-import com.adr.mmmmm.GamesItemInfo;
-import com.adr.mmmmm.JPanelIcon;
-import java.awt.Component;
+import com.adr.mimame.GamesItemInfo;
+import javax.swing.ListCellRenderer;
 
 /**
  *
  * @author adrian
  */
-public class InfoCabinet implements GamesItemInfo {
-    
-    private JPanelIcon jicon = new JPanelIcon(480, 640);
+public class DisplayMode0 implements DisplayMode {
 
     @Override
-    public Component getComponent() {
-        return jicon;
+    public ListCellRenderer getListRenderer() {
+        return new RendererTitleAndName();
     }
 
     @Override
-    public void renderGamesItem(GamesItem item) {
-        if (item == null) {
-            jicon.setImage(null);
-        } else {
-            jicon.setImage(item.getCabinets());
-        }
-    }   
+    public int getListLayoutOrientation() {
+        return javax.swing.JList.HORIZONTAL_WRAP;
+    }
+
+    @Override
+    public GamesItemInfo getGamesItemInfo() {
+        return new InfoCabinet();
+    }
+    
 }

@@ -17,7 +17,7 @@
 //    You should have received a copy of the GNU General Public License
 //    along with MIMAMEMEMU.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm;
+package com.adr.mimame;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -56,8 +56,8 @@ public class GamesActionLauncher implements ActionListener {
         final String[] command = item.getCommand();
         if (command == null) {
             DlgMessages dlg = new DlgMessages(parent);
-            dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformnotsupported"), new Object[]{item.getTitle()}));
-            dlg.setMsgBody(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("body.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
+            dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platformnotsupported"), new Object[]{item.getTitle()}));
+            dlg.setMsgBody(MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("body.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
             dlg.display();
             return;
         }
@@ -83,20 +83,20 @@ public class GamesActionLauncher implements ActionListener {
                     logger.log(Level.SEVERE, "Return error: {0}", result);
 
                     dlg = new DlgMessages(parent);
-                    dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}));
-                    dlg.setMsgBody(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("body.platformerror"), new Object[]{result}));
+                    dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}));
+                    dlg.setMsgBody(MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("body.platformerror"), new Object[]{result}));
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
 
                 dlg = new DlgMessages(parent);
-                dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}));
+                dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}));
                 dlg.setMsgBody(ex.getLocalizedMessage());
             } catch (IOException ex) {
                 Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
 
                 dlg = new DlgMessages(parent);
-                dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}));
+                dlg.setMsgTitle(MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}));
                 dlg.setMsgBody(ex.getLocalizedMessage());
             } finally {
                 final DlgMessages finaldlg = dlg;

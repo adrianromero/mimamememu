@@ -17,52 +17,35 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm;
+package com.adr.mimame;
 
-import java.awt.image.BufferedImage;
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.swing.AbstractListModel;
 
 /**
  *
  * @author adrian
  */
-public class PlatformUnsupported implements Platform {
+public class GamesModel extends AbstractListModel {
     
-    private String name;
+    private ArrayList<GamesItem> items = new ArrayList<GamesItem>();
     
-    public PlatformUnsupported(String name) {
-        this.name = name;
+    
+    public void add(GamesItem item) {
+        items.add(item);
     }
-
-    @Override
-    public String getPlatformName() {
-        return name;
-    }
-
-    @Override
-    public String getPlatformTitle() {
-        return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mmmmm/res/messages").getString("msg.platformdisabled"), new Object[] {name});
-    }
-
-    @Override
-    public String[] getCommand(GamesItem item) {
-        return null;
+    
+    public void addAll(Collection<? extends GamesItem> c) {
+        items.addAll(c);
     }
     
     @Override
-    public BufferedImage getDefaultImage() {
-        return null;
+    public int getSize() {
+        return items.size();
     }
-    
     @Override
-    public List<GamesItem> getGames() {
-        return Collections.EMPTY_LIST;
+    public Object getElementAt(int i) { 
+        return items.get(i); 
     }
-
-    @Override
-    public BufferedImage getDefaultCabinet() {
-        return null;
-    }
-    
 }

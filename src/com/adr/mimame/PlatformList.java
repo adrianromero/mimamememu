@@ -17,7 +17,7 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm;
+package com.adr.mimame;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,9 +88,9 @@ public class PlatformList {
         }
         
         platforms = new Platform [] {
-            new com.adr.mmmmm.platform.MameCommand(options),
-            new com.adr.mmmmm.platform.SNESCommand(options),
-            new com.adr.mmmmm.platform.ZXSpectrumCommand(options)
+            new com.adr.mimame.platform.MameCommand(options),
+            new com.adr.mimame.platform.SNESCommand(options),
+            new com.adr.mimame.platform.ZXSpectrumCommand(options)
         };        
     }
     

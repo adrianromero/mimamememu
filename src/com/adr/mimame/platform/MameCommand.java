@@ -17,10 +17,10 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm.platform;
+package com.adr.mimame.platform;
 
-import com.adr.mmmmm.Platform;
-import com.adr.mmmmm.GamesItem;
+import com.adr.mimame.Platform;
+import com.adr.mimame.GamesItem;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,12 +57,12 @@ public class MameCommand implements Platform {
     
     public MameCommand(Properties options) {
         try {
-            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/mame.png"));
+            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/mame.png"));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
         try {
-            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/cabinet.png"));
+            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/cabinet.png"));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }

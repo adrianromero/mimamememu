@@ -17,38 +17,30 @@
 //    You should have received a copy of the GNU General Public License
 //    along with MIMAMEMEMU.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm.display;
+package com.adr.mimame.display;
 
-import java.util.logging.Logger;
+import com.adr.mimame.GamesItemInfo;
+import javax.swing.ListCellRenderer;
 
 /**
  *
  * @author adrian
  */
-public class DisplayModeList {
-    
-    private final static Logger logger = Logger.getLogger(DisplayModeList.class.getName()); 
-    
-    public final static DisplayModeList INSTANCE = new DisplayModeList();
-      
-    private DisplayMode[] displaymodes = {
-        new com.adr.mmmmm.display.DisplayMode0(),
-        new com.adr.mmmmm.display.DisplayMode1(),
-        new com.adr.mmmmm.display.DisplayMode2(),
-    };    
-    
-    private DisplayModeList () {
+public class DisplayMode2 implements DisplayMode {
+
+    @Override
+    public ListCellRenderer getListRenderer() {
+        return new RendererInfo();
+    }
+
+    @Override
+    public int getListLayoutOrientation() {
+        return javax.swing.JList.VERTICAL;
+    }
+
+    @Override
+    public GamesItemInfo getGamesItemInfo() {
+        return new InfoTitleImage();
     }
     
-    public int sizeDisplayMode() {
-        return displaymodes.length;
-    }
-    
-    public DisplayMode getDisplayMode(int i) {
-        if (i < 0 || i >= displaymodes.length) {
-            return displaymodes[0]; // fallback display mode.
-        } else {
-            return displaymodes[i];
-        }
-    }
 }

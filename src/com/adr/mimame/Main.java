@@ -16,7 +16,7 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
-package com.adr.mmmmm;
+package com.adr.mimame;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -44,11 +44,11 @@ public class Main {
         System.setProperty("swing.aatext", "true"); 
               
         try {
-            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/RussoOne-Regular.ttf"))
+            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mimame/res/RussoOne-Regular.ttf"))
                     .deriveFont(16.0f);    
-            FONT_NAME = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/Audiowide-Regular.ttf"))
+            FONT_NAME = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mimame/res/Audiowide-Regular.ttf"))
                     .deriveFont(32.0f);
-            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mmmmm/res/PressStart2P-Regular.ttf"))
+            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/com/adr/mimame/res/PressStart2P-Regular.ttf"))
                     .deriveFont(16.0f);      
         } catch (FontFormatException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

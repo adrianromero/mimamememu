@@ -17,21 +17,52 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm;
+package com.adr.mimame;
 
 import java.awt.image.BufferedImage;
+import java.util.Collections;
 import java.util.List;
 
 /**
  *
  * @author adrian
  */
-public interface Platform {
+public class PlatformUnsupported implements Platform {
     
-    public String getPlatformName();
-    public String getPlatformTitle();
-    public String[] getCommand(GamesItem item); 
-    public BufferedImage getDefaultImage();
-    public BufferedImage getDefaultCabinet();
-    public List<GamesItem> getGames();
+    private String name;
+    
+    public PlatformUnsupported(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getPlatformName() {
+        return name;
+    }
+
+    @Override
+    public String getPlatformTitle() {
+        return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platformdisabled"), new Object[] {name});
+    }
+
+    @Override
+    public String[] getCommand(GamesItem item) {
+        return null;
+    }
+    
+    @Override
+    public BufferedImage getDefaultImage() {
+        return null;
+    }
+    
+    @Override
+    public List<GamesItem> getGames() {
+        return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public BufferedImage getDefaultCabinet() {
+        return null;
+    }
+    
 }

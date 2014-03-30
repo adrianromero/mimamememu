@@ -17,30 +17,16 @@
 //    You should have received a copy of the GNU General Public License
 //    along with MIMAMEMEMU.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm.display;
+package com.adr.mimame;
 
-import com.adr.mmmmm.GamesItemInfo;
-import javax.swing.ListCellRenderer;
+import java.awt.Component;
 
 /**
  *
  * @author adrian
  */
-public class DisplayMode1 implements DisplayMode {
-
-    @Override
-    public ListCellRenderer getListRenderer() {
-        return new RendererTitleAndInfo();
-    }
-
-    @Override
-    public int getListLayoutOrientation() {
-        return javax.swing.JList.VERTICAL;
-    }
-
-    @Override
-    public GamesItemInfo getGamesItemInfo() {
-        return null;
-    }
+public interface GamesItemInfo {
     
+    public Component getComponent();
+    public void renderGamesItem(GamesItem item);  
 }

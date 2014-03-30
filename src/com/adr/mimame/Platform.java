@@ -17,35 +17,21 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Mimamememu.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.adr.mmmmm;
+package com.adr.mimame;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.swing.AbstractListModel;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  *
  * @author adrian
  */
-public class GamesModel extends AbstractListModel {
+public interface Platform {
     
-    private ArrayList<GamesItem> items = new ArrayList<GamesItem>();
-    
-    
-    public void add(GamesItem item) {
-        items.add(item);
-    }
-    
-    public void addAll(Collection<? extends GamesItem> c) {
-        items.addAll(c);
-    }
-    
-    @Override
-    public int getSize() {
-        return items.size();
-    }
-    @Override
-    public Object getElementAt(int i) { 
-        return items.get(i); 
-    }
+    public String getPlatformName();
+    public String getPlatformTitle();
+    public String[] getCommand(GamesItem item); 
+    public BufferedImage getDefaultImage();
+    public BufferedImage getDefaultCabinet();
+    public List<GamesItem> getGames();
 }
