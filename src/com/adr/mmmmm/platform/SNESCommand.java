@@ -39,8 +39,8 @@ public class SNESCommand implements Platform {
     
     private static final Logger logger = Logger.getLogger(SNESCommand.class.getName());    
     
-    private String[] command;
-    private File roms; 
+    private final String[] command;
+    private final File roms; 
     
     private BufferedImage defimage = null;
     private BufferedImage defcabinet = null;
