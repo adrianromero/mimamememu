@@ -37,6 +37,8 @@ import javax.imageio.ImageIO;
  */
 public class SNESCommand implements Platform {
     
+    private static final Logger logger = Logger.getLogger(SNESCommand.class.getName());    
+    
     private String[] command;
     private File roms; 
     
@@ -61,12 +63,12 @@ public class SNESCommand implements Platform {
         try {
             defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/snes.png"));
         } catch (IOException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
         try {
             defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/snes-cabinet.png"));
         } catch (IOException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
     

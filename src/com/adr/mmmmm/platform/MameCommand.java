@@ -49,6 +49,8 @@ import org.xml.sax.SAXException;
  */
 
 public class MameCommand implements Platform {
+    
+    private static final Logger logger = Logger.getLogger(MameCommand.class.getName());
                 
     private BufferedImage defimage = null;
     private BufferedImage defcabinet = null;
@@ -57,12 +59,12 @@ public class MameCommand implements Platform {
         try {
             defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/mame.png"));
         } catch (IOException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
         try {
             defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/cabinet.png"));
         } catch (IOException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
     
@@ -183,21 +185,40 @@ public class MameCommand implements Platform {
             }
             
             // Wait for pending images
-            exec.shutdown();
-            exec.awaitTermination(2, TimeUnit.MINUTES);
-            exec.shutdownNow();
+            shutdownAndAwaitTermination(exec);
                      
         } catch (IOException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }        
         return games;
     }
+    
+    
+    private void shutdownAndAwaitTermination(ExecutorService pool) {
+      pool.shutdown(); // Disable new tasks from being submitted
+      try {
+        // Wait a while for existing tasks to terminate
+        if (!pool.awaitTermination(2, TimeUnit.MINUTES)) {
+          pool.shutdownNow(); // Cancel currently executing tasks
+          // Wait a while for tasks to respond to being cancelled
+          if (!pool.awaitTermination(2, TimeUnit.MINUTES)) {
+              System.err.println("Pool did not terminate");
+          }
+        }
+
+      } catch (InterruptedException ie) {
+        // (Re-)Cancel if current thread also interrupted
+        pool.shutdownNow();
+        // Preserve interrupt status
+        Thread.currentThread().interrupt();
+      }
+    }     
     
     private String getElementText(Element e, String tag) {
         NodeList n = e.getElementsByTagName(tag);

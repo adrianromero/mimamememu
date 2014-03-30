@@ -37,6 +37,8 @@ import javax.imageio.ImageIO;
  */
 public class ZXSpectrumCommand implements Platform {
     
+    private static final Logger logger = Logger.getLogger(SNESCommand.class.getName());  
+    
     private String[] command;
     private File roms; 
     
@@ -44,7 +46,7 @@ public class ZXSpectrumCommand implements Platform {
     private BufferedImage defcabinet = null;
     
     public ZXSpectrumCommand(Properties options) {
-        
+             
         String emu = options.getProperty("zxspectrum.emu", "FUSE");
         if ("FUSE".equals(emu)) {
             command = new String[] {"fuse"};
@@ -57,12 +59,12 @@ public class ZXSpectrumCommand implements Platform {
         try {
             defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/zxspectrum.png"));
         } catch (IOException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
         try {
             defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mmmmm/platform/zxspectrum-cabinet.png"));
         } catch (IOException ex) {
-            Logger.getLogger(MameCommand.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
     
