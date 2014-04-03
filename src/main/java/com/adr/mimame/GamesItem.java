@@ -1,5 +1,5 @@
 //    Mimamememu is launcher for M.A.M.E and other emulators.
-//    Copyright (C) 2013 Adrián Romero Corchado.
+//    Copyright (C) 2013-2014 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
 //    This file is part of Mimamememu
@@ -19,11 +19,12 @@
 
 package com.adr.mimame;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Properties;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -34,18 +35,18 @@ import org.w3c.dom.NodeList;
  */
 public class GamesItem implements Comparable<GamesItem> {
     
-    private String name;
+    private final String name;   
+    private final Platform platform;
+    private final String title;
     
-    private Platform platform;
-    private String title;
     private String manufacturer;
     private String year;
-    private BufferedImage titles;
-    private BufferedImage snap;
-    private BufferedImage cabinets;
-    private BufferedImage marquees;
+    private Image titles;
+    private Image snap;
+    private Image cabinets;
+    private Image marquees;
     
-    private Properties props;
+    private final Properties props;
     
     private String driveremulation;
     private String drivercolor;
@@ -100,19 +101,19 @@ public class GamesItem implements Comparable<GamesItem> {
         
         File f = new File(folder, "titles/" + name + ".png");
         if (f.exists()) {
-            titles = ImageIO.read(new File(folder, "titles/" + name + ".png"));
+            titles = new Image(new File(folder, "titles/" + name + ".png").toURI().toURL().toString());
         }
         f = new File(folder, "snap/" + name + ".png");
         if (f.exists()) {
-            snap = ImageIO.read(new File(folder, "snap/" + name + ".png"));
+            snap = new Image(new File(folder, "snap/" + name + ".png").toURI().toURL().toString());
         }
         f = new File(folder, "cabinets/" + name + ".png");
         if (f.exists()) {
-            cabinets = ImageIO.read(new File(folder, "cabinets/" + name + ".png"));
+            cabinets = new Image(new File(folder, "cabinets/" + name + ".png").toURI().toURL().toString());
         }
         f = new File(folder, "marquees/" + name + ".png");
         if (f.exists()) {
-            marquees = ImageIO.read(new File(folder, "marquees/" + name + ".png"));
+            marquees = new Image(new File(folder, "marquees/" + name + ".png").toURI().toURL().toString());
         } 
     }
 
@@ -138,19 +139,19 @@ public class GamesItem implements Comparable<GamesItem> {
         
         if (titles != null) {
             new File(folder, "titles").mkdir();
-            ImageIO.write(titles, "png", new File(folder, "titles/" + name + ".png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(titles, null), "png", new File(folder, "titles/" + name + ".png"));
         }
         if (snap != null) {
             new File(folder, "snap").mkdir();
-            ImageIO.write(snap, "png", new File(folder, "snap/" + name + ".png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(snap, null), "png", new File(folder, "snap/" + name + ".png"));
         }
         if (cabinets != null) {
             new File(folder, "cabinets").mkdir();
-            ImageIO.write(cabinets, "png", new File(folder, "cabinets/" + name + ".png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(cabinets, null), "png", new File(folder, "cabinets/" + name + ".png"));
         }
         if (marquees != null) {
             new File(folder, "marquees").mkdir();
-            ImageIO.write(marquees, "png", new File(folder, "marquees/" + name + ".png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(marquees, null), "png", new File(folder, "marquees/" + name + ".png"));
         }        
     }
 
@@ -236,7 +237,7 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @return the snap
      */
-    public BufferedImage getTitles() {
+    public Image getTitles() {
         return titles == null ? platform.getDefaultImage() : titles;
     }
     
@@ -247,7 +248,7 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @param snap the snap to set
      */
-    public void setTitles(BufferedImage snap) {
+    public void setTitles(Image snap) {
         this.titles = snap;
     }
 
@@ -324,42 +325,42 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @return the snap
      */
-    public BufferedImage getSnap() {
+    public Image getSnap() {
         return snap;
     }
 
     /**
      * @param snap the snap to set
      */
-    public void setSnap(BufferedImage snap) {
+    public void setSnap(Image snap) {
         this.snap = snap;
     }
 
     /**
      * @return the cabinet
      */
-    public BufferedImage getCabinets() {
+    public Image getCabinets() {
         return cabinets == null ? platform.getDefaultCabinet() : cabinets;
     }
 
     /**
      * @param cabinet the cabinet to set
      */
-    public void setCabinets(BufferedImage cabinet) {
+    public void setCabinets(Image cabinet) {
         this.cabinets = cabinet;
     }
 
     /**
      * @return the marquee
      */
-    public BufferedImage getMarquees() {
+    public Image getMarquees() {
         return marquees;
     }
 
     /**
      * @param marquee the marquee to set
      */
-    public void setMarquees(BufferedImage marquee) {
+    public void setMarquees(Image marquee) {
         this.marquees = marquee;
     }
     

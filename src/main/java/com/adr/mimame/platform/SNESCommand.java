@@ -1,5 +1,5 @@
 //    Mimamememu is launcher for M.A.M.E and other emulators.
-//    Copyright (C) 2013 Adrián Romero Corchado.
+//    Copyright (C) 2013-2014 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
 //    This file is part of Mimamememu
@@ -21,15 +21,13 @@ package com.adr.mimame.platform;
 
 import com.adr.mimame.GamesItem;
 import com.adr.mimame.Platform;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -42,8 +40,8 @@ public class SNESCommand implements Platform {
     private final String[] command;
     private final File roms; 
     
-    private BufferedImage defimage = null;
-    private BufferedImage defcabinet = null;
+    private Image defimage = null;
+    private Image defcabinet = null;
     
     public SNESCommand(Properties options) {
         
@@ -61,15 +59,17 @@ public class SNESCommand implements Platform {
         roms = new File(options.getProperty("snes.roms"));
 
         try {
-            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/snes.png"));
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        }
+            defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes.png"));
+        } catch (IllegalArgumentException ex) {
+            logger.log(Level.WARNING, null, ex);
+            defimage = null;
+        } 
         try {
-            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/snes-cabinet.png"));
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        }
+            defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes-cabinet.png"));
+        } catch (IllegalArgumentException ex) {
+            logger.log(Level.WARNING, null, ex);
+            defcabinet = null;
+        } 
     }
     
     @Override
@@ -94,12 +94,12 @@ public class SNESCommand implements Platform {
     }
 
     @Override
-    public BufferedImage getDefaultImage() {
+    public Image getDefaultImage() {
         return defimage;
     }
 
     @Override
-    public BufferedImage getDefaultCabinet() {
+    public Image getDefaultCabinet() {
         return defcabinet;
     }
 

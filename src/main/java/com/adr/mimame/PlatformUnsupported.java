@@ -1,5 +1,5 @@
 //    Mimamememu is launcher for M.A.M.E and other emulators.
-//    Copyright (C) 2013 Adrián Romero Corchado.
+//    Copyright (C) 2013-2014 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
 //    This file is part of Mimamememu
@@ -19,9 +19,9 @@
 
 package com.adr.mimame;
 
-import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.List;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class PlatformUnsupported implements Platform {
     
-    private String name;
+    private final String name;
     
     public PlatformUnsupported(String name) {
         this.name = name;
@@ -51,7 +51,7 @@ public class PlatformUnsupported implements Platform {
     }
     
     @Override
-    public BufferedImage getDefaultImage() {
+    public Image getDefaultImage() {
         return null;
     }
     
@@ -61,7 +61,7 @@ public class PlatformUnsupported implements Platform {
     }
 
     @Override
-    public BufferedImage getDefaultCabinet() {
+    public Image getDefaultCabinet() {
         return null;
     }
     

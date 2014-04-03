@@ -1,5 +1,5 @@
 //    Mimamememu is launcher for M.A.M.E and other emulators.
-//    Copyright (C) 2013 Adrián Romero Corchado.
+//    Copyright (C) 2013-2014 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
 //    This file is part of Mimamememu
@@ -21,11 +21,9 @@ package com.adr.mimame.platform;
 
 import com.adr.mimame.Platform;
 import com.adr.mimame.GamesItem;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -34,7 +32,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import javafx.scene.image.Image;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,20 +50,22 @@ public class MameCommand implements Platform {
     
     private static final Logger logger = Logger.getLogger(MameCommand.class.getName());
                 
-    private BufferedImage defimage = null;
-    private BufferedImage defcabinet = null;
+    private Image defimage = null;
+    private Image defcabinet = null;
     
     public MameCommand(Properties options) {
         try {
-            defimage = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/mame.png"));
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        }
+            defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/mame.png"));
+        } catch (IllegalArgumentException ex) {
+            logger.log(Level.WARNING, null, ex);
+            defimage = null;
+        }    
         try {
-            defcabinet = ImageIO.read(getClass().getResourceAsStream("/com/adr/mimame/platform/cabinet.png"));
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        }
+            defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/cabinet.png"));
+        } catch (IllegalArgumentException ex) {
+            logger.log(Level.WARNING, null, ex);
+            defcabinet = null;
+        }        
     }
     
     @Override
@@ -84,12 +84,12 @@ public class MameCommand implements Platform {
     } 
     
     @Override
-    public BufferedImage getDefaultImage() {
+    public Image getDefaultImage() {
         return defimage;
     }
     
     @Override
-    public BufferedImage getDefaultCabinet() {
+    public Image getDefaultCabinet() {
         return defcabinet;
     }
     
@@ -150,20 +150,20 @@ public class MameCommand implements Platform {
                     }
                                  
                     // Load image
-                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
+                    exec.submit(Executors.callable(() -> {
                         try {
-                            item.setTitles(ImageIO.read(new URL("http://www.mamedb.com/titles/" + item.getName() + ".png")));
-                        } catch (Exception ex) {
+                            item.setTitles(new Image("http://www.mamedb.com/titles/" + item.getName() + ".png"));
+                        } catch (IllegalArgumentException ex) {
+                            item.setTitles(null);
+                        }
+                    }));
+                    exec.submit(Executors.callable(() -> {
+                        try {
+                            item.setCabinets(new Image("http://www.mamedb.com/cabinets/" + item.getName() + ".png"));
+                        } catch (IllegalArgumentException ex) {
                             item.setTitles(null);
                         }                        
-                    }}));
-                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
-                        try {
-                            item.setCabinets(ImageIO.read(new URL("http://www.mamedb.com/cabinets/" + item.getName() + ".png")));
-                        } catch (Exception ex) {
-                            item.setCabinets(null);
-                        }                        
-                    }}));
+                    }));
 // For the moment these images are not used in any display mode, so no need to waste traffic to mamedb                    
 //                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
 //                        try {
@@ -187,13 +187,7 @@ public class MameCommand implements Platform {
             // Wait for pending images
             shutdownAndAwaitTermination(exec);
                      
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
+        } catch (IOException | InterruptedException | ParserConfigurationException | SAXException ex) {
             logger.log(Level.SEVERE, null, ex);
         }        
         return games;
