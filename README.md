@@ -2,6 +2,8 @@
 
 MIMAMEMEMU is another launcher for M.A.M.E. and other emulators, oriented to arcade cabinets and with simplicity in mind. It can be operated only with the keyboard, no need of a mouse. It only requires Java 6 or greater to run. It is multiplatform and supports Windows, Linux and Mac OS. It can even run in the Raspberry Pi.
 
+**(Now porting interface from Swing to JavaFX)**
+
 ## Supported platforms ##
 
 * M.A.M.E (http://mamedev.org/)  
