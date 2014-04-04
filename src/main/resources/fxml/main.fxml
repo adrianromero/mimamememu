@@ -3,16 +3,19 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane id="title" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.adr.mimame.MainController">
-<top><Label text="MIMAMEMEMU" BorderPane.alignment="CENTER" />
-</top>
+<BorderPane id="maincontainer" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.adr.mimame.MainController">
 <center><StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-<children><AnchorPane fx:id="cardlist" prefHeight="200.0" prefWidth="200.0">
 <children>
-    <com.adr.mimame.GameView fx:id="gameview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <AnchorPane fx:id="cardlist" prefHeight="200.0" prefWidth="200.0">
+<children>
+    <com.adr.mimame.GameView fx:id="gameview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" /><VBox alignment="CENTER" layoutX="618.0" layoutY="14.0" prefHeight="597.0" prefWidth="753.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+<children>
     <ListView fx:id="listgames" layoutX="338.0" layoutY="206.0" onKeyPressed="#onListKeyPressed" onMouseClicked="#onListMouseClicked" prefHeight="266.0" prefWidth="196.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-</children></AnchorPane><StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
+</children></VBox>
+</children></AnchorPane>    
+<StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
 <children><VBox layoutX="161.0" layoutY="61.0" maxHeight="-Infinity" maxWidth="-Infinity">
 <children><Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%lbl.Loading" /><ProgressBar prefWidth="200.0" />
 </children></VBox>
@@ -21,5 +24,9 @@
 <children><Label fx:id="dialogtitle" text="Label" /><Label fx:id="dialogbody" text="Label dw qdqw qwd qd wd d&#10;wdqwdwqd&#10;wdwqdwqdwdqwd  dwqwd&#10;" />
 </children></VBox>
 </children></StackPane>
+
+
 </children></StackPane>
-</center></BorderPane>
+</center>
+<top><Text id="mimamememu" strokeType="OUTSIDE" strokeWidth="0.0" text="MIMAMEMEMU" BorderPane.alignment="CENTER" />
+</top></BorderPane>

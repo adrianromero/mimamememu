@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="343.0" prefWidth="593.0" stylesheets="@../styles/game.css" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<children>
-    <Text id="title" fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="title" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-    <Text id="platform" fx:id="platform" layoutX="14.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="platform" wrappingWidth="477.1953125" AnchorPane.bottomAnchor="99.20703125" AnchorPane.leftAnchor="14.0" /><ImageView fx:id="titlesimage" fitHeight="171.0" fitWidth="287.0" pickOnBounds="true" preserveRatio="true" />
-</children></fx:root>
+<fx:root id="" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="343.0" prefWidth="593.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <BorderPane id="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <center>
+        <ImageView fx:id="titlesimage" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+      </center>
+    </BorderPane>
+    <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="title" AnchorPane.bottomAnchor="170.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" /><Text fx:id="manufacturer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="platform" text="manufacturer" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+    <Text fx:id="year" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="platform" text="year" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+<Text fx:id="platform" layoutX="24.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="platform" text="platform" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+<Text id="title1" fx:id="title1" layoutX="24.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title,small" text="title1" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+  </children>
+  <stylesheets>
+    <URL value="@../styles/game.css" />
+  </stylesheets>
+</fx:root>
