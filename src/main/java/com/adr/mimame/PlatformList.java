@@ -61,6 +61,8 @@ public class PlatformList {
     
     private Platform[] platforms;
     
+    private List<Platform> errorplatforms = new ArrayList<Platform>();
+    
     private PlatformList() {    
     }
     
@@ -118,6 +120,10 @@ public class PlatformList {
     
     public List<GamesItem> getAllGames(boolean refresh) {
         
+        // Initialize errors
+        errorplatforms.clear();
+        
+        // Initialize gameslist
         ArrayList<GamesItem> l = new ArrayList<GamesItem>();
         
         // Get games from list        
@@ -136,11 +142,15 @@ public class PlatformList {
             // try to load games from local folder
             List<GamesItem> platformgames = loadList(new File(mimamememuhome, "_" + p.getPlatformName()));
             if (platformgames == null) {
-                // Load from platform and save for future use.
-                platformgames = p.getGames();
-                clearConfigFolder("_" + p.getPlatformName());
-                if (!saveList(platformgames, new File(mimamememuhome, "_" + p.getPlatformName()))) {
+                try {
+                    // Load from platform and save for future use.
+                    platformgames = p.getGames();
                     clearConfigFolder("_" + p.getPlatformName());
+                    if (!saveList(platformgames, new File(mimamememuhome, "_" + p.getPlatformName()))) {
+                        clearConfigFolder("_" + p.getPlatformName());
+                    }                    
+                } catch (PlatformException ex) {
+                    errorplatforms.add(p);
                 }
             }
             // And finally add for display
@@ -152,6 +162,9 @@ public class PlatformList {
         return l;
     }
     
+    public List<Platform> getLastErrors() {
+        return errorplatforms;
+    }
     
     private void clearConfigFolder(String configfolder) {
         File f = new File(mimamememuhome, configfolder);

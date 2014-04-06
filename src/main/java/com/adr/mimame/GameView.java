@@ -90,7 +90,10 @@ public class GameView extends AnchorPane {
         titlesimageanimation.setFromValue(0.4);
         titlesimageanimation.setToValue(1.0);   
         
-        menu = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());   
+        menu = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
+        
+        // Initially blank
+        showGameItem(null);
     }
     
     private Transition getEnterTransition(Node node) {
@@ -109,7 +112,7 @@ public class GameView extends AnchorPane {
         return new ParallelTransition(f, t);
     }
     
-    public void showGameItem(GamesItem game) {
+    public final void showGameItem(GamesItem game) {
         if (game == null) {
             title.setText(null);
             title1.setText(null);

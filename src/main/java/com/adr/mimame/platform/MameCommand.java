@@ -21,6 +21,7 @@ package com.adr.mimame.platform;
 
 import com.adr.mimame.Platform;
 import com.adr.mimame.GamesItem;
+import com.adr.mimame.PlatformException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -94,7 +95,7 @@ public class MameCommand implements Platform {
     }
     
     @Override
-    public List<GamesItem> getGames() {
+    public List<GamesItem> getGames() throws PlatformException {
        
         ArrayList<GamesItem> games = new ArrayList<GamesItem>();
         
@@ -189,6 +190,7 @@ public class MameCommand implements Platform {
                      
         } catch (IOException | InterruptedException | ParserConfigurationException | SAXException ex) {
             logger.log(Level.SEVERE, null, ex);
+            throw new PlatformException(ex);
         }        
         return games;
     }

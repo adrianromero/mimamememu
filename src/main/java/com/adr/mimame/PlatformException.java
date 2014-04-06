@@ -1,5 +1,5 @@
 //    Mimamememu is launcher for M.A.M.E and other emulators.
-//    Copyright (C) 2013-2014 Adrián Romero Corchado.
+//    Copyright (C) 2014 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
 //    This file is part of Mimamememu
@@ -19,19 +19,30 @@
 
 package com.adr.mimame;
 
-import java.util.List;
-import javafx.scene.image.Image;
-
 /**
  *
  * @author adrian
  */
-public interface Platform {
+public class PlatformException extends Exception {
+
+    /**
+     * Creates a new instance of <code>PlatformException</code> without detail
+     * message.
+     */
+    public PlatformException() {
+    }
+
+    /**
+     * Constructs an instance of <code>PlatformException</code> with the
+     * specified detail message.
+     *
+     * @param msg the detail message.
+     */
+    public PlatformException(String msg) {
+        super(msg);
+    }
     
-    public String getPlatformName();
-    public String getPlatformTitle();
-    public String[] getCommand(GamesItem item); 
-    public Image getDefaultImage();
-    public Image getDefaultCabinet();
-    public List<GamesItem> getGames() throws PlatformException;
+    public PlatformException(Throwable t) {
+        super(t);
+    }    
 }

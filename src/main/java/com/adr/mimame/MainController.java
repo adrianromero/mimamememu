@@ -21,6 +21,7 @@ package com.adr.mimame;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
@@ -61,7 +62,7 @@ public class MainController implements Initializable {
         cardlist.disableProperty().bind(carddialog.visibleProperty());
                 
         // carddialog
-        carddialog.setVisible(false);       
+        carddialog.setVisible(false); 
         
         // The games list
         listgames.itemsProperty().bind(loadgames.valueProperty());              
