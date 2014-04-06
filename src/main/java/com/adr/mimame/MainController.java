@@ -69,6 +69,8 @@ public class MainController implements Initializable {
             if (newValue != null && newValue.size() > 0) {
                 listgames.getSelectionModel().select(0);
                 listgames.requestFocus();
+            } else {
+                gameview.showGameItem(null);
             }
         });
         listgames.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends GamesItem> observable, GamesItem oldValue, GamesItem newValue) -> {
