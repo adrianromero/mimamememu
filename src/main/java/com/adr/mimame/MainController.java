@@ -21,7 +21,6 @@ package com.adr.mimame;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
@@ -35,6 +34,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 
@@ -107,9 +107,12 @@ public class MainController implements Initializable {
         if (item != null && KeyCode.ENTER == event.getCode()) {
             executeGame(item);
             event.consume(); 
-        } else if(KeyCode.F5 == event.getCode()) {
+        } else if (KeyCode.F5 == event.getCode()) {
             loadGames(true);
-        }    
+        } else if (KeyCode.F11 == event.getCode()) {
+            Stage s = ((Stage) listgames.getScene().getWindow());
+            s.setFullScreen(!s.isFullScreen());
+        }
     }
 
     @FXML

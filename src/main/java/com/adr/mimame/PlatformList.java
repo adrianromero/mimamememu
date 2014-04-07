@@ -118,7 +118,14 @@ public class PlatformList {
         return item;
     }
     
-    public List<GamesItem> getAllGames(boolean refresh) {
+    public void clearAllGames() {
+        // Clear platform folders      
+        for (Platform p: platforms) {
+            clearConfigFolder("_" + p.getPlatformName());
+        }
+    }
+    
+    public List<GamesItem> getAllGames() {
         
         // Initialize errors
         errorplatforms.clear();
@@ -134,10 +141,6 @@ public class PlatformList {
 
         // Get games from platforms      
         for (Platform p: platforms) {
-            
-            if (refresh) {
-                clearConfigFolder("_" + p.getPlatformName());
-            }
             
             // try to load games from local folder
             List<GamesItem> platformgames = loadList(new File(mimamememuhome, "_" + p.getPlatformName()));
