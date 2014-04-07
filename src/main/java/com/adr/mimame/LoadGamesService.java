@@ -41,7 +41,10 @@ public class LoadGamesService extends Service<ObservableList<GamesItem>>{
         return new Task<ObservableList<GamesItem>>() {
             @Override
             protected ObservableList<GamesItem> call() throws Exception {
-                return FXCollections.observableArrayList(PlatformList.INSTANCE.getAllGames(refresh));
+                if (refresh) {
+                    PlatformList.INSTANCE.clearAllGames();
+                }
+                return FXCollections.observableArrayList(PlatformList.INSTANCE.getAllGames());
             }
         };
     }

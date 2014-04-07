@@ -1,4 +1,4 @@
-//    MIMAMEMEMU is a launcher for M.A.M.E and other emulators.
+﻿//    MIMAMEMEMU is a launcher for M.A.M.E and other emulators.
 //    Copyright (C) 2014 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 
@@ -113,9 +114,12 @@ public class MainController implements Initializable {
         if (item != null && KeyCode.ENTER == event.getCode()) {
             executeGame(item);
             event.consume(); 
-        } else if(KeyCode.F5 == event.getCode()) {
+        } else if (KeyCode.F5 == event.getCode()) {
             loadGames(true);
-        }    
+        } else if (KeyCode.F11 == event.getCode()) {
+            Stage s = ((Stage) listgames.getScene().getWindow());
+            s.setFullScreen(!s.isFullScreen());
+        }
     }
 
     @FXML
