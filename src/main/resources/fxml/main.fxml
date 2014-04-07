@@ -5,32 +5,54 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane id="maincontainer" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.adr.mimame.MainController">
-<center><StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-<children>
-    <AnchorPane fx:id="cardlist" prefHeight="200.0" prefWidth="200.0">
-<children>
-    <com.adr.mimame.GameView fx:id="gameview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" /><VBox alignment="CENTER" layoutX="618.0" layoutY="14.0" prefHeight="597.0" prefWidth="753.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-<children>
-    <ListView fx:id="listgames" layoutX="338.0" layoutY="206.0" onKeyPressed="#onListKeyPressed" onMouseClicked="#onListMouseClicked" prefHeight="266.0" prefWidth="196.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-</children></VBox>
-</children></AnchorPane>    
-<StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
-<children><VBox layoutX="161.0" layoutY="61.0" maxHeight="-Infinity" maxWidth="-Infinity">
-<children><Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%lbl.Loading" /><ProgressBar prefWidth="200.0" />
-</children></VBox>
-</children></StackPane><StackPane id="nogames" fx:id="nogames" prefHeight="150.0" prefWidth="200.0">
-<children><VBox id="nogames_box" maxHeight="-Infinity" maxWidth="1.7976931348623157E308">
-<children><Text fx:id="nogames_title" strokeType="OUTSIDE" strokeWidth="0.0" text="nogames_title" /><Text fx:id="nogames_message" strokeType="OUTSIDE" strokeWidth="0.0" text="nogames_message" />
-</children></VBox>
-</children></StackPane><StackPane fx:id="carddialog" focusTraversable="true" onKeyPressed="#onDialogKeyPressed" onMouseClicked="#onDialogClicked" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
-<children><VBox maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: white;">
-<children><Label fx:id="dialogtitle" text="dialog_title" /><Label fx:id="dialogbody" text="dialog_message" />
-</children></VBox>
-</children></StackPane>
-
-
-</children></StackPane>
-</center>
-<top><Text id="mimamememu" strokeType="OUTSIDE" strokeWidth="0.0" text="MIMAMEMEMU" BorderPane.alignment="CENTER" />
-</top></BorderPane>
+<BorderPane id="maincontainer" prefHeight="640.0" prefWidth="960.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.adr.mimame.MainController">
+  <center>
+    <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <children>
+        <AnchorPane fx:id="cardlist" prefHeight="200.0" prefWidth="200.0">
+          <children>
+            <com.adr.mimame.GameView fx:id="gameview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox alignment="CENTER" prefHeight="597.0" prefWidth="753.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+              <children>
+                <ListView fx:id="listgames" onKeyPressed="#onListKeyPressed" onMouseClicked="#onListMouseClicked" prefHeight="266.0" prefWidth="196.0" />
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>
+        <StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
+          <children>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity">
+              <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%lbl.Loading" />
+                <ProgressBar prefWidth="200.0" />
+              </children>
+            </VBox>
+          </children>
+        </StackPane>
+        <StackPane fx:id="nogames" prefHeight="150.0" prefWidth="200.0">
+          <children>
+            <VBox id="nogames_box" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308">
+              <children>
+                <Text fx:id="nogames_title" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.title" />
+                <Text fx:id="nogames_message" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.message" />
+              </children>
+            </VBox>
+          </children>
+        </StackPane>
+        <StackPane fx:id="carddialog" focusTraversable="true" onKeyPressed="#onDialogKeyPressed" onMouseClicked="#onDialogClicked" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
+          <children>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: white;">
+              <children>
+                <Label fx:id="dialogtitle" text="dialog_title" />
+                <Label fx:id="dialogbody" text="dialog_message" />
+              </children>
+            </VBox>
+          </children>
+        </StackPane>
+      </children>
+    </StackPane>
+  </center>
+  <top>
+    <Text id="mimamememu" strokeType="OUTSIDE" strokeWidth="0.0" text="MIMAMEMEMU" BorderPane.alignment="CENTER" />
+  </top>
+</BorderPane>
