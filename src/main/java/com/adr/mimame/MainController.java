@@ -21,7 +21,6 @@ package com.adr.mimame;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
@@ -35,6 +34,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 public class MainController implements Initializable {
 
@@ -55,6 +55,10 @@ public class MainController implements Initializable {
     @FXML
     private GameView gameview;    
     
+    @FXML private StackPane nogames;
+    @FXML private Text nogames_title;
+    @FXML private Text nogames_message;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -68,9 +72,11 @@ public class MainController implements Initializable {
         listgames.itemsProperty().bind(loadgames.valueProperty());              
         listgames.itemsProperty().addListener((ObservableValue<? extends ObservableList<GamesItem>> observable, ObservableList<GamesItem> oldValue, ObservableList<GamesItem> newValue) -> {
             if (newValue != null && newValue.size() > 0) {
+                nogames.setVisible(false);
                 listgames.getSelectionModel().select(0);
                 listgames.requestFocus();
             } else {
+                nogames.setVisible(true);
                 gameview.showGameItem(null);
             }
         });

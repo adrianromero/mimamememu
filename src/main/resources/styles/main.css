@@ -10,7 +10,21 @@
     -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);
     -fx-effect: dropshadow(gaussian , rgba(255, 255, 255 0.5), 10, 0, 2, 3);
 }
+#nogames {
+    -fx-background-color: red;
+}
+#nogames_box {
+    -fx-background-color: blue;
+}
+#nogames_title  {
+    -fx-font-size: 44;
+    -fx-fill: white;    
+}
 
+#nogames_message  {
+    -fx-font-size: 44;
+    -fx-fill: white;    
+}
 
 .list-cell {
     -fx-background-color: transparent;
