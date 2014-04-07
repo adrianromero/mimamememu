@@ -1,4 +1,4 @@
-﻿//    MIMAMEMEMU is a launcher for M.A.M.E and other emulators.
+//    Mimamememu is launcher for M.A.M.E and other emulators.
 //    Copyright (C) 2014 Adrián Romero Corchado.
 //    https://github.com/adrianromero/mimamememu
 //
