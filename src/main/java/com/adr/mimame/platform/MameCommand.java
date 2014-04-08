@@ -51,7 +51,7 @@ public class MameCommand implements Platform {
     
     private static final Logger logger = Logger.getLogger(MameCommand.class.getName());
 
-    private final String[] command;    
+    private String[] command;   
     private Image defimage = null;
     private Image defcabinet = null;
     
@@ -64,6 +64,16 @@ public class MameCommand implements Platform {
             command = new String[] {"mame64"};
         } else {
             command = new String[] {emu};
+        }
+        
+        // Add rompath
+        String roms = options.getProperty("mame.roms");        
+        if (roms != null && !roms.equals("")) {
+            String[] newcommand = new String[command.length + 2];
+            System.arraycopy(command, 0, newcommand, 0, command.length);
+            newcommand[command.length] = "-rompath";
+            newcommand[command.length + 1] = roms;
+            command = newcommand;
         }
         
         try {
