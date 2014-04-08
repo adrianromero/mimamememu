@@ -58,6 +58,7 @@ public class GamesItem implements Comparable<GamesItem> {
         this.name = name;
         this.title = title;
         this.platform = platform;
+        
         this.manufacturer = null;
         this.year = null;   
         this.titles = null;
@@ -77,8 +78,9 @@ public class GamesItem implements Comparable<GamesItem> {
     public GamesItem(Element e, File folder) throws IOException {
 
         name = e.getAttribute("name");
-        title = getElementText(e, "description");
+        title = getElementText(e, "description", name);
         platform = PlatformList.INSTANCE.findPlatform(getElementText(e, "platform"));
+        
         manufacturer = getElementText(e, "manufacturer"); 
         year = getElementText(e, "year");   
         driveremulation = getElementText(e, "emulation");
@@ -137,19 +139,19 @@ public class GamesItem implements Comparable<GamesItem> {
             }
         }
         
-        if (titles != null) {
+        if (titles != null && titles.getPixelReader() != null) {
             new File(folder, "titles").mkdir();
             ImageIO.write(SwingFXUtils.fromFXImage(titles, null), "png", new File(folder, "titles/" + name + ".png"));
         }
-        if (snap != null) {
+        if (snap != null && snap.getPixelReader() != null) {
             new File(folder, "snap").mkdir();
             ImageIO.write(SwingFXUtils.fromFXImage(snap, null), "png", new File(folder, "snap/" + name + ".png"));
         }
-        if (cabinets != null) {
+        if (cabinets != null && cabinets.getPixelReader() != null) {
             new File(folder, "cabinets").mkdir();
             ImageIO.write(SwingFXUtils.fromFXImage(cabinets, null), "png", new File(folder, "cabinets/" + name + ".png"));
         }
-        if (marquees != null) {
+        if (marquees != null && marquees.getPixelReader() != null) {
             new File(folder, "marquees").mkdir();
             ImageIO.write(SwingFXUtils.fromFXImage(marquees, null), "png", new File(folder, "marquees/" + name + ".png"));
         }        
@@ -376,19 +378,25 @@ public class GamesItem implements Comparable<GamesItem> {
         props.setProperty(key, value);
     }
      
-    private String getElementText(Element e, String tag) {
+    private String getElementText(Element e, String tag, String def) {
         NodeList n = e.getElementsByTagName(tag);
         if (n != null && n.getLength() > 0) {
             return n.item(0).getTextContent();
         } else {
-            return null;
+            return def;
         }                    
     }     
      
+    private String getElementText(Element e, String tag) {
+        return getElementText(e, tag, null);                  
+    }
+    
     private void setElementText(Element e, String tag, String value) {
         
-        Element child = e.getOwnerDocument().createElement(tag);
-        child.appendChild(e.getOwnerDocument().createTextNode(value));
-        e.appendChild(child);                   
+        if (value != null && !value.equals("")) {
+            Element child = e.getOwnerDocument().createElement(tag);
+            child.appendChild(e.getOwnerDocument().createTextNode(value));
+            e.appendChild(child);
+        }
     }      
 }

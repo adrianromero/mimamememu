@@ -26,7 +26,7 @@
 }
 
 #nogames_message  {
-    -fx-font-size: 36; 
+    -fx-font-size: 28; 
     -fx-font-weight: bold; 
     -fx-fill: white; 
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  

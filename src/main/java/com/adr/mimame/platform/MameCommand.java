@@ -50,11 +50,22 @@ import org.xml.sax.SAXException;
 public class MameCommand implements Platform {
     
     private static final Logger logger = Logger.getLogger(MameCommand.class.getName());
-                
+
+    private final String[] command;    
     private Image defimage = null;
     private Image defcabinet = null;
     
-    public MameCommand(Properties options) {
+    public MameCommand(Properties options) {   
+        
+        String emu = options.getProperty("mame.emu", "MAME");
+        if ("MAME".equals(emu)) {
+            command = new String[] {"mame"};
+        } else if ("MAME64".equals(emu)) {
+            command = new String[] {"mame64"};
+        } else {
+            command = new String[] {emu};
+        }
+        
         try {
             defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/mame.png"));
         } catch (IllegalArgumentException ex) {
@@ -81,9 +92,9 @@ public class MameCommand implements Platform {
 
     @Override
     public String[] getCommand(GamesItem item) {
-        return new String[]{"mame", item.getName()};
+        return getMameCommand(item.getName());
     } 
-    
+
     @Override
     public Image getDefaultImage() {
         return defimage;
@@ -99,21 +110,25 @@ public class MameCommand implements Platform {
        
         ArrayList<GamesItem> games = new ArrayList<GamesItem>();
         
-        try {
-            
+        try {            
             // First read the names of available games
-            ArrayList<String> names = new ArrayList<String>();            
-            Process p = Runtime.getRuntime().exec("mame -verifyroms");
+            logger.log(Level.INFO, "Verifying roms.");
+            ArrayList<String> names = new ArrayList<String>();    
+            
+            Process p = Runtime.getRuntime().exec(getMameCommand("-verifyroms"));
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
             while ((line = br.readLine()) != null) {
+                logger.log(Level.FINE, ">> {0}", line);
                 String[] tokens = line.split(" ");
                 if (tokens.length >= 4 && "romset".equals(tokens[0])) {
                     if ("is".equals(tokens[tokens.length - 2]) && "good".equals(tokens[tokens.length - 1])) {
+                        logger.log(Level.FINE, "Adding >> {0}", tokens[1]);
                         names.add(tokens[1]);
                     } else if ("is".equals(tokens[tokens.length - 3]) && "best".equals(tokens[tokens.length - 2]) && "available".equals(tokens[tokens.length - 1])) {
+                        logger.log(Level.FINE, "Adding >> {0}", tokens[1]);
                         names.add(tokens[1]);
-                    }
+                    }                    
                 }
             }
             p.waitFor();            
@@ -122,73 +137,84 @@ public class MameCommand implements Platform {
             ExecutorService exec = Executors.newFixedThreadPool(15);
             
             for (String n: names) {
-                p = Runtime.getRuntime().exec("mame -listxml " + n);
+                logger.log(Level.INFO, "Processsing details for game: {0}", n);
+                p = Runtime.getRuntime().exec(getMameCommand("-listxml", n));
 
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                Document doc = dBuilder.parse(p.getInputStream());
+                try {
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(p.getInputStream());
+                    NodeList nodegames = doc.getElementsByTagName("game");
+                    for (int i = 0; i < nodegames.getLength(); i++) {
+                        
+                        Element e = (Element) nodegames.item(i);
+                        if (!"no".equals(e.getAttribute("runnable"))) { // Is a runnable game
+                            final GamesItem item = new GamesItem(
+                                    e.getAttribute("name"),
+                                    getElementText(e, "description"),
+                                    this);
+                            item.setManufacturer(getElementText(e, "manufacturer"));
+                            item.setYear(getElementText(e, "year"));
 
-                NodeList nodegames = doc.getElementsByTagName("game");
-                for (int i = 0; i < nodegames.getLength(); i++) {
-                    Element e = (Element) nodegames.item(i);
-                    
-                    final GamesItem item = new GamesItem(
-                            e.getAttribute("name"),
-                            getElementText(e, "description"),
-                            this);
-                    item.setManufacturer(getElementText(e, "manufacturer"));
-                    item.setYear(getElementText(e, "year"));
-                    
-                    // driver attributes
-                    NodeList nc = e.getElementsByTagName("driver");
-                    if (nc != null && nc.getLength() > 0) {
-                        Element ec =(Element) nc.item(0);
-                        item.setDriveremulation(ec.getAttribute("emulation"));
-                        item.setDrivercolor(ec.getAttribute("color"));
-                        item.setDriversound(ec.getAttribute("sound"));
-                        item.setDrivergraphic(ec.getAttribute("graphic"));
-                        item.setDriverstate(ec.getAttribute("savestate"));
-                    }
-                                 
-                    // Load image
-                    exec.submit(Executors.callable(() -> {
-                        try {
-                            item.setTitles(new Image("http://www.mamedb.com/titles/" + item.getName() + ".png"));
-                        } catch (IllegalArgumentException ex) {
-                            item.setTitles(null);
+                            // driver attributes
+                            NodeList nc = e.getElementsByTagName("driver");
+                            if (nc != null && nc.getLength() > 0) {
+                                Element ec =(Element) nc.item(0);
+                                item.setDriveremulation(ec.getAttribute("emulation"));
+                                item.setDrivercolor(ec.getAttribute("color"));
+                                item.setDriversound(ec.getAttribute("sound"));
+                                item.setDrivergraphic(ec.getAttribute("graphic"));
+                                item.setDriverstate(ec.getAttribute("savestate"));
+                            }
+
+                            // Load image
+                            exec.submit(Executors.callable(() -> {
+                                try {
+                                    item.setTitles(new Image("http://www.mamedb.com/titles/" + item.getName() + ".png"));
+                                } catch (IllegalArgumentException ex) {
+                                    item.setTitles(null);
+                                }
+                            }));
+                            exec.submit(Executors.callable(() -> {
+                                try {
+                                    item.setCabinets(new Image("http://www.mamedb.com/cabinets/" + item.getName() + ".png"));
+                                } catch (IllegalArgumentException ex) {
+                                    item.setTitles(null);
+                                }                        
+                            }));
+        // For the moment these images are not used in any display mode, so no need to waste traffic to mamedb                    
+        //                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
+        //                        try {
+        //                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
+        //                        } catch (Exception ex) {
+        //                            item.setSnap(null);
+        //                        }                        
+        //                    }}));
+        //                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
+        //                        try {
+        //                            item.setMarquees(ImageIO.read(new URL("http://www.mamedb.com/marquees/" + item.getName() + ".png")));
+        //                        } catch (Exception ex) {
+        //                            item.setMarquees(null);
+        //                        }                        
+        //                    }}));       
+                            logger.log(Level.INFO, "Adding game item {0}", item.getName());
+                            games.add(item);
                         }
-                    }));
-                    exec.submit(Executors.callable(() -> {
-                        try {
-                            item.setCabinets(new Image("http://www.mamedb.com/cabinets/" + item.getName() + ".png"));
-                        } catch (IllegalArgumentException ex) {
-                            item.setTitles(null);
-                        }                        
-                    }));
-// For the moment these images are not used in any display mode, so no need to waste traffic to mamedb                    
-//                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
-//                        try {
-//                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
-//                        } catch (Exception ex) {
-//                            item.setSnap(null);
-//                        }                        
-//                    }}));
-//                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
-//                        try {
-//                            item.setMarquees(ImageIO.read(new URL("http://www.mamedb.com/marquees/" + item.getName() + ".png")));
-//                        } catch (Exception ex) {
-//                            item.setMarquees(null);
-//                        }                        
-//                    }}));                    
-                    games.add(item);
+                    }                    
+                } catch (SAXException ex) {
+                    // skip game
+                    logger.log(Level.WARNING, "No details for game: {0}", n);
                 }
+
                 p.waitFor();
             }
             
             // Wait for pending images
+            logger.log(Level.INFO, "Waiting for images.");
             shutdownAndAwaitTermination(exec);
+            logger.log(Level.INFO, "Games list built.");
                      
-        } catch (IOException | InterruptedException | ParserConfigurationException | SAXException ex) {
+        } catch (IOException | InterruptedException | ParserConfigurationException ex) {
             logger.log(Level.SEVERE, null, ex);
             throw new PlatformException(ex);
         }        
@@ -224,4 +250,11 @@ public class MameCommand implements Platform {
             return null;
         }                    
     }
+    
+    private String[] getMameCommand(String... params) {
+        String[] mycommand = new String[command.length + params.length];
+        System.arraycopy(command, 0, mycommand, 0, command.length);   
+        System.arraycopy(params, 0, mycommand, command.length, params.length);
+        return mycommand;        
+    }    
 }

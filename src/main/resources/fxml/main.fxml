@@ -19,22 +19,22 @@
             </VBox>
           </children>
         </AnchorPane>
-        <StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
-          <children>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity">
-              <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%lbl.Loading" />
-                <ProgressBar prefWidth="200.0" />
-              </children>
-            </VBox>
-          </children>
-        </StackPane>
         <StackPane fx:id="nogames" prefHeight="150.0" prefWidth="200.0">
           <children>
             <VBox id="nogames_box" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308">
               <children>
                 <Text fx:id="nogames_title" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.title" />
                 <Text fx:id="nogames_message" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.message" />
+              </children>
+            </VBox>
+          </children>
+        </StackPane>
+        <StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
+          <children>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity">
+              <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%lbl.Loading" />
+                <ProgressBar prefWidth="200.0" />
               </children>
             </VBox>
           </children>
