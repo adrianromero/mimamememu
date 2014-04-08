@@ -49,8 +49,8 @@ public class GamesActionTask extends Task<Void> {
         if (command == null) {
             logger.log(Level.INFO, "Platform not supported: {0}", item.getPlatform().getPlatformName());
             throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platformnotsupported"), new Object[]{item.getTitle()}),
-                    MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("body.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
+                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformnotsupported"), new Object[]{item.getTitle()}),
+                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("body.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
         }
 
         try {            
@@ -70,18 +70,18 @@ public class GamesActionTask extends Task<Void> {
             } else {
                 logger.log(Level.SEVERE, "Return error: {0}", result);
                 throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}),
-                    MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("body.platformerror"), new Object[]{result}));
+                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}),
+                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("body.platformerror"), new Object[]{result}));
             }
         } catch (InterruptedException ex) {
             logger.log(Level.SEVERE, null, ex);
             throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}),
+                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}),
                     ex);
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
             throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("com/adr/mimame/res/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}),
+                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}),
                     ex);
         } 
     }

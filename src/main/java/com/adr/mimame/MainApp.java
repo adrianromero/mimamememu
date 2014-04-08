@@ -43,11 +43,11 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
 
         try {
-            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/com/adr/mimame/res/RussoOne-Regular.ttf"))
+            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/RussoOne-Regular.ttf"))
                     .deriveFont(16.0f);    
-            FONT_NAME = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/com/adr/mimame/res/Audiowide-Regular.ttf"))
+            FONT_NAME = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Audiowide-Regular.ttf"))
                     .deriveFont(32.0f);
-            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/com/adr/mimame/res/PressStart2P-Regular.ttf"))
+            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf"))
                     .deriveFont(16.0f);      
         } catch (FontFormatException | IOException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +58,7 @@ public class MainApp extends Application {
         
         // new FrmMain().start(args);
         
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"), ResourceBundle.getBundle("com/adr/mimame/res/messages"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"), ResourceBundle.getBundle("properties/messages"));
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/main.css");
@@ -66,7 +66,7 @@ public class MainApp extends Application {
         stage.setTitle("MIMAMEMEMU");
         stage.setFullScreen("fullscreen".equals(PlatformList.INSTANCE.getOption("display.screenmode")));
         stage.setScene(scene);
-        stage.getIcons().add(new Image("/com/adr/mimame/res/mimamememu.png"));
+        stage.getIcons().add(new Image("/images/mimamememu.png"));
         stage.show();
     }
 
