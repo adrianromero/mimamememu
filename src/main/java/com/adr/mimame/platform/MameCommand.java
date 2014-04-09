@@ -22,6 +22,7 @@ package com.adr.mimame.platform;
 import com.adr.mimame.Platform;
 import com.adr.mimame.GamesItem;
 import com.adr.mimame.PlatformException;
+import com.adr.mimame.ProgressUpdate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -116,13 +117,15 @@ public class MameCommand implements Platform {
     }
     
     @Override
-    public List<GamesItem> getGames() throws PlatformException {
+    public List<GamesItem> getGames(ProgressUpdate progress) throws PlatformException {
        
         ArrayList<GamesItem> games = new ArrayList<GamesItem>();
         
         try {            
             // First read the names of available games
-            logger.log(Level.INFO, "Verifying roms.");
+            // TODO: translate update messages
+            progress.updateMessage("Verifying MAME roms");
+            logger.log(Level.INFO, "Verifying MAME roms.");
             ArrayList<String> names = new ArrayList<String>();    
             
             Process p = Runtime.getRuntime().exec(getMameCommand("-verifyroms"));
@@ -207,6 +210,7 @@ public class MameCommand implements Platform {
         //                            item.setMarquees(null);
         //                        }                        
         //                    }}));       
+                            progress.updateMessage("Adding game " + item.getName());
                             logger.log(Level.INFO, "Adding game item {0}", item.getName());
                             games.add(item);
                         }
@@ -220,9 +224,11 @@ public class MameCommand implements Platform {
             }
             
             // Wait for pending images
+            progress.updateMessage("Loading images");
             logger.log(Level.INFO, "Waiting for images.");
             shutdownAndAwaitTermination(exec);
             logger.log(Level.INFO, "Games list built.");
+            progress.updateMessage("");
                      
         } catch (IOException | InterruptedException | ParserConfigurationException ex) {
             logger.log(Level.SEVERE, null, ex);

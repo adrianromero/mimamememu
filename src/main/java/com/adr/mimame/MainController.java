@@ -45,8 +45,7 @@ public class MainController implements Initializable {
     private ListView<GamesItem> listgames;
     @FXML
     private AnchorPane cardlist;
-    @FXML
-    private StackPane cardwait;
+
     @FXML
     private StackPane carddialog;     
     @FXML
@@ -55,6 +54,9 @@ public class MainController implements Initializable {
     private Label dialogbody;    
     @FXML
     private GameView gameview;    
+    
+    @FXML private StackPane cardwait;
+    @FXML private Text cardwait_progress;
     
     @FXML private StackPane nogames;
     @FXML private Text nogames_title;
@@ -86,6 +88,7 @@ public class MainController implements Initializable {
         });
         
         cardwait.visibleProperty().bind(loadgames.runningProperty());
+        cardwait_progress.textProperty().bind(loadgames.messageProperty());
         
         loadGames(false);
     }  

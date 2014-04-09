@@ -125,7 +125,7 @@ public class PlatformList {
         }
     }
     
-    public List<GamesItem> getAllGames() {
+    public List<GamesItem> getAllGames(ProgressUpdate progress) {
         
         // Initialize errors
         errorplatforms.clear();
@@ -147,7 +147,9 @@ public class PlatformList {
             if (platformgames == null) {
                 try {
                     // Load from platform and save for future use.
-                    platformgames = p.getGames();
+                    progress.updateMessage("");
+                    platformgames = p.getGames(progress);
+                    progress.updateMessage("");
                     clearConfigFolder("_" + p.getPlatformName());
                     if (!saveList(platformgames, new File(mimamememuhome, "_" + p.getPlatformName()))) {
                         clearConfigFolder("_" + p.getPlatformName());

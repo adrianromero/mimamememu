@@ -21,6 +21,7 @@ package com.adr.mimame.platform;
 
 import com.adr.mimame.GamesItem;
 import com.adr.mimame.Platform;
+import com.adr.mimame.ProgressUpdate;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -104,7 +105,7 @@ public class SNESCommand implements Platform {
     }
 
     @Override
-    public List<GamesItem> getGames() {
+    public List<GamesItem> getGames(ProgressUpdate progress) {
         return Collections.EMPTY_LIST;
     }   
 }

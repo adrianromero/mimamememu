@@ -56,7 +56,7 @@ public class PlatformUnsupported implements Platform {
     }
     
     @Override
-    public List<GamesItem> getGames() {
+    public List<GamesItem> getGames(ProgressUpdate progress) {
         return Collections.EMPTY_LIST;
     }
 

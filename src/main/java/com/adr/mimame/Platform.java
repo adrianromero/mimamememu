@@ -33,5 +33,5 @@ public interface Platform {
     public String[] getCommand(GamesItem item); 
     public Image getDefaultImage();
     public Image getDefaultCabinet();
-    public List<GamesItem> getGames() throws PlatformException;
+    public List<GamesItem> getGames(ProgressUpdate progress) throws PlatformException;
 }

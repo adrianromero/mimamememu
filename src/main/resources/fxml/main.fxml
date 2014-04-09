@@ -29,12 +29,13 @@
             </VBox>
           </children>
         </StackPane>
-        <StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);">
+        <StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="">
           <children>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity">
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
               <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%lbl.Loading" />
-                <ProgressBar prefWidth="200.0" />
+                <Text id="cardwait_loading" strokeType="OUTSIDE" strokeWidth="0.0" text="%lbl.Loading" />
+                <ProgressBar prefWidth="400.0" />
+                <Text fx:id="cardwait_progress" id="cardwait_progress" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
               </children>
             </VBox>
           </children>
