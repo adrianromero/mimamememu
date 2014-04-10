@@ -77,9 +77,7 @@ public class MainController implements Initializable {
         
         // The launcher
         cardlist.disableProperty().bind(carddialog.visibleProperty());
-        
-
-                              
+                                  
         // carddialog
         carddialog.setVisible(false); 
         

@@ -53,7 +53,7 @@ public class ShowAnimation {
      * @return
      */
     protected Animation createAnimation() {
-        FadeTransition t = new FadeTransition(Duration.millis(1000), node);
+        FadeTransition t = new FadeTransition(Duration.millis(500), node);
         t.setInterpolator(Interpolator.EASE_BOTH);
         t.setFromValue(0.0);
         t.setToValue(1.0);
