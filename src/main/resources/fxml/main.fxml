@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <BorderPane id="maincontainer" prefHeight="640.0" prefWidth="960.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.adr.mimame.MainController">
@@ -34,8 +36,20 @@
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
               <children>
                 <Text id="cardwait_loading" strokeType="OUTSIDE" strokeWidth="0.0" text="%lbl.Loading" />
-                <ProgressBar prefWidth="400.0" />
-                <Text fx:id="cardwait_progress" id="cardwait_progress" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+                <Text id="cardwait_loading2" strokeType="OUTSIDE" strokeWidth="0.0" text="%lbl.Loading2" />
+                <Text fx:id="cardwait_progress" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+                <HBox alignment="TOP_CENTER" spacing="5.0">
+                  <children>
+                    <Circle fx:id="cardwait_circle1" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle" />
+                    <Circle fx:id="cardwait_circle2" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle" />
+                    <Circle fx:id="cardwait_circle3" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle" />
+                    <Circle fx:id="cardwait_circle4" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle" />
+                    <Circle fx:id="cardwait_circle5" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle" />
+                  </children>
+                  <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                </HBox>
               </children>
             </VBox>
           </children>

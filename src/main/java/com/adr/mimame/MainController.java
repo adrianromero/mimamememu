@@ -25,8 +25,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
@@ -34,6 +36,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -57,17 +60,26 @@ public class MainController implements Initializable {
     
     @FXML private StackPane cardwait;
     @FXML private Text cardwait_progress;
+    @FXML private Circle cardwait_circle1;
+    @FXML private Circle cardwait_circle2;
+    @FXML private Circle cardwait_circle3;
+    @FXML private Circle cardwait_circle4;
+    @FXML private Circle cardwait_circle5;
     
     @FXML private StackPane nogames;
     @FXML private Text nogames_title;
     @FXML private Text nogames_message;
+
+    private ShowAnimation cardwait_show;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         // The launcher
         cardlist.disableProperty().bind(carddialog.visibleProperty());
-                
+        
+
+                              
         // carddialog
         carddialog.setVisible(false); 
         
@@ -87,7 +99,9 @@ public class MainController implements Initializable {
             gameview.showGameItem(newValue);           
         });
         
-        cardwait.visibleProperty().bind(loadgames.runningProperty());
+        // The cardwait show animation
+        cardwait_show = new ShowAnimation(cardwait);
+        cardwait_show.displayedProperty().bind(loadgames.runningProperty());
         cardwait_progress.textProperty().bind(loadgames.messageProperty());
         
         loadGames(false);
@@ -163,13 +177,5 @@ public class MainController implements Initializable {
         dialogtitle.setText(title);
         dialogbody.setText(body);
         carddialog.setVisible(true);
-    } 
-    
-    private int parseInt(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException ex) {
-            return 0;
-        }
-    }    
+    }   
 }

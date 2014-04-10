@@ -23,6 +23,7 @@ package com.adr.mimame;
  *
  * @author adrian
  */
+@FunctionalInterface
 public interface ProgressUpdate {
     public void updateMessage(String message);    
 }

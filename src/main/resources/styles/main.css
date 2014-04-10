@@ -36,6 +36,7 @@
     -fx-background-color: radial-gradient(center 50% 50%, radius 100%, rgb(50,50,50) 0.0, black 1.0);
 
 }
+
 #cardwait_loading {
     -fx-font-size: 28; 
     -fx-font-weight: bold; 
@@ -43,8 +44,11 @@
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
 }
 
-#cardwait_progress {
+#cardwait_loading2, #cardwait_progress {
+    -fx-font-size: 14; 
+    -fx-font-weight: bold; 
     -fx-fill: white; 
+    -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
 }
 
 .list-cell {
