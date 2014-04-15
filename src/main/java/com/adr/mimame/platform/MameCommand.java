@@ -119,20 +119,22 @@ public class MameCommand implements Platform {
             logger.log(Level.INFO, "Verifying MAME ROMS installed.");
             ArrayList<String> names = new ArrayList<String>();    
             
-            Process p = Runtime.getRuntime().exec(getMameCommand("-verifyroms"));
+            Process p;
+            
+            p = Runtime.getRuntime().exec(getMameCommand("-verifyroms"));
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
             while ((line = br.readLine()) != null) {
-                logger.log(Level.FINE, ">> {0}", line);
+                logger.log(Level.INFO, ">> {0}", line);
                 String[] tokens = line.split(" ");
                 if (tokens.length >= 4 && "romset".equals(tokens[0])) {
                     if ("is".equals(tokens[tokens.length - 2]) && "good".equals(tokens[tokens.length - 1])) {
                         progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.found"), tokens[1]));
-                        logger.log(Level.FINE, "Found roms '{0}'", tokens[1]);
+                        logger.log(Level.INFO, "Found roms {0}", tokens[1]);
                         names.add(tokens[1]);
                     } else if ("is".equals(tokens[tokens.length - 3]) && "best".equals(tokens[tokens.length - 2]) && "available".equals(tokens[tokens.length - 1])) {
                         progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.found"), tokens[1]));
-                        logger.log(Level.FINE, "Found roms '{0}'", tokens[1]);
+                        logger.log(Level.INFO, "Found roms {0}", tokens[1]);
                         names.add(tokens[1]);
                     }                    
                 }
@@ -143,8 +145,8 @@ public class MameCommand implements Platform {
             ExecutorService exec = Executors.newFixedThreadPool(15);
             
             for (String n: names) {
-                progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.detais"), n));
-                logger.log(Level.INFO, "Processsing details for roms '{0}'", n);
+                progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.details"), n));
+                logger.log(Level.INFO, "Processsing details for roms {0}", n);
                 p = Runtime.getRuntime().exec(getMameCommand("-listxml", n));
 
                 try {
@@ -205,7 +207,7 @@ public class MameCommand implements Platform {
         //                        }                        
         //                    }}));       
                             progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.addgame"), item.getName()));
-                            logger.log(Level.INFO, "Adding game '{0}'", item.getName());
+                            logger.log(Level.INFO, "Adding game {0}", item.getName());
                             games.add(item);
                         }
                     }                    

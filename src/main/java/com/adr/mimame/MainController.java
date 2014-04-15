@@ -22,17 +22,11 @@ package com.adr.mimame;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.FillTransition;
-import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Transition;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -43,12 +37,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class MainController implements Initializable {
 
@@ -62,12 +53,13 @@ public class MainController implements Initializable {
     @FXML
     private StackPane carddialog;     
     @FXML
-    private Label dialogtitle;  
+    private Text dialogtitle;  
     @FXML
-    private Label dialogbody;    
+    private Text dialogbody;    
     @FXML
     private GameView gameview;    
     
+    // Card wait
     @FXML private StackPane cardwait;
     @FXML private VBox cardwait_content;
     @FXML private Text cardwait_progress;
@@ -76,15 +68,12 @@ public class MainController implements Initializable {
     @FXML private Circle cardwait_circle3;
     @FXML private Circle cardwait_circle4;
     @FXML private Circle cardwait_circle5;
-    private Animation circlesanimation;
-    
+    private CardWaitController cardwait_controller;
     
     @FXML private StackPane nogames;
     private Animation nogames_show;
     @FXML private Text nogames_title;
     @FXML private Text nogames_message;
-
-    private ShowAnimation cardwait_show;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -112,28 +101,19 @@ public class MainController implements Initializable {
         });
         
         // The nogames
-        
-        
-        // The cardwait show animation
-        FadeTransition t = new FadeTransition(Duration.millis(100), cardwait);
-        t.setInterpolator(Interpolator.EASE_BOTH);
-        t.setFromValue(0.0);
-        t.setToValue(1.0);        
-        ScaleTransition s = new ScaleTransition(Duration.millis(250), cardwait_content);
-        s.setInterpolator(Interpolator.EASE_BOTH);
-        s.setFromX(0.25);
-        s.setFromY(0.25);
-        s.setToX(1.0);
-        s.setToY(1.0);
-        FadeTransition s2 = new FadeTransition(Duration.millis(250), cardwait_content);
-        s2.setInterpolator(Interpolator.EASE_BOTH);
-        s2.setFromValue(0.0);
-        s2.setToValue(1.0);
-        cardwait_show = new ShowAnimation(cardwait, new ParallelTransition(t, s, s2));
-        cardwait_show.displayedProperty().bind(loadgames.runningProperty());
+       
+        // The Loading controller
+        cardwait_controller = new CardWaitController(
+                cardwait,
+                cardwait_content,
+                cardwait_progress,
+                cardwait_circle1,
+                cardwait_circle2,
+                cardwait_circle3,
+                cardwait_circle4,
+                cardwait_circle5);
+        cardwait_controller.displayedProperty().bind(loadgames.runningProperty());
         cardwait_progress.textProperty().bind(loadgames.messageProperty());
-        circlesanimation = createAllCirclesAnimation();
-        circlesanimation.play();  // TODO: Play this animation only when loading visible
       
         loadGames(false);
     }  
@@ -209,22 +189,4 @@ public class MainController implements Initializable {
         dialogbody.setText(body);
         carddialog.setVisible(true);
     }   
-    
-    private Animation createAllCirclesAnimation() {
-        
-        return new ParallelTransition(
-                createCircleAnimation(cardwait_circle1, Duration.ZERO),
-                createCircleAnimation(cardwait_circle2, Duration.millis(250)),
-                createCircleAnimation(cardwait_circle3, Duration.millis(500)),
-                createCircleAnimation(cardwait_circle4, Duration.millis(750)),
-                createCircleAnimation(cardwait_circle5, Duration.millis(1000)));
-    }
-    
-    private Animation createCircleAnimation(Shape s, Duration delay) {
-        Transition a = new FillTransition(Duration.millis(1250), s, Color.GRAY, Color.BLUE);
-        a.setAutoReverse(true);
-        a.setCycleCount(Animation.INDEFINITE);
-        a.setDelay(delay);
-        return a;
-    }
 }

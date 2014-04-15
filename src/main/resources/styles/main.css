@@ -53,6 +53,27 @@
 .cardwait_circle {
 }
 
+#carddialog {
+    -fx-background-color: rgba(0, 0, 0, 0.4);  
+}
+#carddialog_box {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 50%, reflect, rgb(150,150,150) 0.0, rgb(200,200,200) 0.5);
+    -fx-background-insets: 15;
+    -fx-padding: 20 40 20 40;     
+}
+
+#carddialog_title  {
+    -fx-font-size: 22; 
+    -fx-font-weight: bold; 
+    -fx-fill: darkgray; 
+    -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);
+}
+
+#carddialog_message  {
+    -fx-font-size: 16; 
+    -fx-fill: black; 
+    -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
+}
 .list-cell {
     -fx-background-color: transparent;
     -fx-alignment: CENTER_RIGHT;
