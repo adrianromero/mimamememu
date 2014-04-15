@@ -20,16 +20,19 @@
 package com.adr.mimame;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -40,6 +43,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainController implements Initializable {
 
@@ -49,15 +53,15 @@ public class MainController implements Initializable {
     private ListView<GamesItem> listgames;
     @FXML
     private AnchorPane cardlist;
+  
+    @FXML private GameView gameview;    
 
-    @FXML
-    private StackPane carddialog;     
-    @FXML
-    private Text dialogtitle;  
-    @FXML
-    private Text dialogbody;    
-    @FXML
-    private GameView gameview;    
+    // Card dialog
+    @FXML private StackPane carddialog;     
+    @FXML private VBox carddialog_box;
+    @FXML private Text dialogtitle;  
+    @FXML private Text dialogbody;  
+    private ShowAnimation carddialogshow;
     
     // Card wait
     @FXML private StackPane cardwait;
@@ -77,12 +81,13 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        // The launcher
-        cardlist.disableProperty().bind(carddialog.visibleProperty());
                                   
         // carddialog
-        carddialog.setVisible(false); 
+        carddialog.setVisible(false);
+        carddialogshow = new ShowAnimation(carddialog, createCardDialogAnimation());
+        
+        
+        cardlist.disableProperty().bind(carddialogshow.displayedProperty());        
         
         // The games list
         listgames.itemsProperty().bind(loadgames.valueProperty());              
@@ -114,6 +119,14 @@ public class MainController implements Initializable {
                 cardwait_circle5);
         cardwait_controller.displayedProperty().bind(loadgames.runningProperty());
         cardwait_progress.textProperty().bind(loadgames.messageProperty());
+        
+        loadgames.errorsProperty().addListener((ObservableValue<? extends List<PlatformException>> observable, List<PlatformException> oldValue, List<PlatformException> newValue) -> {
+            if (newValue != null &&  newValue.size() > 0) {
+                showDialog(
+                        ResourceBundle.getBundle("properties/messages").getString("msg.loadingerror_title"), 
+                        ResourceBundle.getBundle("properties/messages").getString("msg.loadingerror_body"));                
+            }
+        });
       
         loadGames(false);
     }  
@@ -163,14 +176,14 @@ public class MainController implements Initializable {
     void onDialogKeyPressed(KeyEvent event) {
         // needs to be focus traversable to receive events...
         if (KeyCode.ENTER == event.getCode() || KeyCode.ESCAPE == event.getCode()) {
-            carddialog.setVisible(false);
+            carddialogshow.setDisplayed(false);
             event.consume();
         }
     } 
     
     @FXML
     void onDialogClicked(MouseEvent event) {
-        carddialog.setVisible(false);
+        carddialogshow.setDisplayed(false);
         event.consume();
     }
     
@@ -187,6 +200,25 @@ public class MainController implements Initializable {
     private void showDialog(String title, String body) {
         dialogtitle.setText(title);
         dialogbody.setText(body);
-        carddialog.setVisible(true);
-    }   
+        carddialogshow.setDisplayed(true);
+    }  
+    
+    private Animation createCardDialogAnimation() {
+        // The cardwait show animation
+        FadeTransition t = new FadeTransition(Duration.millis(100), carddialog);
+        t.setInterpolator(Interpolator.EASE_BOTH);
+        t.setFromValue(0.0);
+        t.setToValue(1.0);        
+        ScaleTransition s = new ScaleTransition(Duration.millis(250), carddialog_box);
+        s.setInterpolator(Interpolator.EASE_BOTH);
+        s.setFromX(0.25);
+        s.setFromY(0.25);
+        s.setToX(1.0);
+        s.setToY(1.0);
+        FadeTransition s2 = new FadeTransition(Duration.millis(250), carddialog_box);
+        s2.setInterpolator(Interpolator.EASE_BOTH);
+        s2.setFromValue(0.0);
+        s2.setToValue(1.0);
+        return new ParallelTransition(t, s, s2);
+    }    
 }

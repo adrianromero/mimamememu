@@ -61,7 +61,7 @@ public class PlatformList {
     
     private Platform[] platforms;
     
-    private List<Platform> errorplatforms = new ArrayList<Platform>();
+    private List<PlatformException> errorplatforms = new ArrayList<PlatformException>();
     
     private PlatformList() {    
     }
@@ -155,7 +155,7 @@ public class PlatformList {
                         clearConfigFolder("_" + p.getPlatformName());
                     }                    
                 } catch (PlatformException ex) {
-                    errorplatforms.add(p);
+                    errorplatforms.add(ex);
                 }
             }
             // And finally add for display
@@ -167,7 +167,7 @@ public class PlatformList {
         return l;
     }
     
-    public List<Platform> getLastErrors() {
+    public List<PlatformException> getLastErrors() {
         return errorplatforms;
     }
     

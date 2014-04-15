@@ -24,7 +24,7 @@
         </AnchorPane>
         <StackPane fx:id="nogames" prefHeight="150.0" prefWidth="200.0">
           <children>
-            <VBox id="nogames_box" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308">
+            <VBox id="nogames_box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
               <children>
                 <Text fx:id="nogames_title" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.title" />
                 <Text fx:id="nogames_message" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.message" />
@@ -92,10 +92,10 @@
         </StackPane>
         <StackPane id="carddialog" fx:id="carddialog" focusTraversable="true" onKeyPressed="#onDialogKeyPressed" onMouseClicked="#onDialogClicked" prefHeight="150.0" prefWidth="200.0">
           <children>
-            <VBox id="carddialog_box" maxHeight="-Infinity" maxWidth="-Infinity">
+            <VBox id="carddialog_box" fx:id="carddialog_box" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
               <children>
-                <Text id="carddialog_title" fx:id="dialogtitle" strokeType="OUTSIDE" strokeWidth="0.0" text="dialog_title" textAlignment="CENTER" />
-                <Text id="carddialog_message" fx:id="dialogbody" strokeType="OUTSIDE" strokeWidth="0.0" text="dialog_message" />
+                <Text id="carddialog_title" fx:id="dialogtitle" strokeType="OUTSIDE" strokeWidth="0.0" text="dialog_title" textAlignment="CENTER" /><Line id="carddialog_line" endX="150.0" startX="-150.0" />
+                <Text id="carddialog_message" fx:id="dialogbody" strokeType="OUTSIDE" strokeWidth="0.0" text="dialog_message" textAlignment="CENTER" />
               </children>
             </VBox>
           </children>

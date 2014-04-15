@@ -125,7 +125,7 @@ public class MameCommand implements Platform {
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
             while ((line = br.readLine()) != null) {
-                logger.log(Level.INFO, ">> {0}", line);
+                logger.log(Level.FINE, ">> {0}", line);
                 String[] tokens = line.split(" ");
                 if (tokens.length >= 4 && "romset".equals(tokens[0])) {
                     if ("is".equals(tokens[tokens.length - 2]) && "good".equals(tokens[tokens.length - 1])) {

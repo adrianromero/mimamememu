@@ -19,6 +19,9 @@
 
 package com.adr.mimame;
 
+import java.util.List;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -32,8 +35,18 @@ public class LoadGamesService extends Service<ObservableList<GamesItem>>{
     
     private boolean refresh = false;
     
+    private final ReadOnlyObjectWrapper<List<PlatformException>> errors = new ReadOnlyObjectWrapper<List<PlatformException>>(null);
+    
     public void setRefresh(boolean refresh) {
         this.refresh = refresh;
+    }
+    
+    public ReadOnlyObjectProperty<List<PlatformException>> errorsProperty() {
+        return errors.getReadOnlyProperty();
+    }
+    
+    public List<PlatformException> getErrors() {
+        return errors.get();
     }
 
     @Override
@@ -48,4 +61,20 @@ public class LoadGamesService extends Service<ObservableList<GamesItem>>{
             }
         };
     }
+    
+    @Override
+    protected void scheduled() {
+        errors.set(null);
+    }  
+    
+    @Override
+    protected void succeeded() {
+        errors.set(PlatformList.INSTANCE.getLastErrors());
+    }
+    
+    @Override
+    protected void failed() {
+        errors.set(PlatformList.INSTANCE.getLastErrors());    
+    }    
+    
 }
