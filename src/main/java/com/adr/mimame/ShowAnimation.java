@@ -39,28 +39,15 @@ public class ShowAnimation {
     private final BooleanProperty displayed;
     private final Animation animation;
     
-    public ShowAnimation(Node node) {
+    public ShowAnimation(Node node, Animation animation) {
         this.node = node;
-        this.displayed = new SimpleBooleanProperty(node.isVisible());
-        this.displayed.addListener(this::changeDisplayed);        
-
-        this.animation = createAnimation();
+        this.animation = animation;
         this.animation.setOnFinished(this::animationFinished);
-    }
-    
-    /**
-     *
-     * @return
-     */
-    protected Animation createAnimation() {
-        FadeTransition t = new FadeTransition(Duration.millis(500), node);
-        t.setInterpolator(Interpolator.EASE_BOTH);
-        t.setFromValue(0.0);
-        t.setToValue(1.0);
-        return t;
         
+        this.displayed = new SimpleBooleanProperty(node.isVisible());
+        this.displayed.addListener(this::changeDisplayed);                
     }
-    
+      
     private void animationFinished(ActionEvent event) {
         if (animation.getCurrentTime().equals(Duration.ZERO)) {
             node.setVisible(false);

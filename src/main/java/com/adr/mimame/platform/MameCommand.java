@@ -78,18 +78,8 @@ public class MameCommand implements Platform {
             command = newcommand;
         }
         
-//        try {
-            defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/mame.png"));
-//        } catch (IllegalArgumentException ex) {
-//            logger.log(Level.WARNING, null, ex);
-//            defimage = null;
-//        }    
-        try {
-            defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/cabinet.png"));
-        } catch (IllegalArgumentException ex) {
-            logger.log(Level.WARNING, null, ex);
-            defcabinet = null;
-        }        
+        defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/mame.png"));
+        defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/cabinet.png"));      
     }
     
     @Override

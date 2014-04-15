@@ -26,7 +26,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
 
@@ -55,18 +54,8 @@ public class ZXSpectrumCommand implements Platform {
         
         roms = new File(options.getProperty("zxspectrum.roms"));
 
-        try {
-            defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum.png"));
-        } catch (IllegalArgumentException ex) {
-            logger.log(Level.WARNING, null, ex);
-            defimage = null;
-        }
-        try {
-            defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum-cabinet.png"));
-        } catch (IllegalArgumentException ex) {
-            logger.log(Level.WARNING, null, ex);
-            defcabinet = null;
-        }
+        defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum.png"));
+        defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum-cabinet.png"));
     }
     
     @Override

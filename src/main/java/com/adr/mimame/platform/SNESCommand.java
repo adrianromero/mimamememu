@@ -59,18 +59,8 @@ public class SNESCommand implements Platform {
         
         roms = new File(options.getProperty("snes.roms"));
 
-        try {
-            defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes.png"));
-        } catch (IllegalArgumentException ex) {
-            logger.log(Level.WARNING, null, ex);
-            defimage = null;
-        } 
-        try {
-            defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes-cabinet.png"));
-        } catch (IllegalArgumentException ex) {
-            logger.log(Level.WARNING, null, ex);
-            defcabinet = null;
-        } 
+        defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes.png"));
+        defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes-cabinet.png"));
     }
     
     @Override

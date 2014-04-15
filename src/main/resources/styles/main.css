@@ -33,8 +33,7 @@
 }
 
 #cardwait {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, rgb(50,50,50) 0.0, black 1.0);
-
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 50%, reflect, rgb(0,0,0) 0.0, rgb(50,50,50) 0.5);
 }
 
 #cardwait_loading {
@@ -49,6 +48,9 @@
     -fx-font-weight: bold; 
     -fx-fill: white; 
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
+}
+
+.cardwait_circle {
 }
 
 .list-cell {
