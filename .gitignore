@@ -4,6 +4,8 @@ dist/
 build/
 zip/
 package/
+cfg/
+Thumbs.db
 
 # private project files
 
