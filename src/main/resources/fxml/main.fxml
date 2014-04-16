@@ -104,6 +104,10 @@
     </StackPane>
   </center>
   <top>
+<HBox>
+<children>
     <Text id="mimamememu" strokeType="OUTSIDE" strokeWidth="0.0" text="MIMAMEMEMU" BorderPane.alignment="CENTER" />
+</children>
+</HBox>
   </top>
 </BorderPane>

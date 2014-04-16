@@ -5,10 +5,10 @@
 }
 
 #mimamememu {
-    -fx-font-size: 44;
+    -fx-font-size: 18;
     -fx-font-weight: bold;
-    -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);
-    -fx-effect: dropshadow(gaussian , rgba(255, 255, 255 0.5), 10, 0, 2, 3);
+    -fx-fill: linear-gradient(from 0% 0% to 0% 50%, reflect, rgb(250,250,200) 0.0, rgb(200,200,200) 0.5);
+    -fx-effect: dropshadow(gaussian , rgba(0, 0, 255 1.0), 10, 0.5, 0, 0);
 }
 #nogames {
     -fx-background-color: black;
