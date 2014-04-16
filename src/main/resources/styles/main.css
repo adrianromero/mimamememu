@@ -91,6 +91,7 @@
     -fx-font-family: "Audiowide";     
     -fx-font-weight: bold;    
     -fx-text-fill: #aaaaaa;
+    -fx-text-alignment: right;
     -fx-effect: dropshadow(gaussian, #777777, 3.5, 0.6, 0.0, 0.0);
 }
 
@@ -99,7 +100,7 @@
     -fx-font-family: "Audiowide";     
     -fx-text-fill: #eeeeee;
     -fx-font-size: 22;
-    -fx-effect: dropshadow(gaussian, #777777, 10, 0.6, 0.0, 0.0);
+    -fx-effect: dropshadow(gaussian, #000077, 10, 0.7, 0.0, 0.0);
 }
 
 .list-cell:even { 

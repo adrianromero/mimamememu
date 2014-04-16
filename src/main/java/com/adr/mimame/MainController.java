@@ -33,6 +33,7 @@ import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -44,6 +45,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 public class MainController implements Initializable {
@@ -93,6 +95,7 @@ public class MainController implements Initializable {
         cardlist.disableProperty().bind(carddialogshow.displayedProperty());        
         
         // The games list
+        listgames.setCellFactory((ListView<GamesItem> list) -> new ListCellGamesItem());       
         listgames.itemsProperty().bind(loadgames.valueProperty());              
         listgames.itemsProperty().addListener((ObservableValue<? extends ObservableList<GamesItem>> observable, ObservableList<GamesItem> oldValue, ObservableList<GamesItem> newValue) -> {
             if (newValue != null && newValue.size() > 0) {

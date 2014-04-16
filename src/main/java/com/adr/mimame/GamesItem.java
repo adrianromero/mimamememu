@@ -183,7 +183,7 @@ public class GamesItem implements Comparable<GamesItem> {
         if (i >= 0 && i < j) {
             return title.substring(i + 1, j).trim();
         } else {
-            return null;
+            return "";
         }        
     }
     
@@ -233,7 +233,7 @@ public class GamesItem implements Comparable<GamesItem> {
     
     @Override
     public String toString() {
-        return title;
+        return getTitle1() + "\n" + getTitle2();
     }
 
     /**
