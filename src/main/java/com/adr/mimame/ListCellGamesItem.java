@@ -36,7 +36,7 @@ public class ListCellGamesItem extends ListCell<GamesItem> {
 //        img.setPreserveRatio(true);
 //        img.setSmooth(true);
 //        img.setCache(true);        
-    }
+//    }
     
     @Override
     public void updateItem(GamesItem item, boolean empty) {
