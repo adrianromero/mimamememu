@@ -61,8 +61,9 @@ public class GameView extends AnchorPane {
     private final Animation platformanimation;
     private final FadeTransition titlesimageanimation;
     
-    private final AudioClip menu;
-
+    private final AudioClip game_sound;
+    private final AudioClip empty_sound; 
+    
     public GameView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gameview.fxml"));
         loader.setController(this);
@@ -90,7 +91,8 @@ public class GameView extends AnchorPane {
         titlesimageanimation.setFromValue(0.4);
         titlesimageanimation.setToValue(1.0);   
         
-        menu = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
+        game_sound = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
+        empty_sound = new AudioClip(this.getClass().getResource("/sounds/150215__killkhan__reload-5.mp3").toString());
         
         // Initially blank
         showGameItem(null);
@@ -120,6 +122,8 @@ public class GameView extends AnchorPane {
             year.setText(null);
             platform.setText(null);     
             titlesimage.setImage(null);
+            
+            empty_sound.play();
         } else {
             title.setText(game.getTitle1());
             title1.setText(game.getTitle2());
@@ -135,7 +139,7 @@ public class GameView extends AnchorPane {
             platformanimation.playFromStart();
             titlesimageanimation.playFromStart();  
                        
-            menu.play();
+            game_sound.play();
         }
     }    
 }

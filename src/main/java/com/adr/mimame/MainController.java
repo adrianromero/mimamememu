@@ -40,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -62,6 +63,7 @@ public class MainController implements Initializable {
     @FXML private Text dialogtitle;  
     @FXML private Text dialogbody;  
     private ShowAnimation carddialogshow;
+    private AudioClip carddialog_sound;
     
     // Card wait
     @FXML private StackPane cardwait;
@@ -75,16 +77,17 @@ public class MainController implements Initializable {
     private CardWaitController cardwait_controller;
     
     @FXML private StackPane nogames;
-    private Animation nogames_show;
     @FXML private Text nogames_title;
     @FXML private Text nogames_message;
+    private Animation nogames_show;   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-                                  
+                             
         // carddialog
         carddialog.setVisible(false);
         carddialogshow = new ShowAnimation(carddialog, createCardDialogAnimation());
+        carddialog_sound = new AudioClip(this.getClass().getResource("/sounds/150221__killkhan__reload-2.mp3").toString());
         
         
         cardlist.disableProperty().bind(carddialogshow.displayedProperty());        
@@ -201,6 +204,7 @@ public class MainController implements Initializable {
         dialogtitle.setText(title);
         dialogbody.setText(body);
         carddialogshow.setDisplayed(true);
+        carddialog_sound.play();
     }  
     
     private Animation createCardDialogAnimation() {
