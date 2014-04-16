@@ -19,44 +19,28 @@
 
 package com.adr.mimame;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
     
-    public static Font FONT_NAME = Font.getFont("Dialog");
-    public static Font FONT_TITLE = Font.getFont("Dialog");
-    public static Font FONT_ARCADE = Font.getFont("Dialog");
-    
     @Override
     public void start(Stage stage) throws Exception {
-
-        try {
-            FONT_TITLE = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/RussoOne-Regular.ttf"))
-                    .deriveFont(16.0f);    
-            FONT_NAME = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Audiowide-Regular.ttf"))
-                    .deriveFont(32.0f);
-            FONT_ARCADE = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf"))
-                    .deriveFont(16.0f);      
-        } catch (FontFormatException | IOException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        }  
         
+        // Initialize fonts
+        Font.loadFont(getClass().getResourceAsStream("/fonts/RussoOne-Regular.ttf"), 12.0);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Audiowide-Regular.ttf"), 12.0);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf"), 12.0);
+
         // Initialize PlatformList
         PlatformList.INSTANCE.init();
-        
-        // new FrmMain().start(args);
         
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"), ResourceBundle.getBundle("properties/messages"));
         

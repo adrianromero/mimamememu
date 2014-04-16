@@ -32,8 +32,8 @@ public class GamesActionException extends Exception {
         this.title = title;        
     }    
     
-    public GamesActionException(String title, Throwable cause) {
-        super(cause.getMessage(), cause);
+    public GamesActionException(String title, String body, Throwable cause) {
+        super(body, cause);
         this.title = title;        
     }
     

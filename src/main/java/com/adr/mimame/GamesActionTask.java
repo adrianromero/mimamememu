@@ -22,7 +22,6 @@ package com.adr.mimame;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,8 +48,8 @@ public class GamesActionTask extends Task<Void> {
         if (command == null) {
             logger.log(Level.INFO, "Platform not supported: {0}", item.getPlatform().getPlatformName());
             throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformnotsupported"), new Object[]{item.getTitle()}),
-                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("body.platformnotsupported"), new Object[]{item.getPlatform().getPlatformName()}));
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformnotsupported_title"), item.getTitle()),
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformnotsupported_body"), item.getPlatform().getPlatformName()));
         }
 
         try {            
@@ -70,18 +69,20 @@ public class GamesActionTask extends Task<Void> {
             } else {
                 logger.log(Level.SEVERE, "Return error: {0}", result);
                 throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformerror"), new Object[]{item.getTitle()}),
-                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("body.platformerror"), new Object[]{result}));
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformerror_title"), item.getTitle()),
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformerror_body"), result));
             }
         } catch (InterruptedException ex) {
             logger.log(Level.SEVERE, null, ex);
             throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platforminterrupted"), new Object[]{item.getTitle()}),
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platforminterrupted_title"), item.getTitle()),
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platforminterrupted_body"), item.getTitle()),
                     ex);
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
             throw new GamesActionException(
-                    MessageFormat.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformcannotexecute"), new Object[]{item.getTitle()}),
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformcannotexecute_title"), item.getTitle()),
+                    String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformcannotexecute_body"), item.getTitle()),
                     ex);
         } 
     }
