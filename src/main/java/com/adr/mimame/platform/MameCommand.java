@@ -190,22 +190,21 @@ public class MameCommand implements Platform {
                                 } catch (IllegalArgumentException ex) {
                                     item.setTitles(null);
                                 }                        
+                            }));                 
+                            exec.submit(Executors.callable(() -> {
+                                try {
+                                    item.setSnap(new Image("http://www.mamedb.com/snap/" + item.getName() + ".png"));
+                                } catch (Exception ex) {
+                                    item.setSnap(null);
+                                }                        
                             }));
-        // For the moment these images are not used in any display mode, so no need to waste traffic to mamedb                    
-        //                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
-        //                        try {
-        //                            item.setSnap(ImageIO.read(new URL("http://www.mamedb.com/snap/" + item.getName() + ".png")));
-        //                        } catch (Exception ex) {
-        //                            item.setSnap(null);
-        //                        }                        
-        //                    }}));
-        //                    exec.submit(Executors.callable(new Runnable() { @Override public void run() {
-        //                        try {
-        //                            item.setMarquees(ImageIO.read(new URL("http://www.mamedb.com/marquees/" + item.getName() + ".png")));
-        //                        } catch (Exception ex) {
-        //                            item.setMarquees(null);
-        //                        }                        
-        //                    }}));       
+                            exec.submit(Executors.callable(() -> {
+                                try {
+                                    item.setMarquees(new Image("http://www.mamedb.com/marquees/" + item.getName() + ".png"));
+                                } catch (Exception ex) {
+                                    item.setMarquees(null);
+                                }                        
+                            }));       
                             progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.addgame"), item.getName()));
                             logger.log(Level.INFO, "Adding game {0}", item.getName());
                             games.add(item);

@@ -92,6 +92,7 @@
     -fx-font-weight: bold;    
     -fx-text-fill: #aaaaaa;
     -fx-text-alignment: right;
+    -fx-content-display: right;
     -fx-effect: dropshadow(gaussian, #777777, 3.5, 0.6, 0.0, 0.0);
 }
 

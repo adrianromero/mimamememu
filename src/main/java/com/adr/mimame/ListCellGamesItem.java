@@ -27,12 +27,14 @@ import javafx.scene.image.ImageView;
  * @author adrian
  */
 public class ListCellGamesItem extends ListCell<GamesItem> {
-//    
+  
+//// TESTING  using an image in cell    
 //    private final ImageView img;
 //    
 //    public ListCellGamesItem() {
 //        img = new ImageView();
-//        img.setFitWidth(50);
+//        img.setFitWidth(150);
+//        img.setFitHeight(75);
 //        img.setPreserveRatio(true);
 //        img.setSmooth(true);
 //        img.setCache(true);        
@@ -45,7 +47,7 @@ public class ListCellGamesItem extends ListCell<GamesItem> {
 //            img.setImage(null);
             setText(null);
         } else {
-//            img.setImage(item.getTitles());
+//            img.setImage(item.getMarquees());
             setText(item.toString());
         }
 //        setGraphic(img);    
