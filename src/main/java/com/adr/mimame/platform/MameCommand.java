@@ -30,9 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
@@ -141,9 +138,6 @@ public class MameCommand implements Platform {
             }
             p.waitFor();            
             
-            // Get detailed information for each game available
-            ExecutorService exec = Executors.newFixedThreadPool(15);
-            
             for (String n: names) {
                 progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.details"), n));
                 logger.log(Level.INFO, "Processsing details for roms {0}", n);
@@ -176,35 +170,12 @@ public class MameCommand implements Platform {
                                 item.setDriverstate(ec.getAttribute("savestate"));
                             }
 
-                            // Load image
-                            exec.submit(Executors.callable(() -> {
-                                try {
-                                    item.setTitles(new Image("http://www.mamedb.com/titles/" + item.getName() + ".png"));
-                                } catch (IllegalArgumentException ex) {
-                                    item.setTitles(null);
-                                }
-                            }));
-                            exec.submit(Executors.callable(() -> {
-                                try {
-                                    item.setCabinets(new Image("http://www.mamedb.com/cabinets/" + item.getName() + ".png"));
-                                } catch (IllegalArgumentException ex) {
-                                    item.setTitles(null);
-                                }                        
-                            }));                 
-                            exec.submit(Executors.callable(() -> {
-                                try {
-                                    item.setSnap(new Image("http://www.mamedb.com/snap/" + item.getName() + ".png"));
-                                } catch (Exception ex) {
-                                    item.setSnap(null);
-                                }                        
-                            }));
-                            exec.submit(Executors.callable(() -> {
-                                try {
-                                    item.setMarquees(new Image("http://www.mamedb.com/marquees/" + item.getName() + ".png"));
-                                } catch (Exception ex) {
-                                    item.setMarquees(null);
-                                }                        
-                            }));       
+                            item.setTitles("http://www.mamedb.com/titles/" + item.getName() + ".png");
+                            item.setCabinets("http://www.mamedb.com/cabinets/" + item.getName() + ".png");
+                            item.setSnap("http://www.mamedb.com/snap/" + item.getName() + ".png");
+                            item.setMarquees("http://www.mamedb.com/marquees/" + item.getName() + ".png");
+                     
+ 
                             progress.updateMessage(String.format(ResourceBundle.getBundle("properties/messagesmame").getString("msg.addgame"), item.getName()));
                             logger.log(Level.INFO, "Adding game {0}", item.getName());
                             games.add(item);
@@ -221,7 +192,6 @@ public class MameCommand implements Platform {
             // Wait for pending images
             progress.updateMessage(ResourceBundle.getBundle("properties/messagesmame").getString("msg.loadingimages"));
             logger.log(Level.INFO, "Loading images.");
-            shutdownAndAwaitTermination(exec);
             progress.updateMessage("");
                      
         } catch (IOException | InterruptedException | ParserConfigurationException ex) {
@@ -230,27 +200,6 @@ public class MameCommand implements Platform {
         }        
         return games;
     }
-    
-    
-    private void shutdownAndAwaitTermination(ExecutorService pool) {
-      pool.shutdown(); // Disable new tasks from being submitted
-      try {
-        // Wait a while for existing tasks to terminate
-        if (!pool.awaitTermination(2, TimeUnit.MINUTES)) {
-          pool.shutdownNow(); // Cancel currently executing tasks
-          // Wait a while for tasks to respond to being cancelled
-          if (!pool.awaitTermination(2, TimeUnit.MINUTES)) {
-              System.err.println("Pool did not terminate");
-          }
-        }
-
-      } catch (InterruptedException ie) {
-        // (Re-)Cancel if current thread also interrupted
-        pool.shutdownNow();
-        // Preserve interrupt status
-        Thread.currentThread().interrupt();
-      }
-    }     
     
     private String getElementText(Element e, String tag) {
         NodeList n = e.getElementsByTagName(tag);

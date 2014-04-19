@@ -195,7 +195,7 @@ public class PlatformList {
             for (GamesItem g : games) {
                 Element e = doc.createElement("game");
                 root.appendChild(e);
-                g.toElement(e, f);
+                g.toElement(e);
             }
 
             // write the content into xml file
@@ -228,7 +228,7 @@ public class PlatformList {
             
             NodeList nodegames = doc.getElementsByTagName("game");
             for (int i = 0; i < nodegames.getLength(); i++) {
-                GamesItem item = new GamesItem((Element) nodegames.item(i), f);    
+                GamesItem item = new GamesItem((Element) nodegames.item(i));    
                 games.add(item);
             }
             

@@ -20,7 +20,6 @@
 package com.adr.mimame;
 
 import javafx.scene.control.ListCell;
-import javafx.scene.image.ImageView;
 
 /**
  *

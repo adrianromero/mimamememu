@@ -19,13 +19,10 @@
 
 package com.adr.mimame;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Properties;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-import javax.imageio.ImageIO;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -41,10 +38,10 @@ public class GamesItem implements Comparable<GamesItem> {
     
     private String manufacturer;
     private String year;
-    private Image titles;
-    private Image snap;
-    private Image cabinets;
-    private Image marquees;
+    private String titles;
+    private String snap;
+    private String cabinets;
+    private String marquees;
     
     private final Properties props;
     
@@ -75,7 +72,7 @@ public class GamesItem implements Comparable<GamesItem> {
         this.driverstate = null;
     }
     
-    public GamesItem(Element e, File folder) throws IOException {
+    public GamesItem(Element e) throws IOException {
 
         name = e.getAttribute("name");
         title = getElementText(e, "description", name);
@@ -88,7 +85,11 @@ public class GamesItem implements Comparable<GamesItem> {
         driversound = getElementText(e, "sound");
         drivergraphic = getElementText(e, "graphic");
         driverstate = getElementText(e, "savestate");
-        
+        titles = getElementText(e, "titles");
+        snap = getElementText(e, "snap");
+        cabinets = getElementText(e, "cabinets");
+        marquees = getElementText(e, "marquees");
+                       
         props = new Properties();
         NodeList n = e.getElementsByTagName("properties");
         if (n.getLength() == 1) {
@@ -100,26 +101,9 @@ public class GamesItem implements Comparable<GamesItem> {
                 }
             }
         }
-        
-        File f = new File(folder, "titles/" + name + ".png");
-        if (f.exists()) {
-            titles = new Image(new File(folder, "titles/" + name + ".png").toURI().toURL().toString());
-        }
-        f = new File(folder, "snap/" + name + ".png");
-        if (f.exists()) {
-            snap = new Image(new File(folder, "snap/" + name + ".png").toURI().toURL().toString());
-        }
-        f = new File(folder, "cabinets/" + name + ".png");
-        if (f.exists()) {
-            cabinets = new Image(new File(folder, "cabinets/" + name + ".png").toURI().toURL().toString());
-        }
-        f = new File(folder, "marquees/" + name + ".png");
-        if (f.exists()) {
-            marquees = new Image(new File(folder, "marquees/" + name + ".png").toURI().toURL().toString());
-        } 
     }
 
-    public void toElement(Element e, File folder) throws IOException {
+    public void toElement(Element e) throws IOException {
         e.setAttribute("name", name);
         setElementText(e, "description", title);
         setElementText(e, "platform", platform.getPlatformName());
@@ -130,6 +114,10 @@ public class GamesItem implements Comparable<GamesItem> {
         setElementText(e, "sound", driversound);
         setElementText(e, "graphic", drivergraphic);
         setElementText(e, "savestate", driverstate);
+        setElementText(e, "titles", titles);
+        setElementText(e, "snap", snap);
+        setElementText(e, "cabinets", cabinets);
+        setElementText(e, "marquees", marquees);
         
         if (!props.isEmpty()) {
             Element eprops = e.getOwnerDocument().createElement("properties");
@@ -137,24 +125,7 @@ public class GamesItem implements Comparable<GamesItem> {
             for (Entry en : props.entrySet()) {
                 setElementText(eprops, (String) en.getKey(), (String) en.getValue());
             }
-        }
-        
-        if (titles != null && titles.getPixelReader() != null) {
-            new File(folder, "titles").mkdir();
-            ImageIO.write(SwingFXUtils.fromFXImage(titles, null), "png", new File(folder, "titles/" + name + ".png"));
-        }
-        if (snap != null && snap.getPixelReader() != null) {
-            new File(folder, "snap").mkdir();
-            ImageIO.write(SwingFXUtils.fromFXImage(snap, null), "png", new File(folder, "snap/" + name + ".png"));
-        }
-        if (cabinets != null && cabinets.getPixelReader() != null) {
-            new File(folder, "cabinets").mkdir();
-            ImageIO.write(SwingFXUtils.fromFXImage(cabinets, null), "png", new File(folder, "cabinets/" + name + ".png"));
-        }
-        if (marquees != null && marquees.getPixelReader() != null) {
-            new File(folder, "marquees").mkdir();
-            ImageIO.write(SwingFXUtils.fromFXImage(marquees, null), "png", new File(folder, "marquees/" + name + ".png"));
-        }        
+        }    
     }
 
     public String getName() {
@@ -240,7 +211,7 @@ public class GamesItem implements Comparable<GamesItem> {
      * @return the snap
      */
     public Image getTitles() {
-        return titles == null ? platform.getDefaultImage() : titles;
+        return titles == null ? platform.getDefaultImage() : new Image(titles, true);
     }
     
     public boolean isTitlesDefault() {
@@ -250,7 +221,7 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @param snap the snap to set
      */
-    public void setTitles(Image snap) {
+    public void setTitles(String snap) {
         this.titles = snap;
     }
 
@@ -328,13 +299,13 @@ public class GamesItem implements Comparable<GamesItem> {
      * @return the snap
      */
     public Image getSnap() {
-        return snap;
+        return snap == null ? null : new Image(snap, true);
     }
 
     /**
      * @param snap the snap to set
      */
-    public void setSnap(Image snap) {
+    public void setSnap(String snap) {
         this.snap = snap;
     }
 
@@ -342,13 +313,13 @@ public class GamesItem implements Comparable<GamesItem> {
      * @return the cabinet
      */
     public Image getCabinets() {
-        return cabinets == null ? platform.getDefaultCabinet() : cabinets;
+        return cabinets == null ? platform.getDefaultCabinet() : new Image(cabinets, true);
     }
 
     /**
      * @param cabinet the cabinet to set
      */
-    public void setCabinets(Image cabinet) {
+    public void setCabinets(String cabinet) {
         this.cabinets = cabinet;
     }
 
@@ -356,13 +327,13 @@ public class GamesItem implements Comparable<GamesItem> {
      * @return the marquee
      */
     public Image getMarquees() {
-        return marquees;
+        return marquees == null ? null : new Image(marquees, true);
     }
 
     /**
      * @param marquee the marquee to set
      */
-    public void setMarquees(Image marquee) {
+    public void setMarquees(String marquee) {
         this.marquees = marquee;
     }
     
