@@ -58,7 +58,6 @@ public class GameView extends AnchorPane {
     private final Animation manufactureranimation;
     private final Animation yearanimation;
     private final Animation platformanimation;
-    private final FadeTransition titlesimageanimation;
     
     private final AudioClip game_sound;
     private final AudioClip empty_sound; 
@@ -82,10 +81,6 @@ public class GameView extends AnchorPane {
         yearanimation.setDelay(Duration.millis(400));
         platformanimation = getEnterTransition(platform);      
         platformanimation.setDelay(Duration.millis(600));        
-        
-        titlesimageanimation = new FadeTransition(Duration.millis(500), titlesimage);
-        titlesimageanimation.setFromValue(0.4);
-        titlesimageanimation.setToValue(1.0);   
         
         game_sound = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
         empty_sound = new AudioClip(this.getClass().getResource("/sounds/150215__killkhan__reload-5.mp3").toString());
@@ -126,14 +121,13 @@ public class GameView extends AnchorPane {
             manufacturer.setText(game.getManufacturer());
             year.setText(game.getYear());
             platform.setText(game.getPlatform().getPlatformName());
-            titlesimage.loadImage(game.getTitles(), game.getPlatform().getDefaultImage());
+            titlesimage.loadImage(game.getTitles(), game.getPlatform().getDefaultImage(), null);
             
             titleanimation.playFromStart();
             title1animation.playFromStart();
             manufactureranimation.playFromStart();
             yearanimation.playFromStart();
             platformanimation.playFromStart();
-            titlesimageanimation.playFromStart();  
                        
             game_sound.play();
         }

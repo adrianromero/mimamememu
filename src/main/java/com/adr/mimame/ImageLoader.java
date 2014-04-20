@@ -19,11 +19,14 @@
 
 package com.adr.mimame;
 
+import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 /**
  *
@@ -32,7 +35,8 @@ import javafx.scene.layout.StackPane;
 public class ImageLoader extends StackPane {
     
     private final ImageView imagedefault;
-    private final ImageView image;
+    private final ImageView image;           
+    private final FadeTransition imageanimation;   
     
     private final ChangeListener<? super Number> progressListener;
     
@@ -51,24 +55,35 @@ public class ImageLoader extends StackPane {
         
         getChildren().addAll(imagedefault, image);
         
+        imageanimation = new FadeTransition(Duration.millis(500), image);
+        imageanimation.setFromValue(0.4);
+        imageanimation.setToValue(1.0);   
+//        imageanimation.setOnFinished((ActionEvent event) -> {
+//            imagedefault.setImage(null);
+//            imagedefault.setVisible(false);
+//        });
+
         progressListener = (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.doubleValue() == 1.0 && !image.getImage().isError()) {
-                imagedefault.setVisible(false);
+                imagedefault.setImage(null);
+                imagedefault.setVisible(false);                
                 image.setVisible(true);
+                imageanimation.playFromStart();
             }
         };
     }
     
     public void loadImage(Image img) {
-        loadImage(img, null);
+        loadImage(img, null, null);
     }
     
-    public void loadImage(Image img, Image imgdefault) {
+    public void loadImage(Image img, Image imgdefault, Image imgerror) {
         
         Image oldimage = image.getImage();
         if (oldimage != null) {
             oldimage.progressProperty().removeListener(progressListener);
         }
+        imageanimation.stop();
         
         // start
         if (img == null || img.isError()) {
@@ -78,9 +93,10 @@ public class ImageLoader extends StackPane {
             image.setVisible(false);
         } else if (!img.isBackgroundLoading() || img.getProgress() == 1.0) {
             imagedefault.setImage(null);
-            imagedefault.setVisible(false);
+            imagedefault.setVisible(false);            
             image.setImage(img);
             image.setVisible(true);
+            imageanimation.playFromStart();
         } else {
             imagedefault.setImage(imgdefault);
             imagedefault.setVisible(true);
