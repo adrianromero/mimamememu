@@ -29,7 +29,6 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Text;
@@ -52,7 +51,7 @@ public class GameView extends AnchorPane {
     @FXML
     Text platform;
     @FXML
-    ImageView titlesimage;
+    ImageLoader titlesimage;
     
     private final Animation titleanimation;
     private final Animation title1animation;
@@ -74,9 +73,6 @@ public class GameView extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }      
-        
-        titlesimage.fitWidthProperty().bind(this.widthProperty()); 
-        titlesimage.fitHeightProperty().bind(this.heightProperty()); 
 
         titleanimation = getEnterTransition(title);  
         title1animation = getEnterTransition(title1);
@@ -121,7 +117,7 @@ public class GameView extends AnchorPane {
             manufacturer.setText(null);
             year.setText(null);
             platform.setText(null);     
-            titlesimage.setImage(null);
+            titlesimage.loadImage(null);
             
             empty_sound.play();
         } else {
@@ -130,7 +126,7 @@ public class GameView extends AnchorPane {
             manufacturer.setText(game.getManufacturer());
             year.setText(game.getYear());
             platform.setText(game.getPlatform().getPlatformName());
-            titlesimage.setImage(game.getTitles());
+            titlesimage.loadImage(game.getTitles(), game.getPlatform().getDefaultImage());
             
             titleanimation.playFromStart();
             title1animation.playFromStart();

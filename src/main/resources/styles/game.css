@@ -21,7 +21,3 @@
     -fx-font-family: "Audiowide";       
     -fx-font-size: 32;
 }
-
-#container {
-    -fx-background-color: rgba(0,0,0,1) ;
-}
