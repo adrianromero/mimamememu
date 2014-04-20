@@ -34,75 +34,64 @@ import javafx.util.Duration;
  */
 public class ImageLoader extends StackPane {
     
-    private final ImageView imagedefault;
-    private final ImageView image;           
+    private final ImageView imageview;           
     private final FadeTransition imageanimation;   
+    
+    private Image image = null;
+    private Image imageerror = null;
     
     private final ChangeListener<? super Number> progressListener;
     
     public ImageLoader() {
-        imagedefault = new ImageView();
-        imagedefault.setVisible(true);
-        imagedefault.setPreserveRatio(true);
-        imagedefault.fitWidthProperty().bind(this.widthProperty()); 
-        imagedefault.fitHeightProperty().bind(this.heightProperty()); 
         
-        image = new ImageView();
-        image.setVisible(false);        
-        image.setPreserveRatio(true);        
-        image.fitWidthProperty().bind(this.widthProperty()); 
-        image.fitHeightProperty().bind(this.heightProperty()); 
+        imageview = new ImageView();    
+        imageview.setPreserveRatio(true);        
+        imageview.fitWidthProperty().bind(this.widthProperty()); 
+        imageview.fitHeightProperty().bind(this.heightProperty()); 
         
-        getChildren().addAll(imagedefault, image);
+        getChildren().add(imageview);
         
-        imageanimation = new FadeTransition(Duration.millis(500), image);
-        imageanimation.setFromValue(0.4);
+        imageanimation = new FadeTransition(Duration.millis(500), imageview);
+        imageanimation.setFromValue(0.25);
         imageanimation.setToValue(1.0);   
-//        imageanimation.setOnFinished((ActionEvent event) -> {
-//            imagedefault.setImage(null);
-//            imagedefault.setVisible(false);
-//        });
 
         progressListener = (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            if (newValue.doubleValue() == 1.0 && !image.getImage().isError()) {
-                imagedefault.setImage(null);
-                imagedefault.setVisible(false);                
-                image.setVisible(true);
+            if (newValue.doubleValue() == 1.0) {
+                imageview.setImage(image.isError() ? imageerror : image);
                 imageanimation.playFromStart();
             }
         };
     }
     
-    public void loadImage(Image img) {
-        loadImage(img, null, null);
+    public void loadImage(Image img, Image imgerror) {
+        loadImage(img, imgerror, null);
     }
     
-    public void loadImage(Image img, Image imgdefault, Image imgerror) {
+    public void loadImage(Image img, Image imgerror, Image imgdefault) {
         
-        Image oldimage = image.getImage();
-        if (oldimage != null) {
-            oldimage.progressProperty().removeListener(progressListener);
+        if (image != null) {
+            image.progressProperty().removeListener(progressListener);
         }
         imageanimation.stop();
         
+        image = null;
+        imageerror = null;
+        
         // start
-        if (img == null || img.isError()) {
-            imagedefault.setImage(imgdefault);
-            imagedefault.setVisible(true);
-            image.setImage(null);
-            image.setVisible(false);
-        } else if (!img.isBackgroundLoading() || img.getProgress() == 1.0) {
-            imagedefault.setImage(null);
-            imagedefault.setVisible(false);            
-            image.setImage(img);
-            image.setVisible(true);
+        if (img == null) {
+            imageview.setImage(imgdefault);
+        } else if (img.isError()) {
+            imageview.setImage(imgerror);
+            imageanimation.playFromStart();
+        } else if (!img.isBackgroundLoading() || img.getProgress() == 1.0) {        
+            imageview.setImage(img);
             imageanimation.playFromStart();
         } else {
-            imagedefault.setImage(imgdefault);
-            imagedefault.setVisible(true);
-            image.setImage(img);
-            image.setVisible(false);
-            img.progressProperty().addListener(progressListener);
+            // Loading process...
+            image = img;
+            imageerror = imgerror;
+            imageview.setImage(imgdefault);
+            image.progressProperty().addListener(progressListener);
         }
     }   
 }
