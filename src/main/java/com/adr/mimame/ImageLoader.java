@@ -22,7 +22,6 @@ package com.adr.mimame;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -38,7 +37,7 @@ public class ImageLoader extends StackPane {
     private final FadeTransition imageanimation;   
     
     private Image image = null;
-    private Image imageerror = null;
+    private Image imagedefault = null;
     
     private final ChangeListener<? super Number> progressListener;
     
@@ -57,7 +56,7 @@ public class ImageLoader extends StackPane {
 
         progressListener = (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.doubleValue() == 1.0) {
-                imageview.setImage(image.isError() ? imageerror : image);
+                imageview.setImage(image.isError() ? imagedefault : image);
                 imageanimation.playFromStart();
             }
         };
@@ -67,7 +66,7 @@ public class ImageLoader extends StackPane {
         loadImage(img, imgerror, null);
     }
     
-    public void loadImage(Image img, Image imgerror, Image imgdefault) {
+    public void loadImage(Image img, Image imgdefault, Image imgloading) {
         
         if (image != null) {
             image.progressProperty().removeListener(progressListener);
@@ -75,13 +74,14 @@ public class ImageLoader extends StackPane {
         imageanimation.stop();
         
         image = null;
-        imageerror = null;
+        imagedefault = null;
         
         // start
         if (img == null) {
             imageview.setImage(imgdefault);
+            imageanimation.playFromStart();
         } else if (img.isError()) {
-            imageview.setImage(imgerror);
+            imageview.setImage(imgdefault);
             imageanimation.playFromStart();
         } else if (!img.isBackgroundLoading() || img.getProgress() == 1.0) {        
             imageview.setImage(img);
@@ -89,8 +89,8 @@ public class ImageLoader extends StackPane {
         } else {
             // Loading process...
             image = img;
-            imageerror = imgerror;
-            imageview.setImage(imgdefault);
+            imagedefault = imgdefault;
+            imageview.setImage(imgloading);
             image.progressProperty().addListener(progressListener);
         }
     }   
