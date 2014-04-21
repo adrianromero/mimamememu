@@ -22,7 +22,6 @@ package com.adr.mimame;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Properties;
-import javafx.scene.image.Image;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -210,12 +209,8 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @return the snap
      */
-    public Image getTitles() {
-        return titles == null ? platform.getDefaultImage() : new Image(titles, true);
-    }
-    
-    public boolean isTitlesDefault() {
-        return titles == null;
+    public String getTitles() {
+        return titles;
     }
 
     /**
@@ -298,8 +293,8 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @return the snap
      */
-    public Image getSnap() {
-        return snap == null ? null : new Image(snap, true);
+    public String getSnap() {
+        return snap;
     }
 
     /**
@@ -312,8 +307,8 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @return the cabinet
      */
-    public Image getCabinets() {
-        return cabinets == null ? platform.getDefaultCabinet() : new Image(cabinets, true);
+    public String getCabinets() {
+        return cabinets;
     }
 
     /**
@@ -326,8 +321,8 @@ public class GamesItem implements Comparable<GamesItem> {
     /**
      * @return the marquee
      */
-    public Image getMarquees() {
-        return marquees == null ? null : new Image(marquees, true);
+    public String getMarquees() {
+        return marquees;
     }
 
     /**

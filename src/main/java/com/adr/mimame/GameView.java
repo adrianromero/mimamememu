@@ -121,7 +121,7 @@ public class GameView extends AnchorPane {
             manufacturer.setText(game.getManufacturer());
             year.setText(game.getYear());
             platform.setText(game.getPlatform().getPlatformName());
-            titlesimage.loadImage(game.getTitles(), game.getPlatform().getDefaultImage());
+            titlesimage.loadImage(PlatformList.INSTANCE.getCachedImage(game.getTitles()), game.getPlatform().getDefaultImage());
             
             titleanimation.playFromStart();
             title1animation.playFromStart();

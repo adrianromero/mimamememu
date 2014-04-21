@@ -24,12 +24,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -122,6 +129,55 @@ public class PlatformList {
         // Clear platform folders      
         for (Platform p: platforms) {
             clearConfigFolder("_" + p.getPlatformName());
+        }
+        // clear images cache
+        clearConfigFolder("IMGCACHE");
+    }
+    
+    public Image getCachedImage(String url) {
+        
+        if (url == null) {
+            return null;
+        } else if (!"http".equalsIgnoreCase(url.substring(0, 4)) && !"ftp".equalsIgnoreCase(url.substring(0, 3))) {
+            // a local image
+            return new Image(url, true);
+        } else {
+            // a remote image
+            try {
+                File cachedir = new File(mimamememuhome, "IMGCACHE");
+                FileUtils.forceMkdir(cachedir);
+
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                md.update(url.getBytes("UTF-8"));
+                String cachefilename = Base64.getUrlEncoder().encodeToString(md.digest());
+                File cachefile = new File(cachedir, cachefilename + ".png");
+                File cachefilenull = new File(cachedir, cachefilename + ".null");
+
+                if (cachefilenull.exists()) {
+                    return null;
+                } else if (cachefile.exists()) {
+                    return new Image(cachefile.toURI().toURL().toString(), true);
+                } else {
+                    Image img = new Image(url, true);
+                    img.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                        if (newValue.doubleValue() == 1.0) {
+                            try {
+                                if (img.isError()) {
+                                    cachefilenull.createNewFile();
+                                } else {
+                                    ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", cachefile);
+                                }
+                            } catch (IOException ex) {
+                                logger.log(Level.SEVERE, "Cannot create image cache.", ex);
+                            }                                
+                        }
+                    });
+                    return img;
+                }
+            } catch (IOException | NoSuchAlgorithmException ex) {
+                logger.log(Level.SEVERE, "Cannot create image cache.", ex);
+                return new Image(url);
+            }
         }
     }
     
