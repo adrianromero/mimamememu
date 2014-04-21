@@ -21,6 +21,47 @@ Mode 2
 ![Mode 3](https://raw.github.com/adrianromero/mimamememu/master/screenshot-3.png)
 Mode 3
 
+## Configuration ##
+
+### MAME ###
+
+* mame.emu
+The emulator executable to use
+
+MAME (default)
+MAME64
+(Custom command)
+
+* mame.roms
+
+### SNES ###
+
+* snes.emu
+The emulator to use:
+
+SNES9X (Default) 
+SNES9X-GTK
+ZSNES
+(Custom command)
+
+* snes.roms
+
+* Game properties
+** extension (Default .smc)
+
+### ZX Spectrum ###
+
+* zxspectrum.emu
+The emulator to use:
+
+FUSE
+(Custom command)
+
+* zxspectrum.roms
+
+* Game properties
+** extension (Default .z80)
+
 ## Acknowledgments ##
 
 Audiowide font:  
