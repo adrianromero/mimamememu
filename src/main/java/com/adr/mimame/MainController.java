@@ -33,7 +33,6 @@ import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -45,7 +44,6 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.Duration;
 
 public class MainController implements Initializable {
@@ -158,14 +156,16 @@ public class MainController implements Initializable {
     @FXML
     void onListKeyPressed(KeyEvent event) {
         GamesItem item = listgames.getSelectionModel().getSelectedItem();
-        if (item != null && KeyCode.ENTER == event.getCode()) {
+        if (item != null && (KeyCode.ENTER == event.getCode() || KeyCode.CONTROL == event.getCode())) {
             executeGame(item);
             event.consume(); 
         } else if (KeyCode.F5 == event.getCode()) {
             loadGames(true);
+            event.consume();
         } else if (KeyCode.F11 == event.getCode()) {
             Stage s = ((Stage) listgames.getScene().getWindow());
             s.setFullScreen(!s.isFullScreen());
+            event.consume();
         }
     }
 
