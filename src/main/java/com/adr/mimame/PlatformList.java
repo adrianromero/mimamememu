@@ -34,6 +34,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
@@ -161,15 +162,18 @@ public class PlatformList {
                     Image img = new Image(url, true);
                     img.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
                         if (newValue.doubleValue() == 1.0) {
-                            try {
-                                if (img.isError()) {
-                                    cachefilenull.createNewFile();
-                                } else {
-                                    ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", cachefile);
-                                }
-                            } catch (IOException ex) {
-                                logger.log(Level.SEVERE, "Cannot create image cache.", ex);
-                            }                                
+                            Task<Void> t = new Task<Void>() {
+                                @Override
+                                protected Void call() throws Exception {
+                                    if (img.isError()) {
+                                        cachefilenull.createNewFile();
+                                    } else {
+                                        ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", cachefile);
+                                    }
+                                    return null;
+                                }                              
+                            };
+                            new Thread(t).start();                              
                         }
                     });
                     return img;
