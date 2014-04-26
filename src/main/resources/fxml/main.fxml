@@ -10,7 +10,7 @@
 
 <BorderPane id="maincontainer" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.adr.mimame.MainController">
   <center>
-    <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+    <StackPane fx:id="stack" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
       <children>
         <AnchorPane fx:id="cardlist" prefHeight="200.0" prefWidth="200.0">
           <children>
@@ -32,74 +32,7 @@
             </VBox>
           </children>
         </StackPane>
-        <StackPane fx:id="cardwait" prefHeight="150.0" prefWidth="200.0" style="">
-          <children>
-            <VBox fx:id="cardwait_content" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
-              <children>
-                <Text id="cardwait_loading" strokeType="OUTSIDE" strokeWidth="0.0" text="%lbl.Loading" />
-                <Text id="cardwait_loading2" strokeType="OUTSIDE" strokeWidth="0.0" text="%lbl.Loading2" />
-                <Text fx:id="cardwait_progress" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
-                <HBox alignment="TOP_CENTER" spacing="5.0">
-                  <children>
-                    <Circle fx:id="cardwait_circle1" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle2" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle3" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle4" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle5" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                  </children>
-                  <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </padding>
-                </HBox>
-              </children>
-            </VBox>
-          </children>
-        </StackPane>
-        <StackPane id="carddialog" fx:id="carddialog" focusTraversable="true" onKeyPressed="#onDialogKeyPressed" onMouseClicked="#onDialogClicked" prefHeight="150.0" prefWidth="200.0">
-          <children>
-            <VBox id="carddialog_box" fx:id="carddialog_box" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
-              <children>
-                <Text id="carddialog_title" fx:id="dialogtitle" strokeType="OUTSIDE" strokeWidth="0.0" text="dialog_title" textAlignment="CENTER" /><Line id="carddialog_line" endX="150.0" startX="-150.0" />
-                <Text id="carddialog_message" fx:id="dialogbody" strokeType="OUTSIDE" strokeWidth="0.0" text="dialog_message" textAlignment="CENTER" />
-              </children>
-            </VBox>
-          </children>
-        </StackPane>
+
       </children>
     </StackPane>
   </center>

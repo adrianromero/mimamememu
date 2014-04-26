@@ -35,11 +35,11 @@
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
 }
 
-#cardwait {
+.cardwait {
     -fx-background-color: linear-gradient(from 0% 0% to 0% 50%, reflect, rgb(0,0,0) 0.0, rgb(50,50,50) 0.5);
 }
 
-#cardwait_loading {
+.cardwait_loading {
     -fx-font-family: "Audiowide";     
     -fx-font-size: 28; 
     -fx-font-weight: bold; 
@@ -47,7 +47,7 @@
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
 }
 
-#cardwait_loading2, #cardwait_progress {
+.cardwait_loading2, .cardwait_progress {
     -fx-font-family: "Audiowide";     
     -fx-font-size: 14; 
     -fx-font-weight: bold; 
@@ -58,16 +58,16 @@
 .cardwait_circle {
 }
 
-#carddialog {
+.carddialog {
     -fx-background-color: rgba(0, 0, 0, 0.8);  
 }
-#carddialog_box {
+.carddialog_box {
     -fx-background-color: linear-gradient(from 0% 0% to 0% 50%, reflect, rgb(150,150,150) 0.0, rgb(200,200,200) 0.5);
     -fx-background-insets: 15;
     -fx-padding: 40 60 40 60;     
 }
 
-#carddialog_title  {
+.carddialog_title  {
     -fx-font-family: "Audiowide";     
     -fx-font-size: 24; 
     -fx-font-weight: bold; 
@@ -75,16 +75,17 @@
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);
 }
 
-#carddialog_line  {
+.carddialog_line  {
     -fx-stroke: linear-gradient(from 0% 0% to 50% 0%, reflect, rgb(150,150,150) 0.0, rgb(50,50,50) 0.5);
 }
 
-#carddialog_message  {
+.carddialog_message  {
     -fx-font-family: "Audiowide";     
     -fx-font-size: 16; 
     -fx-fill: black; 
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
 }
+
 .list-cell {
     -fx-background-color: transparent;
     -fx-alignment: CENTER_RIGHT;
