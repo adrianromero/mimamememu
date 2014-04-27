@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <BorderPane id="maincontainer" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.adr.mimame.MainController">
   <center>
-    <StackPane fx:id="stack" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+    <StackPane fx:id="stack" onKeyPressed="#onStackKeyPressed" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
       <children>
         <AnchorPane fx:id="cardlist" prefHeight="200.0" prefWidth="200.0">
           <children>

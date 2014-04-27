@@ -35,8 +35,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -48,11 +46,10 @@ public class MainController implements Initializable {
     @FXML private ListView<GamesItem> listgames;
     @FXML private AnchorPane cardlist;
   
-    @FXML private GameView gameview;    
-    
-    private DialogView dialogview;
-    
+    @FXML private GameView gameview;       
+    private DialogView dialogview;   
     private LoadingView loadingview;
+    private SearchView searchview;
 
     
     @FXML private StackPane nogames;
@@ -62,9 +59,15 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
- 
+        
+        searchview = new SearchView(stack);
         dialogview = new DialogView(stack);
-        cardlist.disableProperty().bind(dialogview.visibleProperty());        
+        loadingview = new LoadingView(stack);
+        
+        cardlist.disableProperty().bind(
+                dialogview.visibleProperty()
+                        .or(loadingview.visibleProperty())
+                        .or(searchview.visibleProperty()));        
         
         // The games list
         listgames.setCellFactory((ListView<GamesItem> list) -> new ListCellGamesItem());       
@@ -86,7 +89,7 @@ public class MainController implements Initializable {
         // The nogames
        
         // The Loading controller
-        loadingview = new LoadingView(stack);
+        
         loadingview.displayedProperty().bind(loadgames.runningProperty());
         loadingview.messageProperty().bind(loadgames.messageProperty());
         
@@ -120,20 +123,45 @@ public class MainController implements Initializable {
     }
     
     @FXML
+    void onStackKeyPressed(KeyEvent event) {
+        if (KeyCode.F11 == event.getCode()) {
+            Stage s = ((Stage) listgames.getScene().getWindow());
+            s.setFullScreen(!s.isFullScreen());
+            event.consume();
+        }  
+    }
+    
+    @FXML
     void onListKeyPressed(KeyEvent event) {
         GamesItem item = listgames.getSelectionModel().getSelectedItem();
         if (item != null && (KeyCode.ENTER == event.getCode() || KeyCode.CONTROL == event.getCode())) {
             executeGame(item);
             event.consume(); 
+        } else if (item != null && KeyCode.SPACE == event.getCode()) {
+            searchview.show(item, (Integer selected) -> {
+                int currentindex = listgames.getSelectionModel().getSelectedIndex();
+                int i = currentindex;
+                do {
+                    i++;
+                    if (i >= listgames.getItems().size()) {
+                        i = 0;
+                    }
+                    if (selected == SearchView.getInitial(listgames.getItems().get(i))) {
+                        listgames.getSelectionModel().select(i);
+                        listgames.scrollTo(i);
+                        // sound ok
+                        return null;
+                    }
+                } while (currentindex != i);
+                // sound not found
+                return null;
+            });
+            event.consume();  
+        } else if (item != null && KeyCode.ALT == event.getCode()) {
+            dialogview.show("Save as favorties", "favorite");
+            event.consume();            
         } else if (KeyCode.F5 == event.getCode()) {
             loadGames(true);
-            event.consume();
-        } else if (KeyCode.F11 == event.getCode()) {
-            Stage s = ((Stage) listgames.getScene().getWindow());
-            s.setFullScreen(!s.isFullScreen());
-            event.consume();
-        } else if (KeyCode.ALT == event.getCode()) {
-            dialogview.show("Save as favorties", "favorite");
             event.consume();
         }
     }

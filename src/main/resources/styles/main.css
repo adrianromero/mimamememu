@@ -5,7 +5,7 @@
 }
 
 #mimamememu {
-    -fx-font-family: "Audiowide";
+    -fx-font-family: "Russo One";
     -fx-font-size: 16;
     -fx-font-weight: bold;
     -fx-fill: linear-gradient(from 0% 0% to 0% 50%, reflect, rgb(250,250,200) 0.0, rgb(200,200,200) 0.5);
@@ -83,6 +83,18 @@
     -fx-font-family: "Audiowide";     
     -fx-font-size: 16; 
     -fx-fill: black; 
+    -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
+}
+
+.search {
+    -fx-background-color: rgba(0, 0, 0, 0.8);  
+}
+    
+.search_character {
+    -fx-font-family: "Audiowide";     
+    -fx-font-size: 84; 
+    -fx-font-weight: bold;
+    -fx-fill: greenyellow; 
     -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
 }
 
