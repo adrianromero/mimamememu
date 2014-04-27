@@ -75,8 +75,8 @@ public class MameCommand implements Platform {
             command = newcommand;
         }
         
-        defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/mame.png"));
-        defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/cabinet.png"));      
+        defimage = new Image(getClass().getResourceAsStream("/images/mame.png"));
+        defcabinet = new Image(getClass().getResourceAsStream("/images/mame-cabinet.png"));      
     }
     
     @Override
