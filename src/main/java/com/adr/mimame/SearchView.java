@@ -32,6 +32,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -55,6 +56,8 @@ public class SearchView extends StackPane {
     private final Animation rightanimation;
     private final Animation leftanimation;
     
+    private final AudioClip game_sound;
+    
     public SearchView(Pane parent) {
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/search.fxml"));
@@ -69,10 +72,11 @@ public class SearchView extends StackPane {
         
         this.setVisible(false);
         searchshow = new ShowAnimation(this, createSearchAnimation());        
-        // carddialog_sound = new AudioClip(this.getClass().getResource("/sounds/150221__killkhan__reload-2.mp3").toString());
         
         rightanimation = rightAnimation();
         leftanimation = leftAnimation();
+        
+        game_sound = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
 
         parent.getChildren().add(this);
     }
@@ -90,7 +94,8 @@ public class SearchView extends StackPane {
 
         currentindex = getInitial(game);
         search_character.setText(letters[currentindex]);
-        
+        game_sound.play();
+                    
         this.callback = callback;
         searchshow.setDisplayed(true);
     }
@@ -100,9 +105,11 @@ public class SearchView extends StackPane {
         
         if (KeyCode.RIGHT == event.getCode() || KeyCode.DOWN == event.getCode()) {
             currentindex  = (currentindex + 1) % letters.length; 
+            game_sound.play();
             leftanimation.play();
         } else if (KeyCode.LEFT == event.getCode() || KeyCode.UP == event.getCode()) {
             currentindex  = (currentindex + letters.length - 1) % letters.length; 
+            game_sound.play();
             rightanimation.play();
         } else if (KeyCode.ENTER == event.getCode() || KeyCode.CONTROL == event.getCode()) {
             callback.call(currentindex);
