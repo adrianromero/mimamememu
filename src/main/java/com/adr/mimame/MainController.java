@@ -22,7 +22,6 @@ package com.adr.mimame;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.animation.Animation;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
@@ -35,7 +34,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MainController implements Initializable {
@@ -46,20 +44,16 @@ public class MainController implements Initializable {
     @FXML private ListView<GamesItem> listgames;
     @FXML private AnchorPane cardlist;
   
-    @FXML private GameView gameview;       
+    @FXML private GameView gameview; 
+    private NoGamesView nogamesview;
     private DialogView dialogview;   
     private LoadingView loadingview;
     private SearchView searchview;
-
-    
-    @FXML private StackPane nogames;
-    @FXML private Text nogames_title;
-    @FXML private Text nogames_message;
-    private Animation nogames_show;   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        nogamesview = new NoGamesView(stack);
         searchview = new SearchView(stack);
         dialogview = new DialogView(stack);
         loadingview = new LoadingView(stack);
@@ -74,11 +68,11 @@ public class MainController implements Initializable {
         listgames.itemsProperty().bind(loadgames.valueProperty());              
         listgames.itemsProperty().addListener((ObservableValue<? extends ObservableList<GamesItem>> observable, ObservableList<GamesItem> oldValue, ObservableList<GamesItem> newValue) -> {
             if (newValue != null && newValue.size() > 0) {
-                nogames.setVisible(false);
+                nogamesview.setVisible(false);
                 listgames.getSelectionModel().select(0);
                 listgames.requestFocus();
             } else {
-                nogames.setVisible(true);
+                nogamesview.setVisible(true);
                 gameview.showGameItem(null);
             }
         });

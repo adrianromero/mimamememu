@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root prefHeight="400.0" prefWidth="600.0" styleClass="nogames" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <VBox id="nogames_box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="nogames_box">
+      <children>
+        <Text fx:id="nogames_title" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="nogames_title" text="%nogames.title" />
+        <Text fx:id="nogames_message" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="nogames_message" text="%nogames.message" />
+      </children>
+    </VBox>
+  </children>
+  <stylesheets>
+    <URL value="@../styles/nogames.css" />
+  </stylesheets>  
+</fx:root>

@@ -19,17 +19,6 @@
             </VBox>
           </children>
         </AnchorPane>
-        <StackPane fx:id="nogames" prefHeight="150.0" prefWidth="200.0">
-          <children>
-            <VBox id="nogames_box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
-              <children>
-                <Text fx:id="nogames_title" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.title" />
-                <Text fx:id="nogames_message" strokeType="OUTSIDE" strokeWidth="0.0" text="%nogames.message" />
-              </children>
-            </VBox>
-          </children>
-        </StackPane>
-
       </children>
     </StackPane>
   </center>
