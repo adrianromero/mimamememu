@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -15,4 +16,7 @@
 </children>
 </VBox>
 </children>
+  <stylesheets>
+    <URL value="@../styles/dialog.css" />
+  </stylesheets>
 </fx:root>

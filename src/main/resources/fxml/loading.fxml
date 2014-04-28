@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
@@ -65,4 +66,7 @@
               </children>
             </VBox>
           </children>
+  <stylesheets>
+    <URL value="@../styles/loading.css" />
+  </stylesheets>          
         </fx:root>

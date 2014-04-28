@@ -1,0 +1,12 @@
+
+.search {
+    -fx-background-color: rgba(0, 0, 0, 0.8);  
+}
+    
+.search_character {
+    -fx-font-family: "Audiowide";     
+    -fx-font-size: 84; 
+    -fx-font-weight: bold;
+    -fx-fill: greenyellow; 
+    -fx-effect: innershadow(gaussian, gray, 5.0, 0, 3, 3);  
+}
