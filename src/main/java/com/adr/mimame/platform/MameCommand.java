@@ -111,7 +111,6 @@ public class MameCommand implements Platform {
         
         try {            
             // First read the names of available games
-            // TODO: translate update messages
             progress.updateMessage(ResourceBundle.getBundle("properties/messagesmame").getString("msg.verifying"));
             logger.log(Level.INFO, "Verifying MAME ROMS installed.");
             ArrayList<String> names = new ArrayList<String>();    

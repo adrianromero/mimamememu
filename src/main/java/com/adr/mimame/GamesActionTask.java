@@ -52,9 +52,7 @@ public class GamesActionTask extends Task<Void> {
                     String.format(ResourceBundle.getBundle("properties/messages").getString("msg.platformnotsupported_body"), item.getPlatform().getPlatformName()));
         }
 
-        try {            
-            // if (true) throw new IOException("test message");
-            
+        try {                       
             Process p = Runtime.getRuntime().exec(command);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));

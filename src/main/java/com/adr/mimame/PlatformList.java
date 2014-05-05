@@ -108,7 +108,9 @@ public class PlatformList {
         Properties opts = new Properties();   
         
         opts.setProperty("display.screenmode", "window"); // can be "window" or "fullscreen"
-        opts.setProperty("display.listmode", "0"); // can be "0", "1" or "2".
+        
+        opts.setProperty("mame.roms", "");
+        opts.setProperty("mame.emu", "MAME");      
         
         opts.setProperty("snes.roms", new File(getHome(), "ROMS").getPath());
         opts.setProperty("snes.emu", "SNES9X");      
@@ -126,7 +128,7 @@ public class PlatformList {
         return item;
     }
     
-    public void clearAllGames() {
+    public void clearAllGames() throws IOException {
         // Clear platform folders      
         for (Platform p: platforms) {
             clearConfigFolder("_" + p.getPlatformName());
@@ -235,10 +237,10 @@ public class PlatformList {
         File f = new File(mimamememuhome, configfolder);
         // Delete directory if not possible to save
         try {
-            FileUtils.deleteDirectory(f);
+            FileUtils.deleteDirectory(f);      
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
-        }        
+        }
     }
     
     private boolean saveList(List<GamesItem> games, File f) {

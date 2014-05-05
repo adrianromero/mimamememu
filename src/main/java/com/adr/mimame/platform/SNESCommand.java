@@ -26,7 +26,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
 
@@ -59,8 +58,8 @@ public class SNESCommand implements Platform {
         
         roms = new File(options.getProperty("snes.roms"));
 
-        defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes.png"));
-        defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/snes-cabinet.png"));
+        defimage = new Image(getClass().getResourceAsStream("/images/snes.png"));
+        defcabinet = new Image(getClass().getResourceAsStream("/images/snes-cabinet.png"));
     }
     
     @Override

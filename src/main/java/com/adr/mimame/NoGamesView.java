@@ -21,11 +21,9 @@ package com.adr.mimame;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -33,9 +31,6 @@ import javafx.scene.text.Text;
  * @author adrian
  */
 public class NoGamesView extends StackPane {
-    
-    @FXML private Text nogames_title;
-    @FXML private Text nogames_message;
 
     public NoGamesView(Pane parent) {
         

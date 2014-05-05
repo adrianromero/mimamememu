@@ -80,10 +80,7 @@ public class MainController implements Initializable {
             gameview.showGameItem(newValue);           
         });
         
-        // The nogames
-       
-        // The Loading controller
-        
+        // The Loading controller       
         loadingview.displayedProperty().bind(loadgames.runningProperty());
         loadingview.messageProperty().bind(loadgames.messageProperty());
         
@@ -143,11 +140,9 @@ public class MainController implements Initializable {
                     if (selected == SearchView.getInitial(listgames.getItems().get(i))) {
                         listgames.getSelectionModel().select(i);
                         listgames.scrollTo(i);
-                        // sound ok
                         return null;
                     }
                 } while (currentindex != i);
-                // sound not found
                 return null;
             });
             event.consume();  

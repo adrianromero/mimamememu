@@ -26,29 +26,14 @@ import javafx.scene.control.ListCell;
  * @author adrian
  */
 public class ListCellGamesItem extends ListCell<GamesItem> {
-  
-//// TESTING  using an image in cell    
-//    private final ImageView img;
-//    
-//    public ListCellGamesItem() {
-//        img = new ImageView();
-//        img.setFitWidth(150);
-//        img.setFitHeight(75);
-//        img.setPreserveRatio(true);
-//        img.setSmooth(true);
-//        img.setCache(true);        
-//    }
     
     @Override
     public void updateItem(GamesItem item, boolean empty) {
         super.updateItem(item, empty);
         if (item == null) {
-//            img.setImage(null);
             setText(null);
         } else {
-//            img.setImage(item.getMarquees());
             setText(item.toString());
-        }
-//        setGraphic(img);    
+        } 
     }
 }

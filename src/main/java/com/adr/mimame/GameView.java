@@ -40,18 +40,12 @@ import javafx.util.Duration;
  */
 public class GameView extends AnchorPane {
     
-    @FXML
-    Text title;
-    @FXML
-    Text title1;
-    @FXML
-    Text manufacturer;
-    @FXML
-    Text year;
-    @FXML
-    Text platform;
-    @FXML
-    ImageLoader titlesimage;
+    @FXML Text title;
+    @FXML Text title1;
+    @FXML Text manufacturer;
+    @FXML Text year;
+    @FXML Text platform;
+    @FXML ImageLoader titlesimage;
     
     private final Animation titleanimation;
     private final Animation title1animation;

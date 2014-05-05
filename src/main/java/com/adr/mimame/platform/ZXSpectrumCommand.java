@@ -54,8 +54,8 @@ public class ZXSpectrumCommand implements Platform {
         
         roms = new File(options.getProperty("zxspectrum.roms"));
 
-        defimage = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum.png"));
-        defcabinet = new Image(getClass().getResourceAsStream("/com/adr/mimame/platform/zxspectrum-cabinet.png"));
+        defimage = new Image(getClass().getResourceAsStream("/images/zxspectrum.png"));
+        defcabinet = new Image(getClass().getResourceAsStream("/images/zxspectrum-cabinet.png"));
     }
     
     @Override
