@@ -10,63 +10,68 @@
 
 <fx:root prefHeight="150.0" prefWidth="200.0" styleClass="cardwait" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 
-          <children>
-            <VBox fx:id="cardwait_content" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
-              <children>
+    <children>
+        <VBox fx:id="cardwait_content" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+            <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cardwait_loading" text="%lbl.Loading" />
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cardwait_loading2" text="%lbl.Loading2" />
                 <Text fx:id="cardwait_progress" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cardwait_progress" text="" />
                 <HBox alignment="TOP_CENTER" spacing="5.0">
-                  <children>
-                    <Circle fx:id="cardwait_circle1" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle2" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle3" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle4" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                    <Circle fx:id="cardwait_circle5" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
-<effect>
-<Lighting>
-<bumpInput>
-<Shadow />
-</bumpInput>
-</Lighting>
-</effect></Circle>
-                  </children>
-                  <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </padding>
+                    <children>
+                        <Circle fx:id="cardwait_circle1" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
+                            <effect>
+                                <Lighting>
+                                    <bumpInput>
+                                        <Shadow />
+                                    </bumpInput>
+                                </Lighting>
+                            </effect>
+                        </Circle>
+                        <Circle fx:id="cardwait_circle2" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
+                            <effect>
+                                <Lighting>
+                                    <bumpInput>
+                                        <Shadow />
+                                    </bumpInput>
+                                </Lighting>
+                            </effect>
+                        </Circle>
+                        <Circle fx:id="cardwait_circle3" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
+                            <effect>
+                                <Lighting>
+                                    <bumpInput>
+                                        <Shadow />
+                                    </bumpInput>
+                                </Lighting>
+                            </effect>
+                        </Circle>
+                        <Circle fx:id="cardwait_circle4" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
+                            <effect>
+                                <Lighting>
+                                    <bumpInput>
+                                        <Shadow />
+                                    </bumpInput>
+                                </Lighting>
+                            </effect>
+                        </Circle>
+                        <Circle fx:id="cardwait_circle5" fill="DODGERBLUE" radius="10.0" strokeWidth="0.0" styleClass="cardwait_circle">
+                            <effect>
+                                <Lighting>
+                                    <bumpInput>
+                                        <Shadow />
+                                    </bumpInput>
+                                </Lighting>
+                            </effect>
+                        </Circle>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
                 </HBox>
-              </children>
-            </VBox>
-          </children>
-  <stylesheets>
-    <URL value="@../styles/loading.css" />
-  </stylesheets>          
-        </fx:root>
+            </children>
+        </VBox>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/loading.css" />
+    </stylesheets>          
+</fx:root>

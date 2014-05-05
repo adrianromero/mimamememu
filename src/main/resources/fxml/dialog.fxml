@@ -7,16 +7,16 @@
 <?import javafx.scene.text.*?>
 
 <fx:root focusTraversable="true" onKeyPressed="#onDialogKeyPressed" onMouseClicked="#onDialogClicked" prefHeight="313.0" prefWidth="493.0" styleClass="carddialog" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<children>
-<VBox fx:id="carddialog_box" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="carddialog_box">
-<children>
-<Text fx:id="carddialog_title" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="carddialog_title" text="dialog_title" textAlignment="CENTER" />
-<Line endX="150.0" startX="-150.0" styleClass="carddialog_line" />
-<Text fx:id="carddialog_message" opacity="0.89" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="carddialog_message" text="dialog_message" textAlignment="CENTER" />
-</children>
-</VBox>
-</children>
-  <stylesheets>
-    <URL value="@../styles/dialog.css" />
-  </stylesheets>
+    <children>
+        <VBox fx:id="carddialog_box" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="carddialog_box">
+            <children>
+                <Text fx:id="carddialog_title" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="carddialog_title" text="dialog_title" textAlignment="CENTER" />
+                <Line endX="150.0" startX="-150.0" styleClass="carddialog_line" />
+                <Text fx:id="carddialog_message" opacity="0.89" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="carddialog_message" text="dialog_message" textAlignment="CENTER" />
+            </children>
+        </VBox>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/dialog.css" />
+    </stylesheets>
 </fx:root>
