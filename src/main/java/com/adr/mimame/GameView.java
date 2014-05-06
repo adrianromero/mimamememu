@@ -19,6 +19,8 @@
 
 package com.adr.mimame;
 
+import com.adr.mimame.media.Clip;
+import com.adr.mimame.media.MediaFactory;
 import java.io.IOException;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -30,7 +32,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -53,8 +54,8 @@ public class GameView extends AnchorPane {
     private final Animation yearanimation;
     private final Animation platformanimation;
     
-    private final AudioClip game_sound;
-    private final AudioClip empty_sound; 
+    private final Clip game_sound;
+    private final Clip empty_sound; 
     
     public GameView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gameview.fxml"));
@@ -76,8 +77,8 @@ public class GameView extends AnchorPane {
         platformanimation = getEnterTransition(platform);      
         platformanimation.setDelay(Duration.millis(600));        
         
-        game_sound = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
-        empty_sound = new AudioClip(this.getClass().getResource("/sounds/150215__killkhan__reload-5.mp3").toString());
+        game_sound = MediaFactory.createClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
+        empty_sound = MediaFactory.createClip(this.getClass().getResource("/sounds/150215__killkhan__reload-5.mp3").toString());
         
         // Initially blank
         showGameItem(null);

@@ -19,6 +19,8 @@
 
 package com.adr.mimame;
 
+import com.adr.mimame.media.Clip;
+import com.adr.mimame.media.MediaFactory;
 import java.io.IOException;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -33,7 +35,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -45,7 +46,7 @@ import javafx.util.Duration;
 public class DialogView extends StackPane {
     
     private final ShowAnimation carddialogshow;
-    private final AudioClip carddialog_sound;
+    private final Clip carddialog_sound;
     
     @FXML private VBox carddialog_box;
     @FXML private Text carddialog_title;
@@ -65,7 +66,7 @@ public class DialogView extends StackPane {
         
         this.setVisible(false);
         carddialogshow = new ShowAnimation(this, createCardDialogAnimation());        
-        carddialog_sound = new AudioClip(this.getClass().getResource("/sounds/150221__killkhan__reload-2.mp3").toString());
+        carddialog_sound = MediaFactory.createClip(this.getClass().getResource("/sounds/150221__killkhan__reload-2.mp3").toString());
 
         parent.getChildren().add(this);
     }

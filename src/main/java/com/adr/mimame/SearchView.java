@@ -19,6 +19,8 @@
 
 package com.adr.mimame;
 
+import com.adr.mimame.media.Clip;
+import com.adr.mimame.media.MediaFactory;
 import java.io.IOException;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -32,7 +34,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -45,7 +46,6 @@ import javafx.util.Duration;
 public class SearchView extends StackPane {
     
     private final ShowAnimation searchshow;
-    // private final AudioClip carddialog_sound;
     
     @FXML private Text search_character;
 
@@ -56,7 +56,7 @@ public class SearchView extends StackPane {
     private final Animation rightanimation;
     private final Animation leftanimation;
     
-    private final AudioClip game_sound;
+    private final Clip game_sound;
     
     public SearchView(Pane parent) {
         
@@ -76,7 +76,7 @@ public class SearchView extends StackPane {
         rightanimation = rightAnimation();
         leftanimation = leftAnimation();
         
-        game_sound = new AudioClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
+        game_sound = MediaFactory.createClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
 
         parent.getChildren().add(this);
     }
