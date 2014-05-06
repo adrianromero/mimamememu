@@ -19,6 +19,8 @@
 
 package com.adr.mimame;
 
+import com.adr.mimame.media.Clip;
+import com.adr.mimame.media.MediaFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -71,6 +73,8 @@ public class PlatformList {
     
     private List<PlatformException> errorplatforms = new ArrayList<PlatformException>();
     
+    private MediaFactory mediafactory;
+    
     private PlatformList() {    
     }
     
@@ -101,7 +105,9 @@ public class PlatformList {
             new com.adr.mimame.platform.MameCommand(options),
             new com.adr.mimame.platform.SNESCommand(options),
             new com.adr.mimame.platform.ZXSpectrumCommand(options)
-        };        
+        };  
+        
+        mediafactory = new MediaFactory(options);
     }
     
     private Properties loadDefaults() {
@@ -116,8 +122,14 @@ public class PlatformList {
         opts.setProperty("snes.emu", "SNES9X");      
         
         opts.setProperty("zxspectrum.roms", new File(getHome(), "ROMS").getPath());
-        opts.setProperty("zxspectrum.emu", "FUSE");      
+        opts.setProperty("zxspectrum.emu", "FUSE");   
+        
+        opts.setProperty("mp3.player", "OMXPlayer");
         return opts;
+    }
+    
+    public Clip createClip(String url) {
+        return mediafactory.createClip(url);
     }
 
     public GamesItem createGame(String name, String title, String platform, String manufacturer, String year) {

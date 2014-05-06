@@ -77,8 +77,8 @@ public class GameView extends AnchorPane {
         platformanimation = getEnterTransition(platform);      
         platformanimation.setDelay(Duration.millis(600));        
         
-        game_sound = MediaFactory.createClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
-        empty_sound = MediaFactory.createClip(this.getClass().getResource("/sounds/150215__killkhan__reload-5.mp3").toString());
+        game_sound = PlatformList.INSTANCE.createClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
+        empty_sound = PlatformList.INSTANCE.createClip(this.getClass().getResource("/sounds/150215__killkhan__reload-5.mp3").toString());
         
         // Initially blank
         showGameItem(null);

@@ -40,17 +40,25 @@ public class MpgClip implements Clip {
     private final static Logger logger = Logger.getLogger(MpgClip.class.getName());    
     private final static File CACHEFOLDER = new File(System.getProperty("java.io.tmpdir"), "CLIPCACHE");
     
-    private final String url;
+    private String[] clipcommand;
     
-    MpgClip(String url) {
-        this.url = url;
+    MpgClip(String[] mpgcommand, String url) {
+
+        try {
+            clipcommand = new String[mpgcommand.length + 1];
+            System.arraycopy(mpgcommand, 0, clipcommand, 0, mpgcommand.length);   
+            clipcommand[clipcommand.length -1] = getCachedMp3File(url);
+        } catch (IOException | NoSuchAlgorithmException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            clipcommand = null;
+        }
     }
 
     @Override
     public void play() {
         try {
-            Runtime.getRuntime().exec(new String[]{"mpg321", "-q", getCachedMp3File(url)});
-        } catch (IOException | NoSuchAlgorithmException ex) {
+            Runtime.getRuntime().exec(clipcommand);
+        } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
     }

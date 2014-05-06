@@ -66,7 +66,7 @@ public class DialogView extends StackPane {
         
         this.setVisible(false);
         carddialogshow = new ShowAnimation(this, createCardDialogAnimation());        
-        carddialog_sound = MediaFactory.createClip(this.getClass().getResource("/sounds/150221__killkhan__reload-2.mp3").toString());
+        carddialog_sound = PlatformList.INSTANCE.createClip(this.getClass().getResource("/sounds/150221__killkhan__reload-2.mp3").toString());
 
         parent.getChildren().add(this);
     }
