@@ -69,7 +69,7 @@ public class MainApp extends Application {
         stage.show();
     }
 
-    private boolean isARMDevice() {
+    public static boolean isARMDevice() {
         return System.getProperty("os.arch").toUpperCase().contains("ARM");
     }
     

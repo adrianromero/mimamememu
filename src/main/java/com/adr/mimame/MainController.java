@@ -115,7 +115,7 @@ public class MainController implements Initializable {
     
     @FXML
     void onStackKeyPressed(KeyEvent event) {
-        if (KeyCode.F11 == event.getCode()) {
+        if (!MainApp.isARMDevice() && KeyCode.F11 == event.getCode()) {
             Stage s = ((Stage) listgames.getScene().getWindow());
             s.setFullScreen(!s.isFullScreen());
             event.consume();
