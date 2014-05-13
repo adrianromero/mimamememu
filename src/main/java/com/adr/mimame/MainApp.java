@@ -22,10 +22,12 @@ package com.adr.mimame;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -47,13 +49,30 @@ public class MainApp extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/main.css");
         
-        stage.setTitle("MIMAMEMEMU");
-        stage.setFullScreen("fullscreen".equals(PlatformList.INSTANCE.getOption("display.screenmode")));
+        if (isARMDevice()) {
+            // Prepare stage to run in frambuffer
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+            //set Stage boundaries to visible bounds of the main screen
+            stage.setX(primaryScreenBounds.getMinX());
+            stage.setY(primaryScreenBounds.getMinY());
+            stage.setWidth(primaryScreenBounds.getWidth());
+            stage.setHeight(primaryScreenBounds.getHeight());
+        } else {
+            // Prepare stage to run in window system
+            stage.setTitle("MIMAMEMEMU");
+            stage.setFullScreen("fullscreen".equals(PlatformList.INSTANCE.getOption("display.screenmode")));
+        }    
+
         stage.setScene(scene);
         stage.getIcons().add(new Image("/images/mimamememu.png"));
         stage.show();
     }
 
+    private boolean isARMDevice() {
+        return System.getProperty("os.arch").toUpperCase().contains("ARM");
+    }
+    
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be
