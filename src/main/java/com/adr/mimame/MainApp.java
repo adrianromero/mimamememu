@@ -26,6 +26,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -61,6 +62,7 @@ public class MainApp extends Application {
         } else {
             // Prepare stage to run in window system
             stage.setTitle("MIMAMEMEMU");
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             stage.setFullScreen("fullscreen".equals(PlatformList.INSTANCE.getOption("display.screenmode")));
         }    
 
