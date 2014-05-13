@@ -119,7 +119,19 @@ public class MainController implements Initializable {
             Stage s = ((Stage) listgames.getScene().getWindow());
             s.setFullScreen(!s.isFullScreen());
             event.consume();
-        }  
+        } else if (KeyCode.TAB == event.getCode()) {
+            dialogview.showConfirm(
+                ResourceBundle.getBundle("properties/messages").getString("msg.general_title"), 
+                ResourceBundle.getBundle("properties/messages").getString("msg.exit_body"),
+                (DialogView.Result r) -> {
+                    if (DialogView.Result.OK == r) {
+                        // Exit application
+                        listgames.getScene().getWindow().hide();
+                    }
+                    return null;
+                });
+            
+        }
     }
     
     @FXML
