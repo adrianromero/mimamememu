@@ -20,22 +20,25 @@
 package com.adr.mimame;
 
 import com.adr.mimame.media.Clip;
-import com.adr.mimame.media.MediaFactory;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 /**
@@ -51,10 +54,19 @@ public class DialogView extends StackPane {
     @FXML private VBox carddialog_box;
     @FXML private Text carddialog_title;
     @FXML private Text carddialog_message;
+    @FXML private HBox boxbuttons;
+    @FXML private Button buttonok;
+    @FXML private Button buttoncancel;
+    
+    private Callback<DialogView.Result, Void> callback;
+    
+    public static enum Result {
+        OK, CANCEL;
+    }
 
     public DialogView(Pane parent) {
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dialog.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dialog.fxml"), ResourceBundle.getBundle("properties/messages"));
         loader.setController(this);
         loader.setRoot(this);
         
@@ -71,7 +83,24 @@ public class DialogView extends StackPane {
         parent.getChildren().add(this);
     }
     
+    public void showConfirm(String title, String message, Callback<DialogView.Result, Void> callback) {
+        
+        if (!carddialog_box.getChildren().contains(boxbuttons)) {
+            carddialog_box.getChildren().add(boxbuttons);
+        }        
+        show(title, message, callback);
+    }
+    
     public void show(String title, String message) {
+        
+        if (carddialog_box.getChildren().contains(boxbuttons)) {
+            carddialog_box.getChildren().remove(boxbuttons);
+        }
+        show(title, message, null);
+    }
+    
+    public void show(String title, String message, Callback<DialogView.Result, Void> callback) {
+        this.callback = callback;
         carddialog_title.setText(title);
         carddialog_message.setText(message);
         carddialog_sound.play();
@@ -80,17 +109,32 @@ public class DialogView extends StackPane {
     
     @FXML
     void onDialogKeyPressed(KeyEvent event) {
-        // needs to be focus traversable to receive events...
-        if (KeyCode.ENTER == event.getCode() || KeyCode.ESCAPE == event.getCode()) {
+
+        if (KeyCode.ENTER == event.getCode() || KeyCode.CONTROL == event.getCode()) {
+            callbackResult(Result.OK);
             carddialogshow.setDisplayed(false);
-            event.consume();
+        } else if (KeyCode.ESCAPE == event.getCode()) {
+            callbackResult(Result.CANCEL);
+            carddialogshow.setDisplayed(false);                      
         }
     } 
     
     @FXML
-    void onDialogClicked(MouseEvent event) {
+    void onActionOK(ActionEvent event) {
+        callbackResult(Result.OK);
         carddialogshow.setDisplayed(false);
-        event.consume();
+    }
+
+    @FXML
+    void onActionCancel(ActionEvent event) {
+        callbackResult(Result.CANCEL);
+        carddialogshow.setDisplayed(false);
+    }
+    
+    private void callbackResult(Result result) {
+        if (callback != null) {
+            callback.call(result);
+        }
     }
     
     private Animation createCardDialogAnimation() {
