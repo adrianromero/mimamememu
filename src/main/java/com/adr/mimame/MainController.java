@@ -35,11 +35,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainController implements Initializable {
 
-    private final LoadGamesService loadgames = new LoadGamesService();
-    
+    private final LoadGamesService loadgames = new LoadGamesService();   
+
     @FXML private StackPane stack;
     @FXML private ListView<GamesItem> listgames;
     @FXML private AnchorPane cardlist;
@@ -49,6 +50,7 @@ public class MainController implements Initializable {
     private DialogView dialogview;   
     private LoadingView loadingview;
     private SearchView searchview;
+    private Stage stage = null;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -95,6 +97,29 @@ public class MainController implements Initializable {
         loadGames(false);
     }  
     
+    public void installStage(Stage stage) {
+        this.stage = stage;
+        stage.setOnCloseRequest((WindowEvent event) -> {
+            requestExit();
+            event.consume();
+        });        
+    }
+    
+    private void requestExit() {
+        if (stage != null) {
+            dialogview.showConfirm(
+                ResourceBundle.getBundle("properties/messages").getString("msg.general_title"), 
+                ResourceBundle.getBundle("properties/messages").getString("msg.exit_body"),
+                (DialogView.Result r) -> {
+                    if (DialogView.Result.OK == r) {
+                        // Exit application
+                        stage.hide();
+                    }
+                    return null;
+                });     
+        }
+    }
+   
     private void executeGame(GamesItem item) {
         GamesActionTask task = new GamesActionTask(item);
         
@@ -153,16 +178,7 @@ public class MainController implements Initializable {
             loadGames(true);
             event.consume();
         } else if (KeyCode.ESCAPE == event.getCode()) {
-            dialogview.showConfirm(
-                ResourceBundle.getBundle("properties/messages").getString("msg.general_title"), 
-                ResourceBundle.getBundle("properties/messages").getString("msg.exit_body"),
-                (DialogView.Result r) -> {
-                    if (DialogView.Result.OK == r) {
-                        // Exit application
-                        listgames.getScene().getWindow().hide();
-                    }
-                    return null;
-                });
+            requestExit();
             event.consume();            
         }
     }

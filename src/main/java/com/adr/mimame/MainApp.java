@@ -30,6 +30,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class MainApp extends Application {
@@ -45,7 +46,11 @@ public class MainApp extends Application {
         // Initialize PlatformList
         PlatformList.INSTANCE.init();
         
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"), ResourceBundle.getBundle("properties/messages"));
+        // Load Root.
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"), ResourceBundle.getBundle("properties/messages"));
+        loader.load();
+        Parent root = loader.getRoot();
+        ((MainController) loader.getController()).installStage(stage);
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/main.css");
