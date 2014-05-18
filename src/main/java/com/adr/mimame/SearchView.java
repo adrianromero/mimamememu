@@ -119,7 +119,6 @@ public class SearchView extends StackPane {
             searchshow.setDisplayed(false);
             event.consume();
         }
-        
     }   
     
     private Animation createSearchAnimation() {
