@@ -113,9 +113,11 @@ public class DialogView extends StackPane {
         if (KeyCode.ENTER == event.getCode() || KeyCode.CONTROL == event.getCode()) {
             callbackResult(Result.OK);
             carddialogshow.setDisplayed(false);
+            event.consume();
         } else if (KeyCode.ESCAPE == event.getCode()) {
             callbackResult(Result.CANCEL);
-            carddialogshow.setDisplayed(false);                      
+            carddialogshow.setDisplayed(false);       
+            event.consume();
         }
     } 
     
