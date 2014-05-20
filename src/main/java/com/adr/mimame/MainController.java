@@ -22,6 +22,8 @@ package com.adr.mimame;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
@@ -40,6 +42,7 @@ import javafx.stage.WindowEvent;
 public class MainController implements Initializable {
 
     private final LoadGamesService loadgames = new LoadGamesService();   
+    private final ExecutorService exec = Executors.newSingleThreadExecutor();
 
     @FXML private StackPane stack;
     @FXML private ListView<GamesItem> listgames;
@@ -134,8 +137,8 @@ public class MainController implements Initializable {
         task.setOnSucceeded((WorkerStateEvent event) -> {
             // Show UI
         });
-         
-        new Thread(task).start();
+
+        exec.execute(task);
     }
     
     @FXML

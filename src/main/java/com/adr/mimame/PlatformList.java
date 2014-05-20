@@ -33,6 +33,8 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
@@ -70,11 +72,11 @@ public class PlatformList {
     private File mimamememuhome;
     
     private Platform[] platforms;
-    
-    private List<PlatformException> errorplatforms = new ArrayList<PlatformException>();
-    
     private MediaFactory mediafactory;
     
+    private final List<PlatformException> errorplatforms = new ArrayList<PlatformException>();
+    private final ExecutorService exec = Executors.newSingleThreadExecutor();   
+
     private PlatformList() {    
     }
     
@@ -187,7 +189,7 @@ public class PlatformList {
                                     return null;
                                 }                              
                             };
-                            new Thread(t).start();                              
+                            exec.execute(t);                          
                         }
                     });
                     return img;
