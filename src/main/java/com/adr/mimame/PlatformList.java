@@ -85,21 +85,10 @@ public class PlatformList {
         // Loading default properties
         options = loadDefaults();
       
-        InputStream in = null;
-        try {
-            in = new FileInputStream(new File(mimamememuhome, "mimamememu.properties"));
+        try (InputStream in = new FileInputStream(new File(mimamememuhome, "mimamememu.properties"))) {
             options.load(in);
         } catch (IOException ex) {
-            logger.log(Level.INFO, ex.getLocalizedMessage());
-            
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException ex) {
-                    logger.log(Level.SEVERE, null, ex);
-                }
-            }
+            logger.log(Level.INFO, ex.getLocalizedMessage());         
         }
         
         platforms = new Platform [] {
