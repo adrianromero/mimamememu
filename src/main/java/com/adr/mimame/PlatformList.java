@@ -178,18 +178,17 @@ public class PlatformList {
                     Image img = new Image(url, true);
                     img.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
                         if (newValue.doubleValue() == 1.0) {
-                            Task<Void> t = new Task<Void>() {
-                                @Override
-                                protected Void call() throws Exception {
+                            exec.execute(() -> {
+                                try {
                                     if (img.isError()) {
                                         cachefilenull.createNewFile();
                                     } else {
                                         ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", cachefile);
                                     }
-                                    return null;
-                                }                              
-                            };
-                            exec.execute(t);                          
+                                } catch (IOException ex) {     
+                                    logger.log(Level.SEVERE, "Cannot save image cache.", ex);
+                                }
+                            });                          
                         }
                     });
                     return img;
