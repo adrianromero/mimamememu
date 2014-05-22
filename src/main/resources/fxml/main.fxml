@@ -23,7 +23,7 @@
         </StackPane>
     </center>
     <top>
-        <HBox alignment="TOP_RIGHT">
+        <HBox alignment="TOP_CENTER">
             <children>
                 <Text id="mimamememu" strokeType="OUTSIDE" strokeWidth="0.0" text="MIMAMEMEMU" BorderPane.alignment="CENTER" />
             </children>
