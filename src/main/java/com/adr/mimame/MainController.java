@@ -59,9 +59,9 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         nogamesview = new NoGamesView(stack);
-        searchview = new SearchView(stack);
-        dialogview = new DialogView(stack);
+        searchview = new SearchView(stack);       
         loadingview = new LoadingView(stack);
+        dialogview = new DialogView(stack);
         
         cardlist.disableProperty().bind(
                 dialogview.visibleProperty()
@@ -73,16 +73,13 @@ public class MainController implements Initializable {
         listgames.itemsProperty().bind(loadgames.valueProperty());              
         listgames.itemsProperty().addListener((ObservableValue<? extends ObservableList<GamesItem>> observable, ObservableList<GamesItem> oldValue, ObservableList<GamesItem> newValue) -> {
             if (newValue != null && newValue.size() > 0) {
-                nogamesview.setVisible(false);
                 listgames.getSelectionModel().select(0);
-                listgames.requestFocus();
-            } else {
-                nogamesview.setVisible(true);
-                gameview.showGameItem(null);
+                //listgames.requestFocus();
             }
         });
         listgames.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends GamesItem> observable, GamesItem oldValue, GamesItem newValue) -> {
-            gameview.showGameItem(newValue);           
+            gameview.showGameItem(newValue);
+            nogamesview.setVisible(newValue == null);
         });
         
         // The Loading controller       
@@ -138,7 +135,8 @@ public class MainController implements Initializable {
             // Show UI
         });
 
-        exec.execute(task);
+        new Thread(task).start();
+        // exec.execute(task);
     }
     
     @FXML

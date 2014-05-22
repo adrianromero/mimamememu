@@ -30,7 +30,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 
 public class MainApp extends Application {
@@ -68,12 +67,19 @@ public class MainApp extends Application {
             // Prepare stage to run in window system
             stage.setTitle("MIMAMEMEMU");
             stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-            stage.setFullScreen("fullscreen".equals(PlatformList.INSTANCE.getOption("display.screenmode")));
+            stage.setFullScreen(PlatformList.INSTANCE.isFullScreen());
+            
+            PlatformList.INSTANCE.fullScreenProperty().bind(stage.fullScreenProperty());
         }    
 
         stage.setScene(scene);
         stage.getIcons().add(new Image("/images/mimamememu.png"));
         stage.show();
+    }
+    
+    @Override
+    public void stop() throws java.lang.Exception {
+        PlatformList.INSTANCE.shutdown();   
     }
 
     public static boolean isARMDevice() {

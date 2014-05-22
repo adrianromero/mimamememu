@@ -24,8 +24,10 @@ import com.adr.mimame.media.MediaFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -37,6 +39,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -67,14 +73,18 @@ public class PlatformList {
     
     public final static PlatformList INSTANCE = new PlatformList();
      
+    // Options fields
     private Properties options;
     private File mimamememuhome;
+    private final BooleanProperty fullscreen = new SimpleBooleanProperty();
+    private final StringProperty gameid = new SimpleStringProperty();
     
     private Platform[] platforms;
     private MediaFactory mediafactory;
     
     private final List<PlatformException> errorplatforms = new ArrayList<PlatformException>();
     private final ExecutorService exec = Executors.newSingleThreadExecutor();   
+
 
     private PlatformList() {    
     }
@@ -84,13 +94,18 @@ public class PlatformList {
         
         // Loading default properties
         options = loadDefaults();
-      
+        
+        // Load options file
         try (InputStream in = new FileInputStream(new File(mimamememuhome, "mimamememu.properties"))) {
             options.load(in);
         } catch (IOException ex) {
             logger.log(Level.INFO, ex.getLocalizedMessage());         
         }
         
+        // Load Properties
+        fullscreen.set("fullscreen".equals(options.getProperty("display.mode")));
+        
+        // Load platform objects
         platforms = new Platform [] {
             new com.adr.mimame.platform.MameCommand(options),
             new com.adr.mimame.platform.SNESCommand(options),
@@ -100,10 +115,23 @@ public class PlatformList {
         mediafactory = new MediaFactory(options);
     }
     
+    public void shutdown() {
+        
+        // Save Properties
+        options.setProperty("display.mode", fullscreen.get() ? "fullscreen" : "window");
+          
+        // Save options file
+        try (OutputStream out = new FileOutputStream(new File(mimamememuhome, "mimamememu.properties"))) {
+            options.store(out, "MIMAMEMEMU Properties");           
+        } catch (IOException ex) {
+            logger.log(Level.WARNING, null, ex);
+        }
+    }
+        
     private Properties loadDefaults() {
         Properties opts = new Properties();   
         
-        opts.setProperty("display.screenmode", "window"); // can be "window" or "fullscreen"
+        opts.setProperty("display.mode", "window");
         
         opts.setProperty("mame.roms", "");
         opts.setProperty("mame.emu", "MAME");      
@@ -311,14 +339,18 @@ public class PlatformList {
     public File getHome() {
         return mimamememuhome;
     }
-     
-    public String getOption(String key) {
-        return options.getProperty(key);
+   
+    public BooleanProperty fullScreenProperty() {
+        return fullscreen;
     }
     
-    public String getOption(String key, String defaultValue) {
-        return options.getProperty(key, defaultValue);
+    public boolean isFullScreen() {
+        return fullscreen.get();
     }
+    
+    public void setFullScreen(boolean value) {
+        fullscreen.set(value);
+    }    
     
     public Platform findPlatform(String platformname) {
         

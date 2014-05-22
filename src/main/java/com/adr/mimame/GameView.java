@@ -20,7 +20,6 @@
 package com.adr.mimame;
 
 import com.adr.mimame.media.Clip;
-import com.adr.mimame.media.MediaFactory;
 import java.io.IOException;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -80,8 +79,13 @@ public class GameView extends AnchorPane {
         game_sound = PlatformList.INSTANCE.createClip(this.getClass().getResource("/sounds/150216__killkhan__menu-move-1.mp3").toString());
         empty_sound = PlatformList.INSTANCE.createClip(this.getClass().getResource("/sounds/150215__killkhan__reload-5.mp3").toString());
         
-        // Initially blank
-        showGameItem(null);
+        // Initially blank but no sound.
+        title.setText(null);
+        title1.setText(null);
+        manufacturer.setText(null);
+        year.setText(null);
+        platform.setText(null);     
+        titlesimage.loadImage(null, null);
     }
     
     private Transition getEnterTransition(Node node) {
